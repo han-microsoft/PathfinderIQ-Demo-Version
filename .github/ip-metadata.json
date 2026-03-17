@@ -46,7 +46,8 @@
   },
   "documentation": {
     "readme": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version/blob/main/README.md",
-    "architecture": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version/blob/main/README.md#architecture-overview"
+    "architecture": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version/blob/main/README.md#architecture-overview",
+    "demo": "https://pathfinderiq.azureai.win/"
   },
   "contacts": {
     "technical": ["hchoong"],
