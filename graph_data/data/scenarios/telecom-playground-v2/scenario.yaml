@@ -1,0 +1,400 @@
+# ============================================================================
+# Scenario Manifest — Telecom Playground Enhanced (Fibre Cut Incident)
+# ============================================================================
+
+name: telecom-playground-v2
+display_name: "V2.Telecom Network — Fibre Cut Incident"
+description: >
+  A fibre cut on the Sydney-Melbourne corridor triggers a cascading alert
+  storm affecting enterprise VPNs, broadband, and mobile services. The AI
+  investigates root cause, blast radius, and remediation — coordinating
+  network investigation, knowledge search, and field dispatch across
+  specialist agents.
+version: "3.0"
+domain: telecommunications
+
+# ---------------------------------------------------------------------------
+# Use cases & example questions (surfaced in Scenario Info tab)
+# ---------------------------------------------------------------------------
+
+use_cases:
+  - "Fibre cut alert storm investigation with per-sensor fault localisation"
+  - "Automated field engineer dispatch based on duty roster and sensor GPS"
+  - "SLA breach risk assessment with quantified customer impact"
+  - "Shared-risk conduit detection across backup fibre paths"
+  - "Historical precedent matching via telemetry-enriched ticket search"
+
+example_questions:
+  - "What caused the alert storm on the Sydney-Melbourne corridor?"
+  - "Which specific sensor detected the fault first and where is it located?"
+  - "Who is the nearest on-duty field engineer to the fault location?"
+  - "Which enterprise services are affected and what SLA penalties are we facing?"
+  - "Is the backup fibre on a diverse path or does it share infrastructure?"
+  - "What should the field engineer look for when they arrive at the fault site?"
+
+# ---------------------------------------------------------------------------
+# Data layout — paths relative to this file's parent directory
+# ---------------------------------------------------------------------------
+
+paths:
+  entities: data/entities
+  graph_schema: graph_schema.yaml
+  telemetry: data/telemetry
+  runbooks: data/knowledge/runbooks
+  tickets: data/knowledge/tickets
+  prompts: data/prompts
+
+# ---------------------------------------------------------------------------
+# Scenario-owned UI configuration
+# ---------------------------------------------------------------------------
+
+ui:
+  replay_tour_file: ui/replay_tour.yaml
+  replay_tour_detailed_file: ui/replay_tour_detailed.yaml
+  replay_highlights_file: ui/replay_highlights.yaml
+  replay_conversation_file: ui/replay_conversation.json
+
+# ---------------------------------------------------------------------------
+# Data sources — defines all Azure resources this scenario needs
+# ---------------------------------------------------------------------------
+
+data_sources:
+  # Graph and telemetry are served from Fabric (see services.fabric below).
+  # Only search_indexes are declared here — the backend reads this block
+  # to resolve Azure AI Search index names per scenario.
+
+  search_indexes:
+    runbooks:
+      index_name: "telecom-v2-runbooks-index"
+      source: "data/knowledge/runbooks"
+      blob_container: "telecom-v2-runbooks"
+    tickets:
+      index_name: "telecom-v2-tickets-index"
+      source: "data/knowledge/tickets"
+      blob_container: "telecom-v2-tickets"
+    equipment:
+      index_name: "telecom-v2-equipment-index"
+      source: "data/knowledge/equipment"
+      blob_container: "telecom-v2-equipment"
+    infra_specs:
+      index_name: "telecom-v2-infra-specs-index"
+      source: "data/knowledge/infra_specs"
+      blob_container: "telecom-v2-infra-specs"
+
+# ---------------------------------------------------------------------------
+# Services — per-scenario infrastructure bindings
+# ---------------------------------------------------------------------------
+# Resource IDs populated after Fabric provisioning.
+# Credentials and service base URLs live in env vars (control/.env).
+
+services:
+  fabric:
+    workspace_id: "<your-fabric-workspace-id>"
+    graph_model_id: "<your-graph-model-id>"
+    eventhouse_query_uri: "<your-eventhouse-query-uri>"
+    kql_db_name: "EH_TelecomV2"
+
+# ---------------------------------------------------------------------------
+# Agents
+# ---------------------------------------------------------------------------
+
+agents:
+  default: orchestrator
+
+  orchestrator:
+    name: NOCOrchestrator
+    model: gpt-5.2
+    description: >
+      Network operations orchestrator. Decomposes incidents into
+      investigation steps, delegates to specialists, synthesizes
+      findings, presents action plans, and executes approved plans.
+    instructions:
+      - orchestrator/orchestrator_preamble.md
+      - orchestrator/investigation_protocol.md
+    tools:
+      - tools.delegation:delegate_to_agent
+      - tools.network:reroute_traffic
+      - tools.network:set_link_status
+      - tools.dispatch:dispatch_field_engineer
+      - tools.dispatch:call_engineer
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/nocorchestrator_headshot.png
+      full_body: ui/assets/agents/nocorchestrator_fullbody.png
+      product_summary: >
+        Uses Microsoft Foundry to orchestrate agent tooling and help build
+        robust multi-agent systems end-to-end.
+      powered_by:
+        - logo: ui/assets/logos/foundryiq-logo.png
+          label: Azure AI Foundry
+          description: Multi-agent orchestration and agent tool execution.
+
+  networkInvestigator:
+    name: NetworkInvestigator
+    model: gpt-5.2
+    description: >
+      Graph understanding and evidence gathering. Queries topology
+      and telemetry to diagnose faults and assess blast radius.
+    instructions:
+      - core_rules.md
+      - network_investigator_identity.md
+      - scenario_context.md
+      - tool_query_graph.md
+      - graph_schema.md
+      - "{graph_backend_prompt}"
+      - "{alerts_backend_prompt}"
+      - "{telemetry_backend_prompt}"
+    tools:
+      - tools.graph_explorer:query_graph
+      - tools.telemetry:query_alerts
+      - tools.telemetry:query_telemetry
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/networkinvestigator_headshot.png
+      full_body: ui/assets/agents/networkinvestigator_fullbody.png
+      product_summary: >
+        Uses Fabric IQ for graph traversal (GQL) to trace topology
+        dependencies, and Fabric Eventhouse (KQL) for real-time telemetry and
+        per-sensor fault localization.
+      powered_by:
+        - logo: ui/assets/logos/fabric-logo.png
+          label: Fabric IQ (GQL + KQL)
+          description: Graph traversal and telemetry correlation in Fabric.
+
+  knowledgeAnalyst:
+    name: KnowledgeAnalyst
+    model: gpt-5.2
+    description: >
+      Historical context and procedural guidance. Searches runbooks
+      and past tickets for applicable remediation procedures.
+    instructions:
+      - core_rules.md
+      - knowledge_analyst_identity.md
+      - scenario_context.md
+      - knowledge_analyst/search_methodology.md
+    tools:
+      - tools.search:search_runbooks
+      - tools.search:search_tickets
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/knowledgeanalyst_headshot.png
+      full_body: ui/assets/agents/knowledgeanalyst_fullbody.png
+      product_summary: >
+        Uses Foundry IQ for advanced vector search to retrieve relevant
+        information from large unstructured sources such as procedures and
+        policy documents.
+      powered_by:
+        - logo: ui/assets/logos/foundryiq-logo.png
+          label: Foundry IQ
+          description: Retrieval orchestration across operational knowledge.
+        - logo: ui/assets/logos/azureaisearch.png
+          label: Azure AI Search
+          description: Vector and semantic retrieval for runbooks and tickets.
+
+  fieldCoordinator:
+    name: FieldCoordinator
+    model: gpt-5.2
+    description: >
+      Field operations and logistics. Queries duty rosters, depots,
+      equipment availability, and site specs to prepare dispatch
+      recommendations.
+    instructions:
+      - core_rules.md
+      - field_coordinator_identity.md
+      - scenario_context.md
+      - field_coordinator/field_ops_protocol.md
+      - field_coordinator/equipment_context.md
+      - tool_query_graph.md
+      - graph_schema.md
+      - "{graph_backend_prompt}"
+    tools:
+      - tools.graph_explorer:query_graph
+      - tools.search:search_equipment
+      - tools.search:search_infra_specs
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/fieldcoordinator_headshot.png
+      full_body: ui/assets/agents/fieldcoordinator_fullbody.png
+      product_summary: >
+        Uses Fabric IQ to build and traverse the operational graph, running
+        GQL queries to find assets, relationships, and field context quickly.
+      powered_by:
+        - logo: ui/assets/logos/fabric-logo.png
+          label: Fabric IQ (GQL)
+          description: Graph traversal for depots, rosters, and field context.
+        - logo: ui/assets/logos/azureaisearch.png
+          label: Azure AI Search
+          description: Equipment and infrastructure document retrieval.
+
+  communicationsSpecialist:
+    name: CommunicationsSpecialist
+    model: gpt-5.2
+    description: >
+      Incident communications. Creates formal tickets, publishes
+      customer advisories, and emails structured incident reports
+      to stakeholders. Called by the orchestrator after synthesis.
+    instructions:
+      - core_rules.md
+      - communications_specialist_identity.md
+      - scenario_context.md
+    tools:
+      - tools.incidents:create_incident_ticket
+      - tools.incidents:update_advisory
+      - tools.email:send_incident_report
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/communicationsspecialist_headshot.png
+      full_body: ui/assets/agents/communicationsspecialist_fullbody.png
+      product_summary: >
+        Uses Microsoft Foundry tool calling to generate incident tickets,
+        customer advisories, and stakeholder reports from a single synthesis.
+        WorkIQ is envisioned for direct interface with communications
+        platforms, tools, and foundational data sources.
+      powered_by:
+        - logo: ui/assets/logos/foundryiq-logo.png
+          label: Azure AI Foundry
+          description: Tool-driven synthesis for structured communications.
+        - logo: ui/assets/logos/copilot-logo.png
+          label: WorkIQ (envisioned)
+          description: Future-facing communications platform integration.
+
+# ---------------------------------------------------------------------------
+# Graph visualisation hints (frontend node styling)
+# ---------------------------------------------------------------------------
+
+graph_styles:
+  node_types:
+    CoreRouter:    { color: "#38BDF8", size: 9, icon: "router" }
+    AggSwitch:     { color: "#FB923C", size: 7, icon: "switch" }
+    BaseStation:   { color: "#A78BFA", size: 6, icon: "antenna" }
+    TransportLink: { color: "#3B82F6", size: 5, icon: "link" }
+    MPLSPath:      { color: "#C084FC", size: 5, icon: "path" }
+    Service:       { color: "#CA8A04", size: 7, icon: "service" }
+    SLAPolicy:     { color: "#FB7185", size: 4, icon: "policy" }
+    BGPSession:    { color: "#F472B6", size: 5, icon: "session" }
+    PhysicalConduit: { color: "#F59E0B", size: 6, icon: "conduit" }
+    AmplifierSite:   { color: "#10B981", size: 5, icon: "amplifier" }
+    Advisory:        { color: "#EF4444", size: 6, icon: "advisory" }
+    Sensor:          { color: "#22D3EE", size: 4, icon: "sensor" }
+    Depot:           { color: "#6366F1", size: 5, icon: "depot" }
+    DutyRoster:      { color: "#F97316", size: 5, icon: "person" }
+
+# ---------------------------------------------------------------------------
+# Telemetry baselines
+# ---------------------------------------------------------------------------
+
+telemetry_baselines:
+  link_telemetry:
+    - metric: LatencyMs
+      normal: "2–15 ms"
+      degraded: "> 50 ms"
+      down: "9999 ms"
+    - metric: OpticalPowerDbm
+      normal: "-8 to -12 dBm"
+      degraded: "< -20 dBm"
+      down: "< -30 dBm"
+    - metric: BitErrorRate
+      normal: "< 1e-9"
+      degraded: "> 1e-6"
+      down: "≈ 1"
+    - metric: UtilizationPct
+      normal: "20–70%"
+      degraded: "> 80%"
+      down: "0% (with other down indicators)"
+  alert_stream:
+    - metric: PacketLossPct
+      normal: "< 1%"
+      anomalous: "> 2%"
+    - metric: CPUUtilPct
+      normal: "< 70%"
+      anomalous: "> 85%"
+    - metric: OpticalPowerDbm
+      normal: "-8 to -12 dBm"
+      anomalous: "< -20 dBm"
+    - metric: BitErrorRate
+      normal: "< 1e-9"
+      anomalous: "> 1e-6"
+  sensor_readings:
+    - metric: OpticalPower (dBm)
+      normal: "-8 to -12 dBm"
+      degraded: "< -20 dBm"
+      critical: "< -30 dBm"
+    - metric: BitErrorRate (ratio)
+      normal: "< 1e-9"
+      degraded: "> 1e-6"
+      critical: "> 1e-3"
+    - metric: Temperature (°C)
+      normal: "20–45 °C"
+      degraded: "> 55 °C"
+      critical: "> 70 °C"
+
+# ---------------------------------------------------------------------------
+# Demo flows
+# ---------------------------------------------------------------------------
+
+demo_flows:
+  - title: "Fibre Cut — Alert Storm Investigation & Remediation"
+    description: >
+      It's 2:31 PM. The Fabric Eventhouse anomaly detector fires: twenty
+      correlated alerts land within one second — VPN tunnels down, broadband
+      degraded, mobile backhaul failing across Sydney and Melbourne. The AI
+      must identify the root cause, assess blast radius, locate the fault via
+      per-sensor data, find the nearest on-duty field engineer, dispatch them,
+      reroute traffic, and execute the full remediation plan.
+    steps:
+      - prompt: |
+          [AUTOMATED TRIGGER — Fabric Eventhouse Anomaly Detector]
+          An anomaly burst has been detected: 20 correlated alerts within 1 second
+          across the SYD-MEL corridor. Raw alert data below.
+
+          14:31:14.077 WARNING MOB-5G-MEL-3011 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.133 CRITICAL VPN-ACME-CORP SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.161 CRITICAL VPN-BIGBANK SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.185 WARNING MOB-5G-SYD-2041 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.222 WARNING MOB-5G-MEL-3011 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.259 CRITICAL VPN-ACME-CORP SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.289 MAJOR BB-BUNDLE-SYD-NORTH SERVICE_DEGRADATION Broadband degraded
+          14:31:14.518 MAJOR BB-BUNDLE-MEL-EAST SERVICE_DEGRADATION Broadband degraded
+          14:31:14.551 WARNING MOB-5G-MEL-3011 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.558 WARNING MOB-5G-SYD-2042 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.565 WARNING MOB-5G-SYD-2041 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.657 CRITICAL VPN-ACME-CORP SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.704 CRITICAL VPN-BIGBANK SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.808 MAJOR BB-BUNDLE-MEL-EAST SERVICE_DEGRADATION Broadband degraded
+          14:31:14.847 CRITICAL VPN-BIGBANK SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.847 WARNING MOB-5G-SYD-2041 SERVICE_DEGRADATION Backhaul degradation
+          14:31:14.902 MAJOR BB-BUNDLE-MEL-EAST SERVICE_DEGRADATION Broadband degraded
+          14:31:14.968 CRITICAL VPN-ACME-CORP SERVICE_DEGRADATION VPN tunnel unreachable
+          14:31:14.986 MAJOR BB-BUNDLE-MEL-EAST SERVICE_DEGRADATION Broadband degraded
+        expect: >
+          Orchestrator delegates to NetworkInvestigator, KnowledgeAnalyst, and
+          FieldCoordinator. NetworkInvestigator traces topology to LINK-SYD-MEL-FIBRE-01,
+          queries per-sensor data to isolate fault between Campbelltown and Goulburn,
+          surfaces shared-risk with FIBRE-02. KnowledgeAnalyst finds fibre cut runbook
+          and precedent INC-2025-11-22-0055 with matching sensor signature.
+          FieldCoordinator identifies nearest on-duty regional engineer at Goulburn depot.
+          Orchestrator synthesizes findings, assesses SLA exposure, and prepares
+          remediation plan.
+
+      - prompt: "Which services are affected and what are the SLA penalties?"
+        expect: >
+          Blast radius from topology traversal: enterprise VPNs with GOLD/SILVER
+          SLA tiers, broadband bundles, mobile backhaul. Total SLA exposure
+          quantified per hour from enterprise VPN penalty rates. Historical
+          precedent cited for estimated resolution time.
+
+      - prompt: "Execute the full remediation — reroute, ticket, dispatch, advisory, email."
+        expect: >
+          Orchestrator executes in sequence: reroute_traffic to tertiary path
+          via Brisbane, set_link_status FIBRE-01 to DOWN, create_incident_ticket
+          with root cause and blast radius, dispatch_field_engineer to fault GPS
+          with OTDR and fusion splicer, update_advisory for affected customers,
+          send_incident_report to stakeholders.
+
+      - prompt: "What should the field engineer look for when they arrive?"
+        expect: >
+          Synthesized from fibre cut runbook sensor localisation section,
+          amplifier site spec (access codes, optical equipment), and depot
+          inventory (OTDR model, splicer): field-actionable checklist including
+          OTDR trace, visual conduit inspection, connector cleaning, and splice
+          test criteria.

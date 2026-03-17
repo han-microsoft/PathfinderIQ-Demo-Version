@@ -1,0 +1,789 @@
+{
+  "ChatRequest": {
+    "description": "Client \u2192 Server: send a user message.\n\nThe ``content`` field is validated to be 1\u2013100,000 characters.\nSent as POST body to /api/chat/{session_id}.\n\n``max_context_turns`` controls how many past conversation turns are\nincluded in the LLM context. None = unlimited (token budget governs).",
+    "properties": {
+      "content": {
+        "maxLength": 100000,
+        "minLength": 1,
+        "title": "Content",
+        "type": "string"
+      },
+      "max_context_turns": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Max Context Turns"
+      }
+    },
+    "required": [
+      "content"
+    ],
+    "title": "ChatRequest",
+    "type": "object"
+  },
+  "CreateSessionRequest": {
+    "description": "Client \u2192 Server: create a new session.",
+    "properties": {
+      "title": {
+        "default": "New conversation",
+        "title": "Title",
+        "type": "string"
+      }
+    },
+    "title": "CreateSessionRequest",
+    "type": "object"
+  },
+  "Message": {
+    "$defs": {
+      "ContextSnapshot": {
+        "description": "Record of exactly what context was sent to the LLM for an assistant message.\n\nStored on assistant messages for auditability. The ``context_messages``\nfield is optional \u2014 omitted by default when persisting to Cosmos (to\nsave RU cost), always included in saved JSON files and in-memory store.\n\nAttributes:\n    agent_session_id: Unique ID of the agent's SDK thread.\n    agent_id: Config key of the agent (e.g. \"orchestrator\").\n    system_prompt_chars: Character count of the system prompt.\n    messages_total: Total messages in the thread before trimming.\n    messages_kept: Messages kept after token-budget trimming.\n    messages_dropped: Messages dropped by trimming.\n    tokens_used: Tokens consumed by the kept messages.\n    tokens_budget: Total token budget available.\n    max_turns: Max conversation turns setting (None = unlimited).\n    user_message: The user query this response answers.\n    context_messages: The actual messages sent to the LLM (optional).",
+        "properties": {
+          "agent_id": {
+            "default": "",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "agent_session_id": {
+            "default": "",
+            "title": "Agent Session Id",
+            "type": "string"
+          },
+          "completion_tokens": {
+            "default": 0,
+            "title": "Completion Tokens",
+            "type": "integer"
+          },
+          "context_messages": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Context Messages"
+          },
+          "duration_ms": {
+            "default": 0.0,
+            "title": "Duration Ms",
+            "type": "number"
+          },
+          "estimated_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Estimated Cost Usd"
+          },
+          "max_turns": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Max Turns"
+          },
+          "messages_dropped": {
+            "default": 0,
+            "title": "Messages Dropped",
+            "type": "integer"
+          },
+          "messages_kept": {
+            "default": 0,
+            "title": "Messages Kept",
+            "type": "integer"
+          },
+          "messages_total": {
+            "default": 0,
+            "title": "Messages Total",
+            "type": "integer"
+          },
+          "model": {
+            "default": "",
+            "title": "Model",
+            "type": "string"
+          },
+          "prompt_tokens": {
+            "default": 0,
+            "title": "Prompt Tokens",
+            "type": "integer"
+          },
+          "system_prompt_chars": {
+            "default": 0,
+            "title": "System Prompt Chars",
+            "type": "integer"
+          },
+          "tokens_budget": {
+            "default": 0,
+            "title": "Tokens Budget",
+            "type": "integer"
+          },
+          "tokens_used": {
+            "default": 0,
+            "title": "Tokens Used",
+            "type": "integer"
+          },
+          "total_tokens": {
+            "default": 0,
+            "title": "Total Tokens",
+            "type": "integer"
+          },
+          "user_message": {
+            "default": "",
+            "title": "User Message",
+            "type": "string"
+          }
+        },
+        "title": "ContextSnapshot",
+        "type": "object"
+      },
+      "MessageStatus": {
+        "description": "Lifecycle status of a message.\n\nState machine: PENDING \u2192 STREAMING \u2192 COMPLETE | ERROR | ABORTED.\nThe frontend uses this to decide whether to show a spinner, final\ncontent, or an error badge on a message bubble.",
+        "enum": [
+          "pending",
+          "streaming",
+          "complete",
+          "error",
+          "aborted"
+        ],
+        "title": "MessageStatus",
+        "type": "string"
+      },
+      "Role": {
+        "description": "Message author roles \u2014 mirrors OpenAI chat-completion \"role\" values.\n\nUsed by the context manager to classify messages when building the\nLLM input array, and by the frontend to choose rendering styles.",
+        "enum": [
+          "system",
+          "user",
+          "assistant",
+          "tool"
+        ],
+        "title": "Role",
+        "type": "string"
+      },
+      "ToolCall": {
+        "description": "A tool/function call made by the assistant.\n\nAssembled during streaming from TOOL_CALL_START (id + name),\nTOOL_CALL_END (complete arguments), and TOOL_RESULT (execution output).\nStored on the Message object for persistence and replay.\n\nAttributes:\n    id: Unique call identifier (e.g., \"call_abc123\"). Auto-generated if omitted.\n    name: Tool function name (e.g., \"query_graph\", \"search_runbooks\").\n    arguments: Parsed JSON arguments passed to the tool.\n    result: Raw string result from tool execution, or None if not yet executed.",
+        "properties": {
+          "arguments": {
+            "additionalProperties": true,
+            "title": "Arguments",
+            "type": "object"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Duration Ms"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Result"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "ToolCall",
+        "type": "object"
+      }
+    },
+    "description": "A single conversation message.\n\nRepresents both user and assistant messages. During streaming, the\nassistant message is created with status=STREAMING, then updated to\nCOMPLETE/ERROR/ABORTED when the stream terminates.\n\nThe ``tool_calls`` list is assembled from SSE events during streaming\nand persisted for replay when loading a session from the store.",
+    "properties": {
+      "agent_name": {
+        "default": "",
+        "title": "Agent Name",
+        "type": "string"
+      },
+      "content": {
+        "default": "",
+        "title": "Content",
+        "type": "string"
+      },
+      "context_snapshot": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ContextSnapshot"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "created_at": {
+        "format": "date-time",
+        "title": "Created At",
+        "type": "string"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "role": {
+        "$ref": "#/$defs/Role"
+      },
+      "status": {
+        "$ref": "#/$defs/MessageStatus",
+        "default": "complete"
+      },
+      "tool_calls": {
+        "items": {
+          "$ref": "#/$defs/ToolCall"
+        },
+        "title": "Tool Calls",
+        "type": "array"
+      }
+    },
+    "required": [
+      "role"
+    ],
+    "title": "Message",
+    "type": "object"
+  },
+  "Session": {
+    "$defs": {
+      "AgentThread": {
+        "description": "A per-agent conversation thread within a session.\n\nEach agent gets its own thread with a unique ``agent_session_id``.\nMessage 0 is the system prompt (role=system) for auditability.\nMessages are appended chronologically and never reordered.\n\nAttributes:\n    agent_session_id: Unique ID for this agent's SDK thread.\n    agent_id: Config key (e.g. \"orchestrator\", \"network_investigator\").\n    agent_name: Display name (e.g. \"NOCOrchestrator\").\n    messages: Ordered message list. Message 0 is the system prompt.\n    created_at: When this thread was first created.",
+        "properties": {
+          "agent_id": {
+            "default": "",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "agent_name": {
+            "default": "",
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "agent_session_id": {
+            "title": "Agent Session Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "messages": {
+            "items": {
+              "$ref": "#/$defs/Message"
+            },
+            "title": "Messages",
+            "type": "array"
+          }
+        },
+        "title": "AgentThread",
+        "type": "object"
+      },
+      "ContextSnapshot": {
+        "description": "Record of exactly what context was sent to the LLM for an assistant message.\n\nStored on assistant messages for auditability. The ``context_messages``\nfield is optional \u2014 omitted by default when persisting to Cosmos (to\nsave RU cost), always included in saved JSON files and in-memory store.\n\nAttributes:\n    agent_session_id: Unique ID of the agent's SDK thread.\n    agent_id: Config key of the agent (e.g. \"orchestrator\").\n    system_prompt_chars: Character count of the system prompt.\n    messages_total: Total messages in the thread before trimming.\n    messages_kept: Messages kept after token-budget trimming.\n    messages_dropped: Messages dropped by trimming.\n    tokens_used: Tokens consumed by the kept messages.\n    tokens_budget: Total token budget available.\n    max_turns: Max conversation turns setting (None = unlimited).\n    user_message: The user query this response answers.\n    context_messages: The actual messages sent to the LLM (optional).",
+        "properties": {
+          "agent_id": {
+            "default": "",
+            "title": "Agent Id",
+            "type": "string"
+          },
+          "agent_session_id": {
+            "default": "",
+            "title": "Agent Session Id",
+            "type": "string"
+          },
+          "completion_tokens": {
+            "default": 0,
+            "title": "Completion Tokens",
+            "type": "integer"
+          },
+          "context_messages": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Context Messages"
+          },
+          "duration_ms": {
+            "default": 0.0,
+            "title": "Duration Ms",
+            "type": "number"
+          },
+          "estimated_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Estimated Cost Usd"
+          },
+          "max_turns": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Max Turns"
+          },
+          "messages_dropped": {
+            "default": 0,
+            "title": "Messages Dropped",
+            "type": "integer"
+          },
+          "messages_kept": {
+            "default": 0,
+            "title": "Messages Kept",
+            "type": "integer"
+          },
+          "messages_total": {
+            "default": 0,
+            "title": "Messages Total",
+            "type": "integer"
+          },
+          "model": {
+            "default": "",
+            "title": "Model",
+            "type": "string"
+          },
+          "prompt_tokens": {
+            "default": 0,
+            "title": "Prompt Tokens",
+            "type": "integer"
+          },
+          "system_prompt_chars": {
+            "default": 0,
+            "title": "System Prompt Chars",
+            "type": "integer"
+          },
+          "tokens_budget": {
+            "default": 0,
+            "title": "Tokens Budget",
+            "type": "integer"
+          },
+          "tokens_used": {
+            "default": 0,
+            "title": "Tokens Used",
+            "type": "integer"
+          },
+          "total_tokens": {
+            "default": 0,
+            "title": "Total Tokens",
+            "type": "integer"
+          },
+          "user_message": {
+            "default": "",
+            "title": "User Message",
+            "type": "string"
+          }
+        },
+        "title": "ContextSnapshot",
+        "type": "object"
+      },
+      "Message": {
+        "description": "A single conversation message.\n\nRepresents both user and assistant messages. During streaming, the\nassistant message is created with status=STREAMING, then updated to\nCOMPLETE/ERROR/ABORTED when the stream terminates.\n\nThe ``tool_calls`` list is assembled from SSE events during streaming\nand persisted for replay when loading a session from the store.",
+        "properties": {
+          "agent_name": {
+            "default": "",
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "content": {
+            "default": "",
+            "title": "Content",
+            "type": "string"
+          },
+          "context_snapshot": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ContextSnapshot"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/$defs/Role"
+          },
+          "status": {
+            "$ref": "#/$defs/MessageStatus",
+            "default": "complete"
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/$defs/ToolCall"
+            },
+            "title": "Tool Calls",
+            "type": "array"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "Message",
+        "type": "object"
+      },
+      "MessageStatus": {
+        "description": "Lifecycle status of a message.\n\nState machine: PENDING \u2192 STREAMING \u2192 COMPLETE | ERROR | ABORTED.\nThe frontend uses this to decide whether to show a spinner, final\ncontent, or an error badge on a message bubble.",
+        "enum": [
+          "pending",
+          "streaming",
+          "complete",
+          "error",
+          "aborted"
+        ],
+        "title": "MessageStatus",
+        "type": "string"
+      },
+      "Role": {
+        "description": "Message author roles \u2014 mirrors OpenAI chat-completion \"role\" values.\n\nUsed by the context manager to classify messages when building the\nLLM input array, and by the frontend to choose rendering styles.",
+        "enum": [
+          "system",
+          "user",
+          "assistant",
+          "tool"
+        ],
+        "title": "Role",
+        "type": "string"
+      },
+      "ToolCall": {
+        "description": "A tool/function call made by the assistant.\n\nAssembled during streaming from TOOL_CALL_START (id + name),\nTOOL_CALL_END (complete arguments), and TOOL_RESULT (execution output).\nStored on the Message object for persistence and replay.\n\nAttributes:\n    id: Unique call identifier (e.g., \"call_abc123\"). Auto-generated if omitted.\n    name: Tool function name (e.g., \"query_graph\", \"search_runbooks\").\n    arguments: Parsed JSON arguments passed to the tool.\n    result: Raw string result from tool execution, or None if not yet executed.",
+        "properties": {
+          "arguments": {
+            "additionalProperties": true,
+            "title": "Arguments",
+            "type": "object"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Duration Ms"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Result"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "ToolCall",
+        "type": "object"
+      }
+    },
+    "description": "A conversation session with per-agent threads (schema v3).\n\nEach session belongs to one scenario (recorded at creation time via\n``scenario_name``). Conversation history is organized into per-agent\nthreads keyed by agent_id. Each thread has its own message list,\nsystem prompt (message 0), and unique agent_session_id.\n\nThe model_validator handles v2\u2192v3 migration: if a flat ``messages[]``\nis detected, it groups messages by agent_name into ``threads{}``.",
+    "properties": {
+      "created_at": {
+        "format": "date-time",
+        "title": "Created At",
+        "type": "string"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "scenario_name": {
+        "default": "",
+        "title": "Scenario Name",
+        "type": "string"
+      },
+      "schema_version": {
+        "default": 3,
+        "title": "Schema Version",
+        "type": "integer"
+      },
+      "threads": {
+        "additionalProperties": {
+          "$ref": "#/$defs/AgentThread"
+        },
+        "title": "Threads",
+        "type": "object"
+      },
+      "title": {
+        "default": "New conversation",
+        "title": "Title",
+        "type": "string"
+      },
+      "updated_at": {
+        "format": "date-time",
+        "title": "Updated At",
+        "type": "string"
+      },
+      "user_id": {
+        "default": "",
+        "title": "User Id",
+        "type": "string"
+      }
+    },
+    "title": "Session",
+    "type": "object"
+  },
+  "SessionSummary": {
+    "description": "Lightweight session metadata for list views (no messages).\n\nUsed by GET /api/sessions to return a compact session list without\ntransferring full message histories. Rendered in the SessionSidebar.\nIncludes per-session activity counts derived from message content.",
+    "properties": {
+      "agent_response_count": {
+        "default": 0,
+        "title": "Agent Response Count",
+        "type": "integer"
+      },
+      "created_at": {
+        "format": "date-time",
+        "title": "Created At",
+        "type": "string"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "message_count": {
+        "title": "Message Count",
+        "type": "integer"
+      },
+      "scenario_name": {
+        "default": "",
+        "title": "Scenario Name",
+        "type": "string"
+      },
+      "thinking_count": {
+        "default": 0,
+        "title": "Thinking Count",
+        "type": "integer"
+      },
+      "title": {
+        "title": "Title",
+        "type": "string"
+      },
+      "tool_call_count": {
+        "default": 0,
+        "title": "Tool Call Count",
+        "type": "integer"
+      },
+      "updated_at": {
+        "format": "date-time",
+        "title": "Updated At",
+        "type": "string"
+      },
+      "user_id": {
+        "default": "",
+        "title": "User Id",
+        "type": "string"
+      },
+      "user_prompt_count": {
+        "default": 0,
+        "title": "User Prompt Count",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "id",
+      "title",
+      "message_count",
+      "created_at",
+      "updated_at"
+    ],
+    "title": "SessionSummary",
+    "type": "object"
+  },
+  "StreamMetadata": {
+    "description": "Usage and timing metadata sent as the final METADATA event.",
+    "properties": {
+      "assistant_message_id": {
+        "default": "",
+        "title": "Assistant Message Id",
+        "type": "string"
+      },
+      "completion_tokens": {
+        "default": 0,
+        "title": "Completion Tokens",
+        "type": "integer"
+      },
+      "duration_ms": {
+        "default": 0.0,
+        "title": "Duration Ms",
+        "type": "number"
+      },
+      "estimated_cost_usd": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Estimated Cost Usd"
+      },
+      "model": {
+        "default": "",
+        "title": "Model",
+        "type": "string"
+      },
+      "prompt_tokens": {
+        "default": 0,
+        "title": "Prompt Tokens",
+        "type": "integer"
+      },
+      "total_tokens": {
+        "default": 0,
+        "title": "Total Tokens",
+        "type": "integer"
+      }
+    },
+    "title": "StreamMetadata",
+    "type": "object"
+  },
+  "ToolCall": {
+    "description": "A tool/function call made by the assistant.\n\nAssembled during streaming from TOOL_CALL_START (id + name),\nTOOL_CALL_END (complete arguments), and TOOL_RESULT (execution output).\nStored on the Message object for persistence and replay.\n\nAttributes:\n    id: Unique call identifier (e.g., \"call_abc123\"). Auto-generated if omitted.\n    name: Tool function name (e.g., \"query_graph\", \"search_runbooks\").\n    arguments: Parsed JSON arguments passed to the tool.\n    result: Raw string result from tool execution, or None if not yet executed.",
+    "properties": {
+      "arguments": {
+        "additionalProperties": true,
+        "title": "Arguments",
+        "type": "object"
+      },
+      "duration_ms": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Duration Ms"
+      },
+      "id": {
+        "title": "Id",
+        "type": "string"
+      },
+      "name": {
+        "title": "Name",
+        "type": "string"
+      },
+      "result": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Result"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "title": "ToolCall",
+    "type": "object"
+  },
+  "UpdateSessionRequest": {
+    "description": "Client \u2192 Server: update session metadata.",
+    "properties": {
+      "title": {
+        "title": "Title",
+        "type": "string"
+      }
+    },
+    "required": [
+      "title"
+    ],
+    "title": "UpdateSessionRequest",
+    "type": "object"
+  }
+}

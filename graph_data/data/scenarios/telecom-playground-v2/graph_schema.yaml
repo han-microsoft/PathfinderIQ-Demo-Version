@@ -1,0 +1,463 @@
+# ============================================================================
+# Graph Schema Manifest — Network Topology
+# ============================================================================
+# Declarative definition of vertices and edges for the graph topology.
+# Used by the graph ingest endpoint to load data from CSVs.
+#
+# To add a new dataset, create a new YAML file following this structure.
+# Vertex and edge loaders are fully generic — no code changes needed.
+# ============================================================================
+
+# Directory containing CSV files.
+# Use 'entities' when run via ScenarioLoader (relative to schema file).
+# The backwards-compat symlink data/network → scenarios/<name>/data/entities
+# ensures the old PROJECT_ROOT-relative resolution also works during transition.
+data_dir: data/entities
+
+# ---------------------------------------------------------------------------
+# Vertices
+# ---------------------------------------------------------------------------
+# Each vertex type maps to exactly one CSV file.
+#   label          — Gremlin vertex label
+#   csv_file       — CSV filename inside data_dir
+#   id_column      — CSV column whose value becomes the vertex 'id' property
+#   partition_key  — static value for the 'partitionKey' property
+#   properties     — list of CSV column names to add as vertex properties
+#                    (id_column is always included automatically)
+# ---------------------------------------------------------------------------
+
+vertices:
+  - label: CoreRouter
+    csv_file: DimCoreRouter.csv
+    id_column: RouterId
+    partition_key: router
+    properties: [RouterId, City, Region, Vendor, Model, FirmwareVersion, Latitude, Longitude]
+    property_types:
+      Latitude: Double
+      Longitude: Double
+
+  - label: AggSwitch
+    csv_file: DimAggSwitch.csv
+    id_column: SwitchId
+    partition_key: switch
+    properties: [SwitchId, City, UplinkRouterId, Latitude, Longitude]
+    property_types:
+      Latitude: Double
+      Longitude: Double
+
+  - label: BaseStation
+    csv_file: DimBaseStation.csv
+    id_column: StationId
+    partition_key: basestation
+    properties: [StationId, StationType, AggSwitchId, City]
+
+  - label: TransportLink
+    csv_file: DimTransportLink.csv
+    id_column: LinkId
+    partition_key: link
+    properties: [LinkId, LinkType, CapacityGbps, SourceRouterId, TargetRouterId]
+    property_types:
+      CapacityGbps: BigInt
+
+  - label: MPLSPath
+    csv_file: DimMPLSPath.csv
+    id_column: PathId
+    partition_key: path
+    properties: [PathId, PathType]
+
+  - label: Service
+    csv_file: DimService.csv
+    id_column: ServiceId
+    partition_key: service
+    properties: [ServiceId, ServiceType, CustomerName, CustomerCount, ActiveUsers]
+    property_types:
+      CustomerCount: BigInt
+      ActiveUsers: BigInt
+
+  - label: SLAPolicy
+    csv_file: DimSLAPolicy.csv
+    id_column: SLAPolicyId
+    partition_key: policy
+    properties: [SLAPolicyId, ServiceId, AvailabilityPct, MaxLatencyMs, PenaltyPerHourUSD, Tier]
+    property_types:
+      AvailabilityPct: Double
+      MaxLatencyMs: BigInt
+      PenaltyPerHourUSD: BigInt
+
+  - label: BGPSession
+    csv_file: DimBGPSession.csv
+    id_column: SessionId
+    partition_key: session
+    properties: [SessionId, PeerARouterId, PeerBRouterId, ASNumberA, ASNumberB]
+    property_types:
+      ASNumberA: BigInt
+      ASNumberB: BigInt
+
+  - label: PhysicalConduit
+    csv_file: DimPhysicalConduit.csv
+    id_column: ConduitId
+    partition_key: conduit
+    properties: [ConduitId, RouteDescription, MaterialType, InstalledYear]
+
+  - label: AmplifierSite
+    csv_file: DimAmplifierSite.csv
+    id_column: SiteId
+    partition_key: amplifier
+    properties: [SiteId, Location, InstalledYear, LastCalibration, Latitude, Longitude]
+    property_types:
+      Latitude: Double
+      Longitude: Double
+
+  - label: Sensor
+    csv_file: DimSensor.csv
+    id_column: SensorId
+    partition_key: sensor
+    properties: [SensorId, SensorType, MonitoredEntityId, MonitoredEntityType, MountLocation, Latitude, Longitude, InstalledDate, Status]
+    property_types:
+      Latitude: Double
+      Longitude: Double
+
+  - label: Depot
+    csv_file: DimDepot.csv
+    id_column: DepotId
+    partition_key: depot
+    properties: [DepotId, DepotName, City, Region, DepotType, Latitude, Longitude, ServicedEntityId, ServicedEntityType]
+    property_types:
+      Latitude: Double
+      Longitude: Double
+
+  - label: DutyRoster
+    csv_file: DimDutyRoster.csv
+    id_column: RosterId
+    partition_key: dutyroster
+    properties: [RosterId, PersonName, Email, Phone, City, Region, ShiftStart, ShiftEnd, Role, HomeBase, VehicleId, DepotId]
+
+  - label: Advisory
+    csv_file: DimAdvisory.csv
+    id_column: AdvisoryId
+    partition_key: advisory
+    properties: [AdvisoryId, VendorName, BugId, AffectedVersions, Severity, Title, Description]
+
+# ---------------------------------------------------------------------------
+# Edges
+# ---------------------------------------------------------------------------
+# Each edge entry produces one Gremlin addE() per (filtered) CSV row.
+# For relationships requiring multiple edges per row (e.g. both endpoints
+# of a transport link), define separate entries.
+#
+#   label       — Gremlin edge label
+#   csv_file    — CSV filename to iterate (inside data_dir)
+#   source      — how to find the source vertex
+#     label     — vertex label to match
+#     property  — vertex property name for the has() lookup
+#     column    — CSV column containing the lookup value
+#   target      — how to find the target vertex (same structure)
+#   properties  — edge properties (optional)
+#     name      — Gremlin property name
+#     column    — CSV column for the value (mutually exclusive with 'value')
+#     value     — static literal value (mutually exclusive with 'column')
+#   filter      — only process rows where this CSV column equals this value
+#     column    — CSV column to check
+#     value     — required value (string match)
+# ---------------------------------------------------------------------------
+
+edges:
+  # TransportLink connects_to CoreRouter (source side)
+  - label: connects_to
+    csv_file: DimTransportLink.csv
+    source:
+      label: TransportLink
+      property: LinkId
+      column: LinkId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: SourceRouterId
+    properties:
+      - name: direction
+        value: source
+
+  # TransportLink connects_to CoreRouter (target side)
+  - label: connects_to
+    csv_file: DimTransportLink.csv
+    source:
+      label: TransportLink
+      property: LinkId
+      column: LinkId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: TargetRouterId
+    properties:
+      - name: direction
+        value: target
+
+  # AggSwitch aggregates_to CoreRouter
+  - label: aggregates_to
+    csv_file: DimAggSwitch.csv
+    source:
+      label: AggSwitch
+      property: SwitchId
+      column: SwitchId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: UplinkRouterId
+
+  # BaseStation backhauls_via AggSwitch
+  - label: backhauls_via
+    csv_file: DimBaseStation.csv
+    source:
+      label: BaseStation
+      property: StationId
+      column: StationId
+    target:
+      label: AggSwitch
+      property: SwitchId
+      column: AggSwitchId
+
+  # MPLSPath routes_via TransportLink (only TransportLink hops)
+  - label: routes_via
+    csv_file: FactMPLSPathHops.csv
+    filter:
+      column: NodeType
+      value: TransportLink
+    source:
+      label: MPLSPath
+      property: PathId
+      column: PathId
+    target:
+      label: TransportLink
+      property: LinkId
+      column: NodeId
+    properties:
+      - name: HopOrder
+        column: HopOrder
+
+  # Service depends_on_mplspath MPLSPath
+  - label: depends_on_mplspath
+    csv_file: FactServiceDependency.csv
+    filter:
+      column: DependsOnType
+      value: MPLSPath
+    source:
+      label: Service
+      property: ServiceId
+      column: ServiceId
+    target:
+      label: MPLSPath
+      property: PathId
+      column: DependsOnId
+    properties:
+      - name: DependencyStrength
+        column: DependencyStrength
+
+  # Service depends_on_aggswitch AggSwitch
+  - label: depends_on_aggswitch
+    csv_file: FactServiceDependency.csv
+    filter:
+      column: DependsOnType
+      value: AggSwitch
+    source:
+      label: Service
+      property: ServiceId
+      column: ServiceId
+    target:
+      label: AggSwitch
+      property: SwitchId
+      column: DependsOnId
+    properties:
+      - name: DependencyStrength
+        column: DependencyStrength
+
+  # Service depends_on_basestation BaseStation
+  - label: depends_on_basestation
+    csv_file: FactServiceDependency.csv
+    filter:
+      column: DependsOnType
+      value: BaseStation
+    source:
+      label: Service
+      property: ServiceId
+      column: ServiceId
+    target:
+      label: BaseStation
+      property: StationId
+      column: DependsOnId
+    properties:
+      - name: DependencyStrength
+        column: DependencyStrength
+
+  # SLAPolicy governed_by Service
+  - label: governed_by
+    csv_file: DimSLAPolicy.csv
+    source:
+      label: SLAPolicy
+      property: SLAPolicyId
+      column: SLAPolicyId
+    target:
+      label: Service
+      property: ServiceId
+      column: ServiceId
+
+  # BGPSession peers_over CoreRouter (Peer A)
+  - label: peers_over
+    csv_file: DimBGPSession.csv
+    source:
+      label: BGPSession
+      property: SessionId
+      column: SessionId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: PeerARouterId
+    properties:
+      - name: ASNumber
+        column: ASNumberA
+
+  # BGPSession peers_over CoreRouter (Peer B)
+  - label: peers_over
+    csv_file: DimBGPSession.csv
+    source:
+      label: BGPSession
+      property: SessionId
+      column: SessionId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: PeerBRouterId
+    properties:
+      - name: ASNumber
+        column: ASNumberB
+
+  # TransportLink routed_through PhysicalConduit
+  - label: routed_through
+    csv_file: FactConduitMapping.csv
+    source:
+      label: TransportLink
+      property: LinkId
+      column: LinkId
+    target:
+      label: PhysicalConduit
+      property: ConduitId
+      column: ConduitId
+    properties:
+      - name: SegmentDescription
+        column: SegmentDescription
+
+  # AmplifierSite amplifies TransportLink
+  - label: amplifies
+    csv_file: FactAmplifierMapping.csv
+    source:
+      label: AmplifierSite
+      property: SiteId
+      column: SiteId
+    target:
+      label: TransportLink
+      property: LinkId
+      column: LinkId
+    properties:
+      - name: HopOrder
+        column: HopOrder
+
+  # Advisory affects_version CoreRouter
+  - label: affects_version
+    csv_file: FactAdvisoryMapping.csv
+    source:
+      label: Advisory
+      property: AdvisoryId
+      column: AdvisoryId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: RouterId
+    properties:
+      - name: MatchReason
+        column: MatchReason
+
+  # Sensor monitors TransportLink
+  - label: monitors
+    csv_file: DimSensor.csv
+    filter:
+      column: MonitoredEntityType
+      value: TransportLink
+    source:
+      label: Sensor
+      property: SensorId
+      column: SensorId
+    target:
+      label: TransportLink
+      property: LinkId
+      column: MonitoredEntityId
+
+  # Sensor monitors CoreRouter
+  - label: monitors
+    csv_file: DimSensor.csv
+    filter:
+      column: MonitoredEntityType
+      value: CoreRouter
+    source:
+      label: Sensor
+      property: SensorId
+      column: SensorId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: MonitoredEntityId
+
+  # Sensor monitors AmplifierSite
+  - label: monitors
+    csv_file: DimSensor.csv
+    filter:
+      column: MonitoredEntityType
+      value: AmplifierSite
+    source:
+      label: Sensor
+      property: SensorId
+      column: SensorId
+    target:
+      label: AmplifierSite
+      property: SiteId
+      column: MonitoredEntityId
+
+  # DutyRoster stationed_at Depot
+  - label: stationed_at
+    csv_file: DimDutyRoster.csv
+    source:
+      label: DutyRoster
+      property: RosterId
+      column: RosterId
+    target:
+      label: Depot
+      property: DepotId
+      column: DepotId
+
+  # Depot services CoreRouter
+  - label: services
+    csv_file: DimDepot.csv
+    filter:
+      column: ServicedEntityType
+      value: CoreRouter
+    source:
+      label: Depot
+      property: DepotId
+      column: DepotId
+    target:
+      label: CoreRouter
+      property: RouterId
+      column: ServicedEntityId
+
+  # Depot services AmplifierSite
+  - label: services
+    csv_file: DimDepot.csv
+    filter:
+      column: ServicedEntityType
+      value: AmplifierSite
+    source:
+      label: Depot
+      property: DepotId
+      column: DepotId
+    target:
+      label: AmplifierSite
+      property: SiteId
+      column: ServicedEntityId

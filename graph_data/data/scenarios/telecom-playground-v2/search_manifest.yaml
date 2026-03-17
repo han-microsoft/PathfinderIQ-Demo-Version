@@ -1,0 +1,35 @@
+# Search manifest for telecom-playground-v2 scenario
+# Deploys AI Search indexes for knowledge retrieval
+#
+# Usage:
+#   cd graph_data
+#   uv run python3 scripts/azureaisearch/deploy_scenario.py --manifest data/scenarios/telecom-playground-v2/search_manifest.yaml
+#   uv run python3 scripts/azureaisearch/deploy_scenario.py --manifest data/scenarios/telecom-playground-v2/search_manifest.yaml --upload-files
+
+scenario:
+  name: "telecom-playground-v2"
+  data_root: "data/scenarios/telecom-playground-v2"
+
+indexes:
+  - name: "telecom-v2-runbooks-index"
+    source: "data/knowledge/runbooks"
+    file_types: ["*.md"]
+    blob_container: "telecom-v2-runbooks"
+
+  - name: "telecom-v2-tickets-index"
+    source: "data/knowledge/tickets"
+    file_types: ["*.txt"]
+    blob_container: "telecom-v2-tickets"
+
+  - name: "telecom-v2-equipment-index"
+    source: "data/knowledge/equipment"
+    file_types: ["*.md"]
+    blob_container: "telecom-v2-equipment"
+
+  - name: "telecom-v2-infra-specs-index"
+    source: "data/knowledge/infra_specs"
+    file_types: ["*.md"]
+    blob_container: "telecom-v2-infra-specs"
+
+# Search endpoint comes from env var AI_SEARCH_ENDPOINT or AI_SEARCH_NAME
+# Auth: DefaultAzureCredential (az login locally, managed identity deployed)

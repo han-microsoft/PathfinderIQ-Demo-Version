@@ -1,0 +1,134 @@
+# ============================================================================
+# Unified Dockerfile — Single container serving the full application
+#
+# Architecture:
+#   supervisord (PID 1)
+#     ├── nginx         (port 80 — static frontend + /api/ reverse proxy)
+#     └── uvicorn       (port 8000 — FastAPI backend)
+#
+# Build context: graph_demo_v2/ (project root)
+#
+# Stage 1 (frontend-build): Node 20 → npm ci → vite build → dist/
+# Stage 2 (final): Python 3.12-slim + nginx + supervisord
+#   - Backend code installed via uv
+#   - Frontend static files served by nginx
+#   - graph_data scenario files copied for runtime prompt/tool loading
+#   - control/ preamble copied for agent instructions
+#
+# The container runs on port 80 (nginx entry point).
+# Container Apps ingress targets port 80.
+#
+# Usage (local):
+#   docker build -f Dockerfile.unified -t graph-demo .
+#   docker run -p 8080:80 --env-file control/.env graph-demo
+#
+# Usage (Azure):
+#   deploy_app.sh handles build + push + update
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# Stage 1: Build frontend static assets
+# ---------------------------------------------------------------------------
+
+FROM mcr.microsoft.com/devcontainers/javascript-node:20-bookworm AS frontend-build
+
+WORKDIR /build
+
+# Install dependencies first (cache layer — only invalidated when lockfile changes)
+COPY app/frontend/package.json app/frontend/package-lock.json* ./
+RUN npm ci --silent
+
+# Copy source and build
+COPY app/frontend/ .
+RUN npm run build
+# Output: /build/dist/ containing index.html + JS/CSS bundles
+
+# ---------------------------------------------------------------------------
+# Stage 2: Python backend + nginx + supervisord
+# ---------------------------------------------------------------------------
+
+FROM mcr.microsoft.com/devcontainers/python:3.12-bookworm AS final
+
+# Install nginx and supervisord — the two processes managed in this container
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends nginx supervisor curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install uv for fast Python dependency management
+RUN pip install --no-cache-dir uv
+
+# ---------------------------------------------------------------------------
+# Directory layout inside the container:
+#   /workspace/
+#     ├── app/backend/       → Python backend (FastAPI)
+#     ├── graph_data/data/   → Scenario files (prompts, topology, schema)
+#     ├── control/           → Agent preamble + runtime .env (generated at start)
+#     └── static/            → Frontend build output (served by nginx)
+# ---------------------------------------------------------------------------
+
+WORKDIR /workspace
+
+# -- Backend: install Python dependencies ------------------------------------
+
+RUN mkdir -p app/backend
+COPY app/backend/pyproject.toml app/backend/pyproject.toml
+RUN cd app/backend && uv pip install --system --prerelease=allow -e .
+
+# -- graph_data: install publish/runtime dependencies not owned by app/backend -
+# The unified image executes graph_data/scripts/publish_job.py inside the
+# Container Apps Job. Those scripts import connector modules directly, so the
+# image must include the graph_data dependency set in addition to backend deps.
+
+RUN mkdir -p graph_data
+COPY graph_data/pyproject.toml graph_data/pyproject.toml
+RUN python3 -c "import tomllib; from pathlib import Path; payload = tomllib.loads(Path('/workspace/graph_data/pyproject.toml').read_text(encoding='utf-8')); print('\\n'.join(payload.get('project', {}).get('dependencies', [])))" > /tmp/graph-data-requirements.txt
+RUN uv pip install --system --prerelease=allow -r /tmp/graph-data-requirements.txt
+
+# -- Backend: copy application code -----------------------------------------
+
+COPY app/backend/app/ app/backend/app/
+COPY app/backend/agents/ app/backend/agents/
+COPY app/backend/tools/ app/backend/tools/
+
+# -- Frontend: copy built static assets from stage 1 ------------------------
+
+COPY --from=frontend-build /build/dist/ /workspace/static/
+
+# -- Scenario data: prompts, topology, schema, and config for agent loading ---
+# The full scenario directory is needed (scenario.yaml, graph_schema.yaml,
+# topology.json, prompts/, saved_conversations/).
+# CSVs (entities/, telemetry/) and knowledge/ (runbooks, tickets) are excluded
+# via .dockerignore — they live in Azure (Fabric + AI Search), not the container.
+
+COPY graph_data/data/ graph_data/data/
+COPY graph_data/scripts/ graph_data/scripts/
+
+# -- Nginx config: SPA routing + API reverse proxy --------------------------
+
+RUN rm -f /etc/nginx/sites-enabled/default
+COPY deploy/nginx.conf /etc/nginx/conf.d/app.conf
+
+# -- Supervisord config: manages nginx + uvicorn ----------------------------
+
+COPY deploy/supervisord.conf /etc/supervisor/conf.d/app.conf
+
+# -- Env var for the backend: point GRAPH_DATA_DIR to /workspace/graph_data --
+ENV GRAPH_DATA_DIR=/workspace/graph_data
+ENV PYTHONPATH=/workspace/graph_data
+# -- Tell pydantic-settings there's no control/.env (all config via env vars) --
+ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8080
+
+# Health check — deep readiness probe validates session store + scenario + circuit breaker
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD curl -sf http://127.0.0.1:8080/health/ready || exit 1
+
+# Run as non-root — reduces damage if an attacker gains code execution.
+# nginx listens on 8080 (high port) so root is not needed.
+RUN adduser --uid 5678 --disabled-password --gecos "" appuser \
+    && chown -R appuser:appuser /workspace /var/log/nginx /var/lib/nginx /run
+USER appuser
+
+# Start supervisord — manages nginx + uvicorn as child processes
+CMD ["supervisord", "-c", "/etc/supervisor/conf.d/app.conf"]

@@ -1,0 +1,295 @@
+/*
+ * Global styles — Tailwind base + custom CSS properties for theming.
+ *
+ * File role:
+ *   Defines the design system’s colour tokens as CSS custom properties.
+ *   Both light (:root) and dark (.dark) themes are declared here.
+ *   Tailwind utility classes in tailwind.config.js reference these tokens
+ *   via theme.extend.colors.
+ *
+ * Token groups:
+ *   Brand    — Primary accent colour (teal-green #117865)
+ *   Bg 1-6   — Background hierarchy (lightest to darkest in light mode)
+ *   Text     — Primary, secondary, muted, tertiary text colours
+ *   Borders  — Subtle and default border colours
+ *   Code     — Code block background and text colours
+ *   Status   — Success, warning, error, info semantic colours
+ *
+ * Dark mode:
+ *   The .dark selector inverts all tokens. Applied via ThemeContext.tsx
+ *   adding/removing 'dark' class on <html>.
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Default values (overridden by [data-theme] selectors below) ─────── */
+:root {
+  color-scheme: dark;
+  --color-brand: #1A9C85;
+  --color-brand-hover: #21B89B;
+  --color-brand-light: #2BD4B3;
+  --color-brand-subtle: rgba(26, 156, 133, 0.12);
+  --color-bg-1: #1B1B1B;
+  --color-bg-2: #252525;
+  --color-bg-3: #2E2E2E;
+  --color-bg-4: #383838;
+  --color-bg-5: #444444;
+  --color-bg-6: #525252;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #787878;
+  --color-text-tertiary: #5A5A5A;
+  --color-border-subtle: #333333;
+  --color-border-default: #3D3D3D;
+  --color-border-strong: #4A4A4A;
+  --color-success: #36B136;
+  --color-warning: #FF8C42;
+  --color-error: #E05C63;
+  --color-info: #4EA8DF;
+  /* Header bar defaults — overridden per-theme for accent headers */
+  --color-header-bg: var(--color-bg-2);
+  --color-header-text: var(--color-text-primary);
+}
+
+/* ── Default (Fabric Light colours, dual Azure+Fabric branding) ── */
+[data-theme="default"] {
+  color-scheme: light;
+  --color-brand: #117865;
+  --color-brand-hover: #0E6658;
+  --color-brand-light: #1A9C85;
+  --color-brand-subtle: rgba(17, 120, 101, 0.08);
+  --color-bg-1: #FFFFFF;
+  --color-bg-2: #FAF9F8;
+  --color-bg-3: #F3F2F1;
+  --color-bg-4: #EDEBE9;
+  --color-bg-5: #E1DFDD;
+  --color-bg-6: #D2D0CE;
+  --color-text-primary: #242424;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #6E6E6E;
+  --color-text-tertiary: #9E9E9E;
+  --color-border-subtle: #F0F0F0;
+  --color-border-default: #E0E0E0;
+  --color-border-strong: #D1D1D1;
+  --color-success: #107C10;
+  --color-warning: #FFB900;
+  --color-error: #D13438;
+  --color-info: #0078D4;
+}
+
+/* ── Fabric Light ───────────────────────────────────────────────── */
+[data-theme="fabric-light"] {
+  color-scheme: light;
+  --color-brand: #117865;
+  --color-brand-hover: #0E6658;
+  --color-brand-light: #1A9C85;
+  --color-brand-subtle: rgba(17, 120, 101, 0.08);
+  --color-bg-1: #FFFFFF;
+  --color-bg-2: #FAF9F8;
+  --color-bg-3: #F3F2F1;
+  --color-bg-4: #EDEBE9;
+  --color-bg-5: #E1DFDD;
+  --color-bg-6: #D2D0CE;
+  --color-text-primary: #242424;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #6E6E6E;
+  --color-text-tertiary: #9E9E9E;
+  --color-border-subtle: #F0F0F0;
+  --color-border-default: #E0E0E0;
+  --color-border-strong: #D1D1D1;
+  --color-success: #107C10;
+  --color-warning: #FFB900;
+  --color-error: #D13438;
+  --color-info: #0078D4;
+}
+
+/* ── Fabric Dark ────────────────────────────────────────────────── */
+[data-theme="fabric-dark"] {
+  color-scheme: dark;
+  --color-brand: #1A9C85;
+  --color-brand-hover: #21B89B;
+  --color-brand-light: #2BD4B3;
+  --color-brand-subtle: rgba(26, 156, 133, 0.12);
+  --color-bg-1: #1B1B1B;
+  --color-bg-2: #252525;
+  --color-bg-3: #2E2E2E;
+  --color-bg-4: #383838;
+  --color-bg-5: #444444;
+  --color-bg-6: #525252;
+  --color-text-primary: #F0F0F0;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #787878;
+  --color-text-tertiary: #5A5A5A;
+  --color-border-subtle: #333333;
+  --color-border-default: #3D3D3D;
+  --color-border-strong: #4A4A4A;
+  --color-success: #36B136;
+  --color-warning: #FF8C42;
+  --color-error: #E05C63;
+  --color-info: #4EA8DF;
+}
+
+/* ── Foundry Purple ─────────────────────────────────────────────── */
+[data-theme="foundry-purple"] {
+  color-scheme: dark;
+  --color-brand: #7B61FF;
+  --color-brand-hover: #9580FF;
+  --color-brand-light: #B4A0FF;
+  --color-brand-subtle: rgba(123, 97, 255, 0.12);
+  --color-bg-1: #1A1625;
+  --color-bg-2: #231E30;
+  --color-bg-3: #2D273B;
+  --color-bg-4: #382F48;
+  --color-bg-5: #463B58;
+  --color-bg-6: #564A6B;
+  --color-text-primary: #F0EEFF;
+  --color-text-secondary: #B8B0D0;
+  --color-text-muted: #7A7290;
+  --color-text-tertiary: #5A5270;
+  --color-border-subtle: #332D45;
+  --color-border-default: #3F3858;
+  --color-border-strong: #4D456A;
+  --color-success: #4ADE80;
+  --color-warning: #FBBF24;
+  --color-error: #F87171;
+  --color-info: #818CF8;
+}
+
+/* ── Azure (light — matches Azure Portal palette) ───────────────── */
+[data-theme="azure"] {
+  color-scheme: light;
+  --color-brand: #0078D4;
+  --color-brand-hover: #106EBE;
+  --color-brand-light: #3A96DD;
+  --color-brand-subtle: rgba(0, 120, 212, 0.06);
+  --color-bg-1: #FFFFFF;
+  --color-bg-2: #F2F2F2;
+  --color-bg-3: #E6E6E6;
+  --color-bg-4: #D6D6D6;
+  --color-bg-5: #C4C4C4;
+  --color-bg-6: #B0B0B0;
+  --color-text-primary: #1B1B1B;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #737373;
+  --color-text-tertiary: #A0A0A0;
+  --color-border-subtle: #EDEDED;
+  --color-border-default: #D6D6D6;
+  --color-border-strong: #B8B8B8;
+  --color-success: #107C10;
+  --color-warning: #FFB900;
+  --color-error: #D13438;
+  --color-info: #0078D4;
+  /* Azure accent headers — blue bg with white text (Portal style) */
+  --color-header-bg: #0078D4;
+  --color-header-text: #FFFFFF;
+}
+
+/* ── Classic Microsoft ──────────────────────────────────────────── */
+[data-theme="classic-microsoft"] {
+  color-scheme: light;
+  --color-brand: #0078D4;
+  --color-brand-hover: #005A9E;
+  --color-brand-light: #2B88D8;
+  --color-brand-subtle: rgba(0, 120, 212, 0.08);
+  --color-bg-1: #FFFFFF;
+  --color-bg-2: #FAFAFA;
+  --color-bg-3: #F3F2F1;
+  --color-bg-4: #EDEBE9;
+  --color-bg-5: #E1DFDD;
+  --color-bg-6: #D2D0CE;
+  --color-text-primary: #323130;
+  --color-text-secondary: #484644;
+  --color-text-muted: #6E6D6B;
+  --color-text-tertiary: #A19F9D;
+  --color-border-subtle: #F0F0F0;
+  --color-border-default: #E1DFDD;
+  --color-border-strong: #C8C6C4;
+  --color-success: #107C10;
+  --color-warning: #FFB900;
+  --color-error: #D13438;
+  --color-info: #0078D4;
+}
+
+body {
+  @apply bg-neutral-bg1 text-text-primary font-sans antialiased;
+  min-height: 100vh;
+}
+
+/* Focus styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-brand ring-offset-2;
+  --tw-ring-offset-color: var(--color-bg-1);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-neutral-bg2;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-neutral-bg5 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-neutral-bg6;
+}
+
+/* Prose (Tailwind Typography) — inherit themed text colors */
+.prose {
+  --tw-prose-body: var(--color-text-primary);
+  --tw-prose-headings: var(--color-text-primary);
+  --tw-prose-bold: var(--color-text-primary);
+  --tw-prose-links: var(--color-brand);
+  --tw-prose-counters: var(--color-text-secondary);
+  --tw-prose-bullets: var(--color-text-muted);
+  --tw-prose-hr: var(--color-border-default);
+  --tw-prose-quotes: var(--color-text-secondary);
+  --tw-prose-quote-borders: var(--color-border-default);
+  --tw-prose-code: var(--color-text-primary);
+  --tw-prose-pre-code: var(--color-text-primary);
+  --tw-prose-pre-bg: var(--color-bg-3);
+  --tw-prose-th-borders: var(--color-border-default);
+  --tw-prose-td-borders: var(--color-border-subtle);
+}
+
+.prose p {
+  @apply leading-relaxed;
+}
+
+.prose pre {
+  @apply p-0 bg-transparent;
+}
+
+/* Utility component classes */
+@layer components {
+  .glass-card {
+    @apply bg-neutral-bg1 border border-border rounded-xl shadow-sm;
+  }
+
+  .glass-overlay {
+    @apply bg-black/40 backdrop-blur-sm;
+  }
+
+  .glass-input {
+    @apply bg-neutral-bg1 border border-border focus:border-brand;
+  }
+}
+
+/* Custom animations for rate-limit overlay */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}

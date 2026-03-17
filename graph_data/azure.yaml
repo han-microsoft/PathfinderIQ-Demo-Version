@@ -1,0 +1,16 @@
+# ============================================================================
+# Azure Developer CLI (azd) Configuration — Graph Data Provisioner
+# Usage: azd up
+# ============================================================================
+name: graph-data-provisioner
+metadata:
+  template: graph-data-provisioner@0.0.1
+hooks:
+  preprovision:
+    shell: sh
+    run: hooks/preprovision.sh
+    description: Resolve signed-in user principal ID
+  postprovision:
+    shell: sh
+    run: hooks/postprovision.sh
+    description: Populate azure_config.env with deployment outputs

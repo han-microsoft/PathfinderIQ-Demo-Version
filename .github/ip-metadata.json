@@ -1,0 +1,55 @@
+{
+  "name": "PathfinderIQ — Azure AI Multi-Agent Graph Explorer",
+  "description": "Multi-agent system for investigating network incidents using Microsoft Fabric graph topology, Eventhouse telemetry, and Azure AI Search document retrieval. Built on the Azure AI Agent Framework SDK with a React frontend and declarative scenario configuration.",
+  "maturity": "Silver",
+  "region": "ASIA",
+  "industry": "Cross",
+  "owner": "hchoong",
+  "pattern": [
+    "AI/ML",
+    "Data & Analytics",
+    "Application Innovation",
+    "Cloud Native"
+  ],
+  "services": [
+    "Azure OpenAI",
+    "Azure AI Foundry",
+    "Azure AI Search",
+    "Azure Container Apps",
+    "Azure Cosmos DB",
+    "Azure Container Registry",
+    "Azure Key Vault",
+    "Azure Storage",
+    "Azure Monitor",
+    "Azure Application Insights",
+    "Microsoft Fabric"
+  ],
+  "tags": [
+    "multi-agent",
+    "graph",
+    "fabric",
+    "agent-framework",
+    "gql",
+    "kql",
+    "sse-streaming",
+    "react",
+    "container-apps",
+    "opentelemetry"
+  ],
+  "version": "3.0.0",
+  "createdDate": "2026-02-10",
+  "lastUpdated": "2026-03-17",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version",
+    "branch": "main"
+  },
+  "documentation": {
+    "readme": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version/blob/main/README.md",
+    "architecture": "https://github.com/han-microsoft/PathfinderIQ-Demo-Version/blob/main/README.md#architecture-overview"
+  },
+  "contacts": {
+    "technical": ["hchoong"],
+    "business": ["lstamatescu"]
+  }
+}

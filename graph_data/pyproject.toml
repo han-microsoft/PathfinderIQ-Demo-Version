@@ -1,0 +1,33 @@
+[project]
+name = "graph-data-provisioner"
+version = "0.1.0"
+description = "Graph Data Provisioner — upload data to Fabric and AI Search"
+requires-python = ">=3.11"
+dependencies = [
+    # Azure Identity
+    "azure-identity>=1.19.0",
+    # AI Search indexer
+    "azure-search-documents>=11.6.0",
+    # OneLake file upload (ADLS Gen2 compatible)
+    "azure-storage-file-datalake>=12.18.0",
+    # Blob storage (upload runbooks/tickets)
+    "azure-storage-blob>=12.24.0",
+    # REST API calls
+    "requests>=2.32.0",
+    # Env file loading
+    "python-dotenv>=1.0.0",
+    # Kusto / Eventhouse (provisioning scripts)
+    "azure-kusto-data>=4.3.0",
+    "azure-kusto-ingest>=4.3.0",
+    # YAML parsing (scenario.yaml, graph_schema.yaml)
+    "pyyaml>=6.0",
+    # Azure management plane (pre-flight checks in provision_search_index.py)
+    "azure-mgmt-storage>=21.0.0",
+    "azure-mgmt-authorization>=4.0.0",
+    "azure-mgmt-search>=9.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+]
