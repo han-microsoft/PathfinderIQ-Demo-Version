@@ -1,8 +1,17 @@
 # PathfinderIQ — Azure AI Multi-Agent Graph Explorer
 
-A multi-agent system for investigating network incidents using **Microsoft Fabric** graph topology, **Eventhouse** telemetry, and **Azure AI Search** document retrieval. Built on the **Azure AI Agent Framework SDK** with a React frontend and declarative scenario configuration.
+A multi-agent system for investigating network incidents using **Azure Cosmos DB**
+for graph topology (Gremlin API) and telemetry (NoSQL API), plus **Azure AI Search**
+document retrieval. Built on the **Azure AI Agent Framework SDK** consuming the
+reusable **agentkit** kernel (datasource adapters + tool envelope), with a React
+frontend and declarative scenario configuration.
 
 **NOTE:** This is the demo version, with all sorts of cool features for presentation - For the streamlined, production-ready version, please contact the authors.
+
+> **2026-06-19 — Cosmos migration.** The data backend was migrated off Microsoft
+> Fabric to **Azure Cosmos DB** (Gremlin for graph, NoSQL for telemetry) via the
+> agentkit datasource adapters. See [AUTODEV.md](AUTODEV.md) and
+> [build_spec/CURRENT_STATE.md](build_spec/CURRENT_STATE.md).
 
 ![PathfinderIQ UI](.github/thumbnail.png)
 
@@ -56,7 +65,7 @@ The orchestrator agent decomposes incidents into investigation steps and delegat
 | Agent | Role | Tools |
 |-------|------|-------|
 | **NOCOrchestrator** | Decomposes, delegates, synthesizes | delegation, network actions, dispatch |
-| **NetworkInvestigator** | Graph + telemetry analysis | query_graph (GQL), query_alerts/telemetry (KQL) |
+| **NetworkInvestigator** | Graph + telemetry analysis | query_graph (Gremlin), query_alerts/telemetry (Cosmos SQL) |
 | **KnowledgeAnalyst** | Document retrieval | search_runbooks, search_tickets |
 | **FieldCoordinator** | Field ops + logistics | query_graph, search_equipment/infra_specs |
 | **CommunicationsSpecialist** | Customer comms | create_ticket, update_advisory, send_email |
@@ -67,8 +76,8 @@ Agents are defined declaratively in `scenario.yaml` — no code changes to add/m
 
 | Source | Technology | Purpose |
 |--------|-----------|---------|
-| Graph topology | Fabric Graph Model (GQL) | Network structure: nodes, links, sensors, services |
-| Telemetry | Fabric Eventhouse (KQL) | Alerts, link metrics, sensor readings |
+| Graph topology | Azure Cosmos DB (Gremlin API) | Network structure: nodes, links, sensors, services — queried with Gremlin traversals |
+| Telemetry | Azure Cosmos DB (NoSQL API) | Alerts, link metrics, sensor readings — queried with Cosmos SQL |
 | Documents | Azure AI Search | Runbooks, tickets, equipment specs, infra specs |
 | Sessions | Cosmos DB NoSQL | Conversation persistence (RBAC-only, no keys) |
 

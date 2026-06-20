@@ -1,48 +1,45 @@
-# Tool: query_telemetry — LinkTelemetry + SensorReadings
+# Tool: query_telemetry — link + sensor readings (Cosmos DB NoSQL)
 
-For alerts use `query_alerts`. Never mix columns between tables.
+For alerts use `query_alerts`. Backend is **Cosmos DB NoSQL** — emit **Cosmos
+SQL** (`SELECT ... FROM c ...`), NOT KQL.
 
-## KQL rules
-- Start with table name. No SQL.
-- String comparisons case-sensitive. Use `==`.
-- **NEVER filter Timestamp** — no `ago()`, `now()`. Use `top N by Timestamp desc`.
-- `top 10` or `top 20`. Use `summarize` for aggregates.
-- `PacketLossPct` and `CPUUtilPct` do NOT exist in these tables.
+## Cosmos SQL rules
+- Read-only `SELECT` only. `SELECT TOP N` is injected if you omit a cap.
+- The container alias is `c`. Filter on `c.<field>`.
+- One container holds BOTH link and sensor docs, discriminated by `c.kind`:
+  - `c.kind = 'link'`   → link metrics
+  - `c.kind = 'sensor'` → sensor readings
+- Always filter `c.kind`. `c.entityId` is the partition key (LinkId or SensorId).
+- String comparisons are case-sensitive. Order recent-first with `ORDER BY c.Timestamp DESC`.
+- **Do not filter on absolute dates** — use `ORDER BY c.Timestamp DESC` + `TOP N`.
 
-## LinkTelemetry — 5-min interval link metrics
+## Link docs (`c.kind = 'link'`)
+| Field | Notes |
+|---|---|
+| entityId | = LinkId, FK → TransportLink |
+| Timestamp | ISO 8601 |
+| UtilizationPct | High: > 80 |
+| OpticalPowerDbm | Normal: -8 to -12. Dead: -35 |
+| BitErrorRate | Normal: < 1e-9. Dead: 1.0 |
+| LatencyMs | Normal: 2-15. Dead: 9999 |
 
-| Column | Type | Notes |
-|---|---|---|
-| LinkId | string | FK → TransportLink |
-| Timestamp | datetime | |
-| UtilizationPct | real | High: > 80 |
-| OpticalPowerDbm | real | Normal: -8 to -12. Dead: -35 |
-| BitErrorRate | real | Normal: < 1e-9. Dead: 1.0 |
-| LatencyMs | real | Normal: 2-15. Dead: 9999 |
-
-## SensorReadings — per-sensor physical measurements
-
-| Column | Type | Notes |
-|---|---|---|
-| ReadingId | string | |
-| Timestamp | datetime | |
-| SensorId | string | FK → Sensor |
-| SensorType | string | `OpticalPower`, `BitErrorRate`, `Temperature`, `CPULoad` |
-| Value | real | |
-| Unit | string | dBm, ratio, °C, % |
-| Status | string | `NORMAL`, `WARNING`, `CRITICAL` |
+## Sensor docs (`c.kind = 'sensor'`)
+| Field | Notes |
+|---|---|
+| entityId | = SensorId, FK → Sensor |
+| Timestamp | ISO 8601 |
+| SensorType | `OpticalPower`, `BitErrorRate`, `Temperature`, `CPULoad` |
+| Value | number |
+| Unit | dBm, ratio, °C, % |
+| Status | `NORMAL`, `WARNING`, `CRITICAL` |
 
 ## Examples
+```sql
+SELECT TOP 10 c.Timestamp, c.entityId, c.UtilizationPct, c.OpticalPowerDbm, c.BitErrorRate, c.LatencyMs
+FROM c WHERE c.kind = 'link' AND c.entityId = 'LINK-SYD-MEL-FIBRE-01'
+ORDER BY c.Timestamp DESC
 
-```kql
-LinkTelemetry
-| where LinkId == 'LINK-SYD-MEL-FIBRE-01'
-| top 10 by Timestamp desc
-| project Timestamp, LinkId, UtilizationPct, OpticalPowerDbm, BitErrorRate, LatencyMs
-
-SensorReadings
-| where SensorId startswith 'SENS-SYD-MEL-F1'
-| where Status != 'NORMAL'
-| top 20 by Timestamp desc
-| project Timestamp, SensorId, SensorType, Value, Unit, Status
+SELECT TOP 20 c.Timestamp, c.entityId, c.SensorType, c.Value, c.Unit, c.Status
+FROM c WHERE c.kind = 'sensor' AND STARTSWITH(c.entityId, 'SENS-SYD-MEL-F1') AND c.Status != 'NORMAL'
+ORDER BY c.Timestamp DESC
 ```

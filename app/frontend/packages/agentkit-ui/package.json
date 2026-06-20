@@ -1,0 +1,38 @@
+{
+  "name": "@agentkit/ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Reusable, domain-blind React component kit extracted from GridIQ (Tier-2). Styling driven entirely by the central Tailwind preset + CSS-var token contract.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./primitives": "./src/primitives/index.ts",
+    "./chat": "./src/chat/index.ts",
+    "./hooks": "./src/hooks/index.ts",
+    "./feedback": "./src/feedback/index.ts",
+    "./sse": "./src/sse/index.ts",
+    "./foundation": "./src/foundation/index.ts",
+    "./stores": "./src/stores/index.ts",
+    "./http": "./src/http/index.ts",
+    "./layout": "./src/layout/index.ts",
+    "./theme/preset": "./src/theme/preset.cjs",
+    "./theme/animations.css": "./src/theme/animations.css",
+    "./theme/tokens.css": "./src/theme/tokens.css"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "lucide-react": ">=0.4",
+    "react-markdown": ">=9",
+    "remark-gfm": ">=4",
+    "react-syntax-highlighter": ">=16",
+    "react-day-picker": ">=9",
+    "date-fns": ">=4",
+    "zustand": ">=5",
+    "react-resizable-panels": ">=4"
+  },
+  "comment": "Source package — consumed by the host app (app/frontend) via the @agentkit-ui/* path alias (tsconfig paths + vite resolve.alias). Not npm-published; all peer deps are provided by the host's node_modules. The exports map documents the public surface; resolution is via the alias, not this field.",
+  "sideEffects": [
+    "*.css"
+  ]
+}

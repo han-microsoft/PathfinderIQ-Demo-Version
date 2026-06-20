@@ -14,6 +14,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@agentkit-ui": path.resolve(__dirname, "./packages/agentkit-ui/src"),
     },
   },
   server: {

@@ -307,6 +307,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── Ed25519 dev-sign side-channel (lineage: GridIQ/vm_agent) ─────────────────
+# Mounts the agentkit signed-request ASGI middleware ONLY when
+# DEV_PUBLIC_KEY_ED25519 is configured. Lets headless CI/agent probes drive an
+# auth-gated deployment without an interactive Entra login. Fail-closed: no key
+# = not mounted = no bypass. Sign with `python -m agentkit.dev_tools.dev_sign`.
+from agentkit.hosting.devauth import install_signed_request_auth  # noqa: E402
+from app.auth import User  # noqa: E402
+
+_devsign_mounted = install_signed_request_auth(
+    app,
+    public_key_b64=settings.dev_public_key_ed25519,
+    identity_factory=lambda slug: User(
+        oid=f"devsign:{slug or 'probe'}",
+        email="dev-sign@local",
+        name="DevSign Probe",
+    ),
+)
+if _devsign_mounted:
+    logging.getLogger(__name__).info("auth.devsign.mounted")
+
 
 # ── Per-request context middleware ───────────────────────────────────────────
 # Delegates to _middleware.py: three-tier resolution for scenario/backend/model.
@@ -325,6 +345,9 @@ app.include_router(observability_router, prefix="/api")
 app.include_router(service_health_router, prefix="/api")
 app.include_router(config_router, prefix="/api")
 app.include_router(feedback_router, prefix="/api")
+
+from app.routers.catalog import router as catalog_router  # noqa: E402
+app.include_router(catalog_router, prefix="/api")
 
 # Auth setup + health probes — extracted to dedicated routers
 from app.routers.auth_setup import router as auth_setup_router  # noqa: E402

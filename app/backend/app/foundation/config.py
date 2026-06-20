@@ -79,6 +79,25 @@ class Settings(BaseSettings):
     eventhouse_query_uri: str = ""     # https://<cluster>.kusto.fabric.microsoft.com
     fabric_kql_db_name: str = ""       # KQL database name in the Eventhouse
 
+    # ── Cosmos DB graph (Gremlin API) ────────────────────────────────────
+    # Backs query_graph. Topology lives in a Cosmos Gremlin graph; the agent
+    # emits Apache TinkerPop (Gremlin) traversals. Auth: managed identity /
+    # AzureCliCredential (data-plane RBAC, no keys). agentkit GremlinToolAdapter.
+    cosmos_gremlin_endpoint: str = ""        # wss://<acct>.gremlin.cosmos.azure.com:443/
+    cosmos_gremlin_database: str = "pfiq"    # Gremlin database name
+    cosmos_gremlin_graph: str = "topology"   # Gremlin graph (container) name
+    gremlin_max_results: int = 200           # .limit(N) injected if absent
+
+    # ── Cosmos DB telemetry (NoSQL / SQL API) ────────────────────────────
+    # Backs query_telemetry + query_alerts. Telemetry lives in Cosmos NoSQL
+    # containers; the agent emits Cosmos SQL (SELECT ... FROM c). Auth: managed
+    # identity / AzureCliCredential. agentkit CosmosNoSqlToolAdapter.
+    cosmos_telemetry_endpoint: str = ""      # https://<acct>.documents.azure.com:443/
+    cosmos_telemetry_database: str = "pfiq"  # NoSQL database name
+    cosmos_telemetry_container: str = "telemetry"  # link + sensor readings
+    cosmos_alerts_container: str = "alerts"        # alert-stream events
+    cosmos_query_max_rows: int = 200         # TOP N injected if absent
+
     # ── Azure AI Search ──────────────────────────────────────────────────
     # Enables search_runbooks and search_tickets tools.
     # If AI_SEARCH_API_KEY is empty, DefaultAzureCredential is used.
@@ -116,6 +135,12 @@ class Settings(BaseSettings):
     auth_enabled: bool = True
     auth_client_id: str = ""  # REQUIRED when AUTH_ENABLED=true — set to your Entra app registration's Application (client) ID
     auth_tenant_id: str = "common"    # "common" for multi-tenant
+    # Ed25519 dev-sign side-channel (lineage: GridIQ/vm_agent). When set to a
+    # base64 public key, signed requests (X-Request-Timestamp + X-Request-
+    # Signature [+ X-Request-Context]) authenticate as a dev principal,
+    # bypassing Entra JWT — for headless CI/agent probes against an auth-gated
+    # deployment. Empty (default) = middleware not mounted, no bypass.
+    dev_public_key_ed25519: str = ""
 
     # ── Server ───────────────────────────────────────────────────────────
     # CORS origins: Vite dev server (5173) and alternative frontend port (3000).

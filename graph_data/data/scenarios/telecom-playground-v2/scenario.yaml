@@ -103,7 +103,7 @@ agents:
 
   orchestrator:
     name: NOCOrchestrator
-    model: gpt-5.2
+    model: gpt-5.4
     description: >
       Network operations orchestrator. Decomposes incidents into
       investigation steps, delegates to specialists, synthesizes
@@ -113,6 +113,7 @@ agents:
       - orchestrator/investigation_protocol.md
     tools:
       - tools.delegation:delegate_to_agent
+      - tools.capability:find_capabilities
       - tools.network:reroute_traffic
       - tools.network:set_link_status
       - tools.dispatch:dispatch_field_engineer
@@ -131,7 +132,7 @@ agents:
 
   networkInvestigator:
     name: NetworkInvestigator
-    model: gpt-5.2
+    model: gpt-5.4
     description: >
       Graph understanding and evidence gathering. Queries topology
       and telemetry to diagnose faults and assess blast radius.
@@ -163,7 +164,7 @@ agents:
 
   knowledgeAnalyst:
     name: KnowledgeAnalyst
-    model: gpt-5.2
+    model: gpt-5.4
     description: >
       Historical context and procedural guidance. Searches runbooks
       and past tickets for applicable remediation procedures.
@@ -193,7 +194,7 @@ agents:
 
   fieldCoordinator:
     name: FieldCoordinator
-    model: gpt-5.2
+    model: gpt-5.4
     description: >
       Field operations and logistics. Queries duty rosters, depots,
       equipment availability, and site specs to prepare dispatch
@@ -228,7 +229,7 @@ agents:
 
   communicationsSpecialist:
     name: CommunicationsSpecialist
-    model: gpt-5.2
+    model: gpt-5.4
     description: >
       Incident communications. Creates formal tickets, publishes
       customer advisories, and emails structured incident reports

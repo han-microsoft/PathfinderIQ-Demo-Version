@@ -40,6 +40,7 @@ dependencies = [
     "azure-mgmt-authorization>=4.0.0",
     "azure-mgmt-search>=9.0.0",
     "azure-kusto-data==6.0.2",
+    "gremlinpython==3.8.1",
 ]
 
 [project.optional-dependencies]

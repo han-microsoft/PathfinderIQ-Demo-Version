@@ -213,10 +213,16 @@ def _get_storage_connection_string_resource_id() -> str:
 
 
 def _get_ai_services_resource_id() -> str:
-    """Build ARM resource ID for AI Foundry (used for vectorizer)."""
+    """Build ARM resource ID for AI Foundry (used for vectorizer).
+
+    The Foundry account may live in a different resource group than the Search
+    + Storage resources (e.g. a shared model RG). AI_FOUNDRY_RESOURCE_GROUP
+    overrides AZURE_RESOURCE_GROUP for the Foundry scope only.
+    """
+    foundry_rg = _env("AI_FOUNDRY_RESOURCE_GROUP") or _env("AZURE_RESOURCE_GROUP")
     return (
         f"/subscriptions/{_env('AZURE_SUBSCRIPTION_ID')}"
-        f"/resourceGroups/{_env('AZURE_RESOURCE_GROUP')}"
+        f"/resourceGroups/{foundry_rg}"
         f"/providers/Microsoft.CognitiveServices"
         f"/accounts/{_env('AI_FOUNDRY_NAME')}"
     )

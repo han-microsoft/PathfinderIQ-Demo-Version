@@ -18,6 +18,13 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import { AGENTKIT_UI_ADOPTED } from "./integrations/agentkitUi";
+
+// agentkit-ui kit is vendored + aliased (@agentkit-ui/*); this exercises the
+// adoption seam at runtime so the alias resolution is part of the live bundle.
+if (AGENTKIT_UI_ADOPTED) {
+  console.info("[pathfinderiq] agentkit-ui kit adopted (@agentkit-ui/*)");
+}
 import { ThemeProvider } from "./ThemeContext";
 import { AuthProvider, initAuth } from "./auth";
 import "./index.css";

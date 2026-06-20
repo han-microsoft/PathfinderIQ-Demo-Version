@@ -462,6 +462,14 @@ async def get_current_user(request: Request) -> User:
         Structured log: auth.anonymous (debug) or auth.token.validated (info)
                         or auth.token.rejected (warning).
     """
+    # Ed25519 dev-sign side-channel: if the signed-request middleware verified
+    # this request it attached a principal to the ASGI scope. Honour it before
+    # the JWT path so headless probes work against an auth-gated deployment.
+    devsign_principal = request.scope.get("devauth_user")
+    if isinstance(devsign_principal, User):
+        logger.info("auth.devsign.accepted", extra={"oid": devsign_principal.oid})
+        return devsign_principal
+
     # Dev mode bypass — no token validation, no header inspection
     if not settings.auth_enabled:
         logger.debug("auth.anonymous", extra={"reason": "auth_disabled"})

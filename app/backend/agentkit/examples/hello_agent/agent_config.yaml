@@ -1,0 +1,17 @@
+# hello_agent — agentkit quickstart agent configuration.
+#
+# One agent, one tool, one prompt. The control directory is this folder; the
+# prompts live in ./prompts. This file is the entire declarative surface — add
+# an agent = a new block here, add a tool = one more line under ``tools:``.
+
+agents:
+  default: hello
+
+  hello:
+    name: HelloAgent
+    description: "A neutral echo agent that proves the agentkit wiring end to end."
+    instructions:
+      - hello.md
+    tools:
+      # Resolved by importlib under the allowed prefix the app passes in.
+      - agentkit.examples.hello_agent.echo_tool:echo

@@ -359,6 +359,18 @@ APP_ENV_VARS+=(
   "COSMOS_SESSION_ENDPOINT=${COSMOS_SESSION_ENDPOINT:-}"
 )
 
+# ── Safety preflight (lineage: GridIQ deploy guardrails) ───────────────────
+# Refuse to ship an open or wildcard-CORS data app. Override only with an
+# explicit ALLOW_INSECURE_DEPLOY=1 (logged loudly).
+if [[ "${AUTH_ENABLED:-true}" == "false" && "${ALLOW_INSECURE_DEPLOY:-0}" != "1" ]]; then
+  fail "Refusing to deploy with AUTH_ENABLED=false (set ALLOW_INSECURE_DEPLOY=1 to override)."
+  exit 1
+fi
+if [[ "${CORS_ORIGINS:-}" == *'"*"'* || "${CORS_ORIGINS:-}" == "*" ]]; then
+  fail "Refusing to deploy with wildcard CORS_ORIGINS."
+  exit 1
+fi
+
 # Capture the current revision before updating — used for rollback if the
 # new revision fails health checks.
 _PRE_DEPLOY_REV=$(az containerapp show \
@@ -486,6 +498,22 @@ done
 
 if $HEALTH_OK; then
   ok "App is healthy!"
+
+  # ── Auth-gate guardrail (sensitive-data protection) ──────────────────
+  # An unauthenticated POST to /api/sessions MUST be rejected (401/403).
+  # Anything else means the data API is open — disable ingress immediately.
+  if [[ "${AUTH_ENABLED:-true}" == "true" ]]; then
+    GATE_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "$APP_URL/api/sessions" \
+      -H "Content-Type: application/json" -d '{}' 2>/dev/null || echo "000")
+    if [[ "$GATE_CODE" == "401" || "$GATE_CODE" == "403" ]]; then
+      ok "Auth gate verified (unauth /api/sessions -> $GATE_CODE)."
+    else
+      fail "AUTH GATE OPEN: unauth /api/sessions returned $GATE_CODE (expected 401/403). Disabling ingress."
+      az containerapp ingress disable --name "$CONTAINER_APP_NAME" \
+        --resource-group "$AZURE_RESOURCE_GROUP" -o none 2>/dev/null || true
+      exit 1
+    fi
+  fi
 else
   warn "Health check did not return 200 after 12 attempts."
   # Rollback to previous revision if available

@@ -87,6 +87,7 @@ RUN uv pip install --system --prerelease=allow -r /tmp/graph-data-requirements.t
 # -- Backend: copy application code -----------------------------------------
 
 COPY app/backend/app/ app/backend/app/
+COPY app/backend/agentkit/ app/backend/agentkit/
 COPY app/backend/agents/ app/backend/agents/
 COPY app/backend/tools/ app/backend/tools/
 
