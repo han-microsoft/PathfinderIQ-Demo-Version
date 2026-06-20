@@ -17,6 +17,34 @@ os.environ.setdefault("OTEL_EXPORT_TARGET", "")
 os.environ.setdefault("AUTH_ENABLED", "false")
 
 
+@pytest.fixture(autouse=True)
+def _reset_process_swap_state():
+    """Clear process-global swap caches around every test (order isolation).
+
+    The app object is a module singleton shared across the whole suite, so
+    per-scenario caches (RequestScope cache, per-user preferences, agent
+    config cache) would otherwise bleed across test modules and make results
+    order-dependent. Resetting on teardown keeps every test hermetic.
+    """
+    yield
+    try:
+        from app import _middleware
+        _middleware._scope_cache.clear()
+    except Exception:
+        pass
+    try:
+        from app.main import app
+        from app.services.preferences import new_default_store
+        app.state.preferences = new_default_store()
+    except Exception:
+        pass
+    try:
+        from agents._config import invalidate_cache
+        invalidate_cache()
+    except Exception:
+        pass
+
+
 @pytest.fixture
 def sample_messages():
     """A list of messages for context manager tests."""

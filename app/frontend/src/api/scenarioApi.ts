@@ -10,6 +10,29 @@ import type {
 } from "./types";
 import { BASE, authHeaders, handleResponse } from "./client";
 
+/** A scenario pack summary from GET /api/scenarios. */
+export interface ScenarioCatalogEntry {
+  name: string;
+  display_name: string;
+  description: string;
+  domain: string;
+  active: boolean;
+}
+
+/** The /api/scenarios payload: the catalog + the request-active scenario. */
+export interface ScenarioCatalog {
+  active: string;
+  scenarios: ScenarioCatalogEntry[];
+}
+
+/** List the available scenario packs for the runtime swap selector. */
+export async function fetchScenarios(): Promise<ScenarioCatalog> {
+  const res = await fetch(`${BASE}/scenarios`, {
+    headers: { ...await authHeaders() },
+  });
+  return handleResponse<ScenarioCatalog>(res);
+}
+
 /** Fetch agent definitions from the scenario's agent config. */
 export async function getAgents(): Promise<AgentInfo[]> {
   const res = await fetch(`${BASE}/agents/`, {

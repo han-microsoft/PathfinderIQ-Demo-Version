@@ -1,0 +1,86 @@
+# ============================================================================
+# Scenario Manifest — Demo Sandbox (swap-proof placeholder)
+# ============================================================================
+# Minimal, cloud-free pack that proves the runtime scenario-swap logistics.
+# Its tools read a static JSON bundled in the pack (data/sandbox/dataset.json)
+# instead of Cosmos/Search, so the swap is fully verifiable offline.
+
+name: demo-sandbox
+display_name: "Demo Sandbox — Swap Proof"
+description: >
+  A minimal, cloud-free placeholder scenario. Proves the backend can swap an
+  entire use-case (agents, prompts, tools, datasource, topology) at runtime
+  while the core stays constant. Its tooling reads a static bundled dataset.
+version: "1.0"
+domain: sandbox
+
+use_cases:
+  - "Prove runtime scenario swap (agents + tools + data) over a constant core"
+  - "Demonstrate a cloud-free, self-contained scenario pack"
+
+example_questions:
+  - "What is the sandbox dataset status?"
+  - "List the items in the sandbox dataset."
+  - "Echo this message back to me."
+
+# ---------------------------------------------------------------------------
+# Data layout — paths relative to this file's parent directory
+# ---------------------------------------------------------------------------
+
+paths:
+  entities: data/entities
+  graph_schema: graph_schema.yaml
+  telemetry: data/telemetry
+  prompts: data/prompts
+
+# ---------------------------------------------------------------------------
+# Data sources — no Azure resources. The sandbox tools read data/sandbox/.
+# (P1 shape: graph/telemetry bindings declared but unused by static tools.)
+# ---------------------------------------------------------------------------
+
+data_sources:
+  graph:     { database: sandbox, graph: topology }
+  telemetry: { database: sandbox, telemetry_container: telemetry, alerts_container: alerts }
+
+# ---------------------------------------------------------------------------
+# Agents
+# ---------------------------------------------------------------------------
+
+agents:
+  default: guide
+
+  guide:
+    name: SandboxGuide
+    model: gpt-5.4
+    description: >
+      Sandbox host. Explains the swap demo, reports dataset status, and
+      delegates item listing to the analyst.
+    instructions:
+      - core_rules.md
+      - sandbox_guide_identity.md
+    tools:
+      - tools.sandbox:sandbox_status
+      - tools.sandbox:sandbox_echo
+      - tools.thinking:thinking
+
+  analyst:
+    name: SandboxAnalyst
+    model: gpt-5.4
+    description: >
+      Reads and summarizes the static sandbox dataset bundled in the pack.
+    instructions:
+      - core_rules.md
+      - sandbox_analyst_identity.md
+    tools:
+      - tools.sandbox:sandbox_list_items
+      - tools.sandbox:sandbox_status
+      - tools.thinking:thinking
+
+# ---------------------------------------------------------------------------
+# Graph visualisation hints (frontend node styling)
+# ---------------------------------------------------------------------------
+
+graph_styles:
+  node_types:
+    SandboxNode:    { color: "#22D3EE", size: 8, icon: "node" }
+    SandboxService: { color: "#A78BFA", size: 6, icon: "service" }

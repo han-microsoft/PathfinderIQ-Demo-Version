@@ -47,11 +47,18 @@ _GREMLIN_AGG_TOKENS = (".count(", ".sum(", ".mean(", ".max(", ".min(", ".groupCo
 
 
 def _resolve_gremlin_target() -> GremlinTarget:
-    """Cosmos Gremlin coordinates for the adapter (resolver seam)."""
+    """Cosmos Gremlin coordinates for the adapter (resolver seam).
+
+    Per-scenario ``data_sources.graph`` (database/graph) from the active
+    RequestScope wins; empty fields fall back to the operator default
+    ``settings.*``. Endpoint stays account-global (env / settings).
+    """
+    from app.foundation.request_scope import get_request_scope
+    binding = get_request_scope().cosmos_graph_config
     return GremlinTarget(
         endpoint=settings.cosmos_gremlin_endpoint,
-        database=settings.cosmos_gremlin_database,
-        graph=settings.cosmos_gremlin_graph,
+        database=binding.database or settings.cosmos_gremlin_database,
+        graph=binding.graph or settings.cosmos_gremlin_graph,
     )
 
 
@@ -126,19 +133,23 @@ def _sanitize_cosmos_error(msg: str) -> str:
 
 def _resolve_telemetry_target() -> CosmosSqlTarget:
     """Cosmos NoSQL coordinates for link/sensor telemetry (resolver seam)."""
+    from app.foundation.request_scope import get_request_scope
+    binding = get_request_scope().cosmos_telemetry_config
     return CosmosSqlTarget(
         endpoint=settings.cosmos_telemetry_endpoint,
-        database=settings.cosmos_telemetry_database,
-        container=settings.cosmos_telemetry_container,
+        database=binding.database or settings.cosmos_telemetry_database,
+        container=binding.telemetry_container or settings.cosmos_telemetry_container,
     )
 
 
 def _resolve_alerts_target() -> CosmosSqlTarget:
     """Cosmos NoSQL coordinates for the alert stream (resolver seam)."""
+    from app.foundation.request_scope import get_request_scope
+    binding = get_request_scope().cosmos_telemetry_config
     return CosmosSqlTarget(
         endpoint=settings.cosmos_telemetry_endpoint,
-        database=settings.cosmos_telemetry_database,
-        container=settings.cosmos_alerts_container,
+        database=binding.database or settings.cosmos_telemetry_database,
+        container=binding.alerts_container or settings.cosmos_alerts_container,
     )
 
 

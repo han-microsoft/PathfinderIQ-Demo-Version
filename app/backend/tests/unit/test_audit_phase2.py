@@ -18,49 +18,9 @@ import pytest
 
 
 # ── 2.1: KQL read-only guardrail ────────────────────────────────────────────
-
-
-class TestKQLReadOnlyGuardrail:
-    """Verify management commands are rejected before execution."""
-
-    def test_dot_command_rejected(self):
-        """KQL management commands starting with '.' are blocked."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only(".drop table AlertStream")
-        assert result is not None
-        assert "Management commands" in result
-
-    def test_dot_create_rejected(self):
-        """'.create table' is blocked."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only(".create table T (Col:string)")
-        assert result is not None
-
-    def test_dot_set_rejected(self):
-        """'.set' is blocked."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only(".set T <| print 1")
-        assert result is not None
-
-    def test_normal_query_passes(self):
-        """Standard data query passes."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only(
-            "AlertStream | where Severity == 'CRITICAL' | top 10 by Timestamp desc"
-        )
-        assert result is None
-
-    def test_whitespace_prefix_rejected(self):
-        """Management command with leading whitespace is still caught."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only("   .drop table T")
-        assert result is not None
-
-    def test_let_statement_passes(self):
-        """let bindings are valid data queries."""
-        from tools.telemetry._fabric import _validate_kql_read_only
-        result = _validate_kql_read_only("let cutoff = ago(1h); AlertStream | where Timestamp > cutoff")
-        assert result is None
+# REMOVED 2026-06-20: the Fabric/KQL telemetry backend was retired in the Cosmos
+# migration. The live Cosmos SQL read-only guard is covered by
+# tests/unit/test_cosmos_guards.py::TestCosmosSqlReadOnlyGuard.
 
 
 # ── 2.2: Path traversal validation ──────────────────────────────────────────

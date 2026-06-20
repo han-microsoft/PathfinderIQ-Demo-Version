@@ -18,7 +18,7 @@ interface ThinkingDisplayProps {
 
 export function ThinkingDisplay({ thoughts }: ThinkingDisplayProps) {
   return (
-    <div className="my-2 border-t border-b border-l-[3px] border-white/20 rounded-l-md bg-neutral-bg2/60 py-3">
+    <div className="my-2 border-t border-b border-l-[3px] border-border border-l-brand/50 rounded-l-md bg-neutral-bg2/60 py-3">
       <div className="flex items-center gap-2 px-3">
         <span className="shrink-0">💭</span>
         <p className="text-text-muted italic text-[0.92em] leading-relaxed whitespace-pre-wrap">

@@ -138,10 +138,10 @@ export function ChatInput({ agentId }: { agentId: string }) {
         )}
 
         {/* Textarea */}
-        <div className={`flex-1 rounded-2xl border transition-colors ${
+        <div className={`flex-1 rounded-2xl border transition-all ${
           isStreaming
-            ? 'border-white/10 bg-neutral-bg3 opacity-60'
-            : 'border-white/10 bg-neutral-bg2 focus-within:border-white/25'
+            ? 'border-border bg-neutral-bg3 opacity-60'
+            : 'border-border bg-neutral-bg2 focus-within:border-brand focus-within:ring-1 focus-within:ring-brand/40'
         }`}>
           <textarea
             ref={textareaRef}
@@ -150,7 +150,7 @@ export function ChatInput({ agentId }: { agentId: string }) {
             placeholder={t("chat.placeholder")}
             rows={1}
             disabled={isStreaming}
-            className="w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-text-primary placeholder-text-muted outline-none disabled:opacity-50"
+            className="w-full resize-none rounded-2xl bg-transparent px-4 py-3 text-sm text-text-primary placeholder:text-text-muted outline-none disabled:opacity-50"
             aria-label={t("chat.chatInput")}
           />
         </div>

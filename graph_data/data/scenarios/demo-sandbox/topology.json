@@ -1,0 +1,12 @@
+{
+  "topology_nodes": [
+    { "id": "SBX-001", "label": "SandboxNode", "properties": { "id": "SBX-001", "name": "Edge Node Alpha", "status": "healthy", "_size": 8 } },
+    { "id": "SBX-002", "label": "SandboxNode", "properties": { "id": "SBX-002", "name": "Edge Node Beta", "status": "degraded", "_size": 8 } },
+    { "id": "SBX-003", "label": "SandboxService", "properties": { "id": "SBX-003", "name": "Core Service One", "status": "healthy", "_size": 6 } },
+    { "id": "SBX-004", "label": "SandboxService", "properties": { "id": "SBX-004", "name": "Core Service Two", "status": "offline", "_size": 6 } }
+  ],
+  "topology_edges": [
+    { "source": "SBX-001", "target": "SBX-003", "label": "hosts" },
+    { "source": "SBX-002", "target": "SBX-004", "label": "hosts" }
+  ]
+}

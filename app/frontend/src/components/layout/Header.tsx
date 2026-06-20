@@ -33,6 +33,7 @@ import { useScenario } from '@/hooks/useScenario';
 import { useObservabilityStore } from '@/stores/observabilityStore';
 import { useChatSettingsStore, MIN_CHAT_TEXT, MAX_CHAT_TEXT } from '@/stores/chatSettingsStore';
 import { ScenarioOverlay } from './ScenarioOverlay';
+import { ScenarioSwitcher } from './ScenarioSwitcher';
 import { DeveloperNotesOverlay } from './DeveloperNotesOverlay';
 import { SelectorDropdown } from './SelectorDropdown';
 import { useAuth } from '../../auth';
@@ -156,6 +157,9 @@ export function Header({ style }: HeaderProps) {
 
       {/* ── Info section ──────────────────────────────────────────────── */}
       <SidebarSection label={t("sidebar.scenario")}>
+        {/* Runtime use-case swap selector (hidden when only one pack exists) */}
+        <ScenarioSwitcher />
+
         {/* Scenario name display */}
         <div className="text-xs text-text-secondary truncate px-1">
           {scenario?.display_name ?? t("common.loading")}

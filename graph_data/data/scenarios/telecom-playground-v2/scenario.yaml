@@ -59,10 +59,19 @@ ui:
 # ---------------------------------------------------------------------------
 
 data_sources:
-  # Graph and telemetry are served from Fabric (see services.fabric below).
-  # Only search_indexes are declared here — the backend reads this block
-  # to resolve Azure AI Search index names per scenario.
+  # Per-scenario Cosmos bindings (P2). The endpoint + credentials are
+  # account-global (env / settings); only the database + container names are
+  # scenario-owned, so packs can target separate Cosmos namespaces. These match
+  # the operator defaults, so the live behaviour is unchanged.
+  graph:
+    database: "pfiq"
+    graph: "topology"
+  telemetry:
+    database: "pfiq"
+    telemetry_container: "telemetry"
+    alerts_container: "alerts"
 
+  # Azure AI Search index names per scenario.
   search_indexes:
     runbooks:
       index_name: "telecom-v2-runbooks-index"

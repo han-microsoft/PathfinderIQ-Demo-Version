@@ -138,62 +138,10 @@ class TestCosmosUpdateErrorHandling:
 
 
 class TestHalfOpenProbeLogic:
-    """Verify only the first HALF_OPEN caller bypasses the semaphore."""
-
-    @pytest.mark.asyncio
-    async def test_first_half_open_caller_bypasses_semaphore(self):
-        """First HALF_OPEN acquire returns True (probe bypass)."""
-        from tools._fabric_throttle import FabricThrottleGate, CircuitState
-        gate = FabricThrottleGate()
-        # Trip the breaker to get to HALF_OPEN
-        for _ in range(gate._breaker._failure_threshold):
-            await gate.record_429()
-        # Set breaker to HALF_OPEN manually
-        gate._breaker._state = CircuitState.HALF_OPEN
-        result = await gate.acquire()
-        assert result is True  # First caller gets probe bypass
-
-    @pytest.mark.asyncio
-    async def test_second_half_open_caller_is_rejected(self):
-        """Second HALF_OPEN caller is rejected — only one probe allowed.
-
-        The circuit breaker's is_open() allows exactly one probe in
-        HALF_OPEN state. Subsequent callers are rejected via FabricThrottleError
-        until the probe's result (success/failure) resolves the state.
-        """
-        from tools._fabric_throttle import (
-            FabricThrottleGate,
-            FabricThrottleError,
-            CircuitState,
-        )
-        gate = FabricThrottleGate()
-        gate._breaker._state = CircuitState.HALF_OPEN
-        gate._breaker._probe_allowed = True
-        gate._breaker._consecutive_failures = 0
-
-        # First call: probe bypass (semaphore skipped)
-        first = await gate.acquire()
-        assert first is True
-
-        # Second call: breaker rejects (probe already in flight)
-        with pytest.raises(FabricThrottleError):
-            await gate.acquire()
-
-    @pytest.mark.asyncio
-    async def test_probe_flag_resets_after_success(self):
-        """record_success resets probe flag for next HALF_OPEN entry."""
-        from tools._fabric_throttle import FabricThrottleGate, CircuitState
-        gate = FabricThrottleGate()
-        gate._breaker._state = CircuitState.HALF_OPEN
-        gate._breaker._consecutive_failures = 0
-
-        # First probe
-        await gate.acquire()
-        assert gate._half_open_probe_allowed is True
-
-        # Success resets
-        await gate.record_success()
-        assert gate._half_open_probe_allowed is False
+    """REMOVED 2026-06-20: the Fabric throttle gate / circuit breaker was retired
+    in the Cosmos migration. The Cosmos adapters own their own retry/backoff and
+    expose no throttle gate (see AUTODEV; app/scenario/_registry.get_fabric_throttle_status
+    is a None hook). No live equivalent to test."""
 
 
 # ── 1.5: FABRIC_MAX_CONCURRENT lower bound ──────────────────────────────────

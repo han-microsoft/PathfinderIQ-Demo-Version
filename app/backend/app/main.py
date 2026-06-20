@@ -39,7 +39,7 @@ from app.routers.agents import router as agents_router  # Agent definitions endp
 from app.routers.config import router as config_router  # Config resolver API routes
 from app.routers.feedback import router as feedback_router  # Bug report / feedback
 from app.routers.observability import router as observability_router  # Observability SSE + status
-from app.routers.scenario import scenario_router  # Scenario metadata
+from app.routers.scenario import scenario_router, scenarios_router  # Scenario metadata + swap catalog
 from app.routers.sessions import router as sessions_router  # Session CRUD routes
 from app.routers.service_health import router as service_health_router  # Service health checks
 from app.services.llm import create_llm_service  # Factory: settings.llm_provider → LLMService
@@ -88,6 +88,10 @@ async def lifespan(app: FastAPI):
         "duration_ms": round((time.monotonic() - t0) * 1000),
         "backend": "InMemorySessionStore",
     })
+
+    # 1b2. Per-user scenario preferences — process-local, env-seeded defaults.
+    from app.services.preferences import new_default_store
+    app.state.preferences = new_default_store()
 
     # 1c. LLM service — constructor only, no I/O.
     t0 = time.monotonic()
@@ -341,6 +345,7 @@ app.include_router(sessions_router, prefix="/api")
 app.include_router(chat_router, prefix="/api")
 app.include_router(agents_router, prefix="/api")
 app.include_router(scenario_router, prefix="/api")
+app.include_router(scenarios_router, prefix="/api")
 app.include_router(observability_router, prefix="/api")
 app.include_router(service_health_router, prefix="/api")
 app.include_router(config_router, prefix="/api")
@@ -348,6 +353,9 @@ app.include_router(feedback_router, prefix="/api")
 
 from app.routers.catalog import router as catalog_router  # noqa: E402
 app.include_router(catalog_router, prefix="/api")
+
+from app.routers.preferences import router as preferences_router  # noqa: E402
+app.include_router(preferences_router, prefix="/api")
 
 # Auth setup + health probes — extracted to dedicated routers
 from app.routers.auth_setup import router as auth_setup_router  # noqa: E402

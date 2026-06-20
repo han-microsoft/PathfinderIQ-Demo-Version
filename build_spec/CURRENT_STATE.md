@@ -28,6 +28,8 @@ Live target: `ca-pfiq-<suffix>` Container App, RG `rg-pathfinderiq-demo`
 | C14 | SSE contract probe | GREEN | `scripts/sse_contract_probe.py` exit 0 | asserts 1 terminal frame, id-paired tool calls, known vocab, byte cap; signs via dev-sign |
 | C15 | Capability fabric multi-kind | GREEN | `/api/catalog?kind=skill\|recipe` | agents+tools+**skills**(.skill.md)+**recipes**(.recipe.yaml) discovered + ranked |
 | C16 | Deploy guardrails | GREEN | `deploy_app.sh` preflight + auth-gate | refuses AUTH=false / wildcard CORS; auto-disables ingress if unauth `/api/sessions`≠401 |
+| C17 | Dead-Fabric removal (housekeeping) | GREEN | golden path held post-removal | 7 Fabric data-plane files removed (−1,230 LOC); `_registry` rewired to `cosmos_gremlin`; graph+telemetry verified live |
+| C18 | Runtime scenario swap (modular use-case packs) | GREEN | `scripts/scenario_swap_probe.py` → `SWAP_PROBE_OK` (live) | `X-Scenario-Name` header → 3-tier resolve (header→user-pref→env); `/api/scenarios` catalog + `/api/scenarios/select` + `/api/preferences`; frontend `ScenarioSwitcher`; 2nd pack `demo-sandbox` (cloud-free) proves agents/prompts/tools/topology rebind over constant core. **P2**: per-scenario Cosmos bindings (`RequestScope.cosmos_*_config` → `tools/_cosmos.py` resolvers, fallback `settings.*`); bounded per-scenario scope cache. **Live-verified 2026-06-20** on `ca-pfiq-336705e3` (image `…-swap`): catalog+metadata+agents rebind, sandbox tool live chat, telecom SSE contract held (2 graph tool calls). |
 
 State key: GREEN=verified; AMBER=in-progress/awaiting live proof; RED=deferred/broken.
 
