@@ -8,6 +8,13 @@ coherent, join-able package.
 Last researched: 2026-06-19. Links verified live at research time; always re-check the licence on
 the source page before redistribution.
 
+> **STATUS NOTE (2026-06-21):** This is a historical research note, not current demo content.
+> The O-RAN option discussed below (ColO-RAN / OpenRAN Gym, "Option 1") was evaluated, briefly
+> onboarded as a scenario pack, then **removed from the live PathfinderIQ demo** when the focus
+> narrowed to the Sydney–Melbourne fibre-cut telecom scenario for the C-suite walkthrough. Keep
+> this file for dataset-evaluation reference only; it does not reflect what ships today. See
+> AUTODEV.md for the rationale.
+
 ---
 
 ## TL;DR verdict

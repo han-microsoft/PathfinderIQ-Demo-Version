@@ -141,32 +141,24 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
       }
     }, [dataVersion]);
 
-    // Force a repaint when Incident Focus toggles. The render loop parks once
-    // the layout cools, so a prop change alone would not redraw the
-    // emphasis/dimming until the next pan/zoom interaction.
+    // Repaint once when Incident Focus toggles. resumeAnimation restarts the
+    // render loop; on an already-settled graph the engine immediately re-cools
+    // (onEngineStop), so it renders ~one frame with no node movement and no
+    // viewport change. Do NOT call pauseAnimation here — it hard-stops the
+    // render loop, which then leaves pan/zoom visually frozen (the transform
+    // updates but nothing repaints).
     useEffect(() => {
-      const fg = fgRef.current as unknown as {
-        resumeAnimation?: () => void; pauseAnimation?: () => void;
-      } | undefined;
-      if (!fg) return;
-      fg.resumeAnimation?.();
-      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 700);
-      return () => clearTimeout(t);
-    }, [incidentFocus, frozen]);
+      const fg = fgRef.current as unknown as { resumeAnimation?: () => void } | undefined;
+      fg?.resumeAnimation?.();
+    }, [incidentFocus]);
 
-    // Force a repaint when the panel is resized (e.g. dragging the chat/graph
-    // splitter). The canvas resizes but, if the simulation is paused, the
-    // render loop is parked and the map goes blank until "play" resumes it.
-    // Resume briefly so it redraws at the new size, then re-pause if frozen.
+    // Repaint once when the panel is resized (dragging the chat/graph splitter
+    // changes the canvas size). resume-only — see the Incident Focus note above;
+    // pauseAnimation would freeze pan/zoom.
     useEffect(() => {
-      const fg = fgRef.current as unknown as {
-        resumeAnimation?: () => void; pauseAnimation?: () => void;
-      } | undefined;
-      if (!fg) return;
-      fg.resumeAnimation?.();
-      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 400);
-      return () => clearTimeout(t);
-    }, [width, height, frozen]);
+      const fg = fgRef.current as unknown as { resumeAnimation?: () => void } | undefined;
+      fg?.resumeAnimation?.();
+    }, [width, height]);
 
     // ── Spacing forces: spread towns apart so the atlas reads clearly ───────
     // react-force-graph defaults pack nodes tightly into a central blob. Apply
@@ -476,6 +468,12 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
             enableNodeDrag={true}
             enableZoomInteraction={true}
             enablePanInteraction={true}
+            /* Custom node/link renderers depend on the zoom level (labels-on-zoom,
+               incident emphasis). With autoPauseRedraw=true (default) the canvas
+               skips redraws when the engine is idle, so pan/zoom updates the
+               transform but never repaints — navigation looks frozen. Force a
+               redraw every frame. */
+            autoPauseRedraw={false}
           />
           {/* ── Zoom controls ─────────────────────────────────────────── */}
           <div

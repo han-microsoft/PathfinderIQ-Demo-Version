@@ -118,32 +118,22 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
       }
     }, [dataVersion]);
 
-    // Force a repaint when Incident Focus toggles. The render loop is parked
-    // once the layout cools, so a prop change alone would not redraw the
-    // emphasis/dimming until the next interaction.
+    // Repaint once when Incident Focus toggles. resumeAnimation restarts the
+    // render loop; on an already-settled graph the engine immediately re-cools,
+    // so it renders ~one frame with no node movement and no viewport change. Do
+    // NOT call pauseAnimation here — it hard-stops the render loop and leaves
+    // pan/zoom visually frozen.
     useEffect(() => {
-      const fg = fgRef.current as unknown as {
-        resumeAnimation?: () => void; pauseAnimation?: () => void;
-      } | undefined;
-      if (!fg) return;
-      fg.resumeAnimation?.();
-      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 700);
-      return () => clearTimeout(t);
-    }, [incidentFocus, frozen]);
+      const fg = fgRef.current as unknown as { resumeAnimation?: () => void } | undefined;
+      fg?.resumeAnimation?.();
+    }, [incidentFocus]);
 
-    // Force a repaint when the panel is resized (e.g. dragging the chat/graph
-    // splitter). If the simulation is paused the render loop is parked and the
-    // graph goes blank until "play" resumes it; resume briefly to redraw at the
-    // new size, then re-pause if frozen.
+    // Repaint once when the panel is resized. resume-only — see the Incident
+    // Focus note above; pauseAnimation would freeze pan/zoom.
     useEffect(() => {
-      const fg = fgRef.current as unknown as {
-        resumeAnimation?: () => void; pauseAnimation?: () => void;
-      } | undefined;
-      if (!fg) return;
-      fg.resumeAnimation?.();
-      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 400);
-      return () => clearTimeout(t);
-    }, [width, height, frozen]);
+      const fg = fgRef.current as unknown as { resumeAnimation?: () => void } | undefined;
+      fg?.resumeAnimation?.();
+    }, [width, height]);
 
     // Spread nodes apart — the d3 default charge (-30) + link pull collapses
     // ~90 nodes into an unreadable blob. Apply strong repulsion + weak links,
@@ -338,6 +328,9 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
           enableNodeDrag={true}
           enableZoomInteraction={true}
           enablePanInteraction={true}
+          /* Custom renderers depend on zoom (labels-on-zoom, incident emphasis);
+             autoPauseRedraw=true skips redraws when idle, freezing pan/zoom. */
+          autoPauseRedraw={false}
         />
       </div>
     );

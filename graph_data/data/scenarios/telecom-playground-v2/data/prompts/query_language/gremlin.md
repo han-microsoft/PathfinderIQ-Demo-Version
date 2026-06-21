@@ -20,6 +20,11 @@ SQL.
   `.valueMap('id','label')`** — use `.valueMap(true)`, or `.id()` / `.label()`.
 - A `.limit(N)` is injected automatically if you omit it. Aggregates
   (`.count()`, `.groupCount()`, `.dedup()`) run uncapped.
+- **Anonymous steps inside `project()`/`by()`/`where()` that use a Groovy
+  reserved word (`in`, `and`, `or`, `not`, `is`) must be prefixed with `__.`** —
+  write `__.in('amplifies')`, not `in('amplifies')`. A top-level `.in('edge')`
+  on the main traversal is fine. (The backend auto-corrects bare anonymous
+  reserved steps, but emit `__.` to be safe.)
 - One traversal per call.
 
 ## Edge labels (source → target)

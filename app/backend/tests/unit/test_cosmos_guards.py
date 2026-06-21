@@ -45,6 +45,55 @@ class TestGremlinLimitInjection:
         assert _transform_gremlin("g.V().limit(5)") == "g.V().limit(5)"
 
 
+class TestGremlinReservedWordSanitizer:
+    """`in` is a reserved word in Cosmos's Groovy Gremlin parser; a bare
+    anonymous `in('label')` step throws GraphSyntaxException 'Unexpected token:
+    )'. The sanitizer rewrites it to the `__.in(` anonymous traversal form."""
+
+    def test_rewrites_anonymous_in_step(self):
+        out = _transform_gremlin(
+            "g.V('a').project('x').by(in('amplifies').valueMap(true).fold())"
+        )
+        assert "__.in('amplifies')" in out
+        assert ".by(in(" not in out
+
+    def test_preserves_within_predicate(self):
+        # `within(` must not be mangled (lookbehind on word char).
+        out = _transform_gremlin("g.V().hasId(within('a','b')).valueMap(true)")
+        assert "within('a','b')" in out
+        assert "__.in" not in out
+
+    def test_preserves_top_level_in_step(self):
+        # A non-anonymous `.in('label')` (lookbehind on `.`) stays intact.
+        out = _transform_gremlin("g.V('a').in('governs')")
+        assert "g.V('a').in('governs')" in out
+        assert "__.in" not in out
+
+    def test_idempotent(self):
+        once = _transform_gremlin(
+            "g.V('a').project('x').by(in('governs').fold())"
+        )
+        twice = _transform_gremlin(once)
+        assert once == twice
+
+    @pytest.mark.parametrize("word", ["in", "and", "or", "not", "is"])
+    def test_rewrites_all_reserved_anonymous_steps(self, word):
+        # Every Groovy-reserved anonymous step gets the `__.` prefix.
+        out = _transform_gremlin(f"g.V('a').where({word}('x'))")
+        assert f"__.{word}('x')" in out
+        assert f"where({word}(" not in out
+
+    @pytest.mark.parametrize("word", ["in", "and", "or", "not", "is"])
+    def test_preserves_reserved_words_inside_identifiers(self, word):
+        # A reserved word embedded in a longer identifier (within, band, axis,
+        # cannot, point) must NOT be rewritten (lookbehind on word char).
+        embedded = {"in": "within", "and": "band", "or": "color",
+                    "not": "cannot", "is": "axis"}[word]
+        out = _transform_gremlin(f"g.V().hasId({embedded}('a','b'))")
+        assert f"{embedded}('a','b')" in out
+        assert "__." not in out
+
+
 class TestCosmosSqlReadOnlyGuard:
     def test_allows_select(self):
         assert _validate_cosmos_read_only("SELECT * FROM c") is None

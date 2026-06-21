@@ -45,6 +45,24 @@ _GREMLIN_WRITE_RE = re.compile(
 _GREMLIN_LIMIT_RE = re.compile(r"\.(limit|range|sample)\s*\(", re.IGNORECASE)
 _GREMLIN_AGG_TOKENS = (".count(", ".sum(", ".mean(", ".max(", ".min(", ".groupCount(")
 
+# Cosmos DB's Gremlin engine parses traversals through a Groovy parser, which
+# reserves a handful of words (`in`, `and`, `or`, `not`, `is`) that are also
+# anonymous-traversal step names. A bare anonymous step using one of these
+# (e.g. `in('amplifies')` inside project()/by()/where(), or `and(...)` inside
+# where()) fails to parse ("Unexpected token: ')'") while `out('label')` works.
+# Rewrite a bare anonymous reserved step to the explicit anonymous-traversal
+# form `__.<step>(`. The negative lookbehind for [\w.] leaves `within(`, a
+# top-level method call `.in(` / `.and(`, and an already-prefixed `__.in(`
+# untouched. ``out``/``both``/``where``/``has`` are not Groovy keywords and need
+# no rewrite. Lineage landmine: AUTODEV L16.
+_GREMLIN_ANON_RESERVED_RE = re.compile(r"(?<![\w.])(in|and|or|not|is)\s*\(")
+
+
+def _sanitize_gremlin_reserved(query: str) -> str:
+    """Prefix bare anonymous Groovy-reserved steps so Cosmos Gremlin can parse them."""
+    return _GREMLIN_ANON_RESERVED_RE.sub(r"__.\1(", query)
+
+
 
 def _resolve_gremlin_target() -> GremlinTarget:
     """Cosmos Gremlin coordinates for the adapter (resolver seam).
@@ -78,6 +96,7 @@ def _validate_gremlin_read_only(query: str) -> str | None:
 
 def _transform_gremlin(query: str) -> str:
     """Inject ``.limit(N)`` unless the traversal is an aggregate or already capped."""
+    query = _sanitize_gremlin_reserved(query)
     if any(tok in query for tok in _GREMLIN_AGG_TOKENS):
         return query
     if _GREMLIN_LIMIT_RE.search(query):
