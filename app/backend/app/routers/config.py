@@ -50,13 +50,11 @@ async def get_config(request: Request, user: User = Depends(get_current_user)) -
 
     scope = get_request_scope()
 
-    # Read per-scenario service config
-    fabric_cfg: dict[str, str] = {}
+    # Read per-scenario agent model config
     agent_models: dict[str, str] = {}
     default_agent_model = settings.llm_model or ""
     try:
         cfg = scope.scenario_yaml
-        fabric_cfg = cfg.get("services", {}).get("fabric", {})
         agents_cfg = cfg.get("agents", {})
         default_agent_id = agents_cfg.get("default", "")
         for agent_id, agent_cfg in agents_cfg.items():
@@ -76,8 +74,6 @@ async def get_config(request: Request, user: User = Depends(get_current_user)) -
         "agent_models": agent_models,
         "ai_search_available": bool(os.getenv("AZURE_AI_SEARCH_ENDPOINT", "")),
         "cosmos_available": bool(os.getenv("COSMOS_SESSION_ENDPOINT", os.getenv("COSMOS_ENDPOINT", ""))),
-        "fabric_available": bool(fabric_cfg.get("workspace_id", os.getenv("FABRIC_WORKSPACE_ID", ""))),
-        "cross_tenant": bool(os.getenv("FABRIC_TENANT_ID", "")),
     }
 
 
@@ -94,22 +90,13 @@ async def get_config_status(request: Request, user: User = Depends(get_current_u
     from app.foundation.request_scope import get_request_scope
 
     scope = get_request_scope()
-    fabric_cfg: dict[str, str] = {}
-    try:
-        cfg = scope.scenario_yaml
-        fabric_cfg = cfg.get("services", {}).get("fabric", {})
-    except Exception:
-        pass
 
     return {
         "status": "ok",
         "services": {
             "effective_graph_backend": bool(scope.graph_backend),
-            "fabric_graph": bool(fabric_cfg.get("workspace_id") and fabric_cfg.get("graph_model_id")),
-            "fabric_telemetry": bool(fabric_cfg.get("eventhouse_query_uri") and fabric_cfg.get("kql_db_name")),
             "ai_search": bool(os.getenv("AI_SEARCH_ENDPOINT", "") or os.getenv("AZURE_AI_SEARCH_ENDPOINT", "")),
             "openai": bool(os.getenv("AZURE_AI_PROJECT_ENDPOINT", "") or os.getenv("AZURE_OPENAI_ENDPOINT", "")),
             "cosmos": bool(os.getenv("COSMOS_SESSION_ENDPOINT", "") or os.getenv("COSMOS_ENDPOINT", "")),
-            "cross_tenant_fabric": bool(os.getenv("FABRIC_TENANT_ID", "")),
         },
     }

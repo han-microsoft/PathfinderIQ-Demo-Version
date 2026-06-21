@@ -1,0 +1,8 @@
+INCIDENT TKT-2025-05-09-0355
+Date: 2025-05-09
+Severity: P3
+Site: gNB-PER-02
+Fault: CLOCK_DRIFT (PTP) MINOR; within tolerance, no KPI impact.
+Resolution: monitored; GM clock reselection auto-corrected.
+Time to resolve: n/a (auto).
+Lessons: baseline PTP drift alarms as MINOR; do not page on-call.

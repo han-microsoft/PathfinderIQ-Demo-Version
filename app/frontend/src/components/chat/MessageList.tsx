@@ -58,8 +58,8 @@ export function MessageList() {
   // Empty state
   if (messages.length === 0 && status === "idle") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 text-text-muted">
-        <MessageSquare className="h-12 w-12 opacity-30" />
+      <div className="flex flex-1 flex-col items-center justify-center gap-3 text-text-muted">
+        <MessageSquare className="h-10 w-10 opacity-30" />
         <div className="text-center">
           <p className="text-lg font-medium">
             {activeSessionId ? t('chat.startConversation') : t('chat.noSessionLoaded')}
@@ -138,7 +138,7 @@ export function MessageList() {
       {showScrollButton && (
         <button
           onClick={scrollToBottom}
-          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-neutral-bg3 px-3 py-1.5 text-xs text-text-secondary shadow-lg border border-border hover:bg-neutral-bg4 transition-colors"
+          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-neutral-bg3 px-3 py-1.5 text-xs text-text-secondary shadow-lg border border-border hover:bg-neutral-bg4 transition-colors animate-fade-in"
           aria-label={t('chat.scrollToBottom')}
         >
           <ArrowDown className="h-3.5 w-3.5" />

@@ -1,0 +1,9 @@
+INCIDENT TKT-2025-04-02-0241
+Date: 2025-04-02
+Severity: P2
+Site: gNB-BNE-01 / DU-BNE-01-2
+Fault: PRB_CONGESTION, demand-driven (stadium event). PRBUtil 95% across 2 cells.
+Impact: eMBB throughput down 40%; URLLC unaffected (slice PRB reservation held).
+Resolution: enabled carrier aggregation + handed over eMBB UEs to neighbour cell; PRB to 71%.
+Time to resolve: 35 min.
+Lessons: pre-provision event-driven PRB reservation profiles for known venues.

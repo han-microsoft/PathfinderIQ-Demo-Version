@@ -1,0 +1,9 @@
+gNBId,Name,City,Region,Vendor,Model,Latitude,Longitude
+GNB-SYD-01,Sydney gNB 1,Sydney,NSW,Nokia,AirScale-ASIR,-33.86836,151.18196
+GNB-SYD-02,Sydney gNB 2,Sydney,NSW,Samsung,vRAN-3.0,-33.84533,151.17963
+GNB-MEL-01,Melbourne gNB 1,Melbourne,VIC,Samsung,vRAN-3.0,-37.78391,144.98962
+GNB-MEL-02,Melbourne gNB 2,Melbourne,VIC,Mavenir,OpenBeam-OB-78,-37.80335,144.93092
+GNB-BNE-01,Brisbane gNB 1,Brisbane,QLD,Mavenir,OpenBeam-OB-78,-27.44496,153.00916
+GNB-BNE-02,Brisbane gNB 2,Brisbane,QLD,Ericsson,AIR-6488,-27.46879,152.98558
+GNB-PER-01,Perth gNB 1,Perth,WA,Ericsson,AIR-6488,-31.94201,115.84822
+GNB-PER-02,Perth gNB 2,Perth,WA,Nokia,AirScale-ASIR,-31.91058,115.87881

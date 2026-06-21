@@ -1,0 +1,47 @@
+{
+  "case_id": "mmtc-signaling-storm",
+  "run": 0,
+  "split": "held_out",
+  "event_class": "signaling_storm",
+  "severity": "major",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 2,
+      "total": 2,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 3,
+      "total": 3,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_graph",
+    "query_alerts",
+    "thinking",
+    "query_telemetry",
+    "query_graph"
+  ],
+  "elapsed": 26.7,
+  "event_counts": {
+    "tool_call_start": 8,
+    "tool_call_end": 8,
+    "tool_result": 8,
+    "token": 628,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**Verdict:** signaling storm is on **SL-MMTC-01**; **other slices are not affected by the storm**. Separate unrelated degradation exists on **SL-URLLC-01**.\n\n### Alarm correlation\n| Evidence | Finding |\n|---|---|\n| `query_alerts` on `GNB-PER-01` | Recent site alarm is **RACH_OVERLOAD** with description **\u201cmMTC origin\u201d**. |\n| `query_alerts` on candidate slices/cells | **SL-MMTC-01** has **MAJOR SIGNALING_STORM**: \u201cmass-reattach storm\u2026 **eMBB/URLLC slices protected**.\u201d |\n\n### Slice involved\n| Slice | Type | Tenant | PER coverage evidence |\n|---|---|---|---|\n| **SL-MMTC-01** | mMTC | MeteringIoT | `query_graph` shows it carried on **CELL-PER-01-1-2** and **CELL-PER-01-2-2** under **GNB-PER-01**. |\n\n### Are other slices affected?\n| Slice | Status | Evidence |\n|---|---|---|\n| **SL-EMBB-01** | **No storm impact seen** | `query_telemetry`: latency ~12.8\u201315.3 ms, PRB ~40\u201363%, throughput strong; no alarms returned. |\n| **SL-EMBB-02** | **No storm impact seen** | `query_telemetry`: latency ~12.7\u201314.9 ms, PRB ~43\u201363%; no alarms returned. |\n| **SL-URLLC-02** | **No storm impact seen** | `query_telemetry`: latency ~2.9\u20133.5 ms, PRB ~43\u201363%; no alarms returned. |\n| **SL-MMTC-02** | **No explicit storm alarm** | Present on GNB-PER-01, but only **SL-MMTC-01** carries the signaling-storm alarm. |\n| **SL-URLLC-01** | **Affected, but by separate issue** | `query_alerts`: **CRITICAL SLA_BREACH**; `query_telemetry`: latency ~12.7\u201313.8 ms, PRB **96%**. This is not tagged as signaling storm. |\n\n### Assessment\n- **Impacted signaling slice:** **SL-MMTC-01**.\n- **Storm spread to other slices:** **No evidence**. Alarm text explicitly says **eMBB/URLLC protected**, and their telemetry is broadly normal except **SL-URLLC-01**, which has an **independent SLA/PRB issue**.\n- **Operational note:** this site has **two concurrent conditions** on `GNB-PER-01`:\n  1. **mMTC signaling storm on SL-MMTC-01**\n  2. **separate URLLC congestion/SLA breach on SL-URLLC-01**"
+}

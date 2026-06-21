@@ -1,0 +1,49 @@
+{
+  "case_id": "demand-congestion-no-fault",
+  "run": 0,
+  "split": "train",
+  "event_class": "demand_congestion",
+  "severity": "serious",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 3,
+      "total": 3,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "query_graph",
+    "thinking",
+    "query_graph",
+    "query_graph",
+    "query_graph",
+    "query_graph",
+    "query_telemetry",
+    "query_telemetry"
+  ],
+  "elapsed": 35.9,
+  "event_counts": {
+    "tool_call_start": 10,
+    "tool_call_end": 10,
+    "tool_result": 10,
+    "token": 918,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**RANInvestigator verdict:** **Demand-driven PRB spike; no evidence of underlying DU/fronthaul fault.**\n\n### Evidence chain\n\n| Check | Evidence | Verdict |\n|---|---|---|\n| Alarm correlation | `query_alerts`: only repeated `PRB_CONGESTION` on `CELL-BNE-02-1-2`; description explicitly states *demand-driven; RRC healthy, no transport fault*; no DU overload, fronthaul degraded, or RRC failure alarms on `DU-BNE-02-1` / `GNB-BNE-02` | Fault signature absent |\n| Serving topology | `query_graph`: `DU-BNE-02-1` serves `CELL-BNE-02-1-1/1-2/1-3`; affected cell is single sector under that DU | Localised, not DU-wide |\n| Transport path | `query_graph`: `LINK-FH-CELL-BNE-02-1-2` is `FRONTHAUL_eCPRI`, 25 Gbps, dark fibre | Normal fronthaul object present; no alarm evidence against it |\n| Slice mix | `query_graph`: cell carries `SL-EMBB-01`, `SL-MMTC-01`, `SL-MMTC-02` | Multi-slice load can drive bursty PRB |\n| Cell KPMs | `query_telemetry`: `CELL-BNE-02-1-2` PRB hit **96.4/95.0/95.9%** at 09:40/09:45/09:50, while `RRCSuccessPct` stayed **99.02/98.5/98.2%** | Congested but admission/control remained healthy |\n| Peer-cell comparison | Same timestamps: sister cells `1-1` and `1-3` sat ~**43\u201352% PRB**, with similarly healthy RRC | Not DU-wide scheduler/transport collapse |\n| Recovery | At 09:55, `CELL-BNE-02-1-2` dropped to **50.5% PRB** with `RRCSuccessPct 99.83%` | Short-lived load excursion, self-clearing |\n| Slice KPMs | `query_telemetry`: carried slices show no crisis pattern; `SL-EMBB-01` throughput stayed **~159\u2013160 Mbps** during spike; no SLA breach alarms observed | Service impact limited |\n\n### Timeline\n\n| Time | CELL-BNE-02-1-2 PRB | RRC Success | Read |\n|---|---:|---:|---|\n| 09:40 | 96.4% | 99.02% | Hot cell, healthy control plane |\n| 09:45 | 95.0% | 98.5% | Sustained load, still healthy |\n| 09:50 | 95.9% | 98.2% | Peak persists, no collapse |\n| 09:55 | 50.5% | 99.83% | Load subsides |\n\n### Root-cause assessment\n- **Most likely cause:** transient traffic concentration on `CELL-BNE-02-1-2`, likely sector-specific user clustering or bursty eMBB demand.\n- **Ruled out with current evidence:** fronthaul degradation, DU overload, RRC setup degradation, DU-wide impairment.\n- **Residual uncertainty:** no UE-level KPMs queried, so exact traffic cohort is unproven; not needed to determine fault/no-fault.\n\n### Blast radius\n- **Affected scope:** one cell/sector only: `CELL-BNE-02-1-2`.\n- **Not affected:** sibling cells on `DU-BNE-02-1` remained materially lower PRB and healthy.\n- **Slices present on cell:** `SL-EMBB-01`, `SL-MMTC-01`, `SL-MMTC-02`; no slice alarm evidence of breach.\n\n### Operational call\n- **Classify as capacity/demand event, not incident-worthy transport/RAN fault.**\n- **Action:** monitor recurrence frequency; if repeated in same busy-hour window, optimize load-balancing/tilt/neighbor relations or add sector capacity.\n- **Escalate only if** PRB >90% recurs **with** `RRCSuccessPct <95%`, DU/fronthaul alarms, or sustained slice degradation."
+}

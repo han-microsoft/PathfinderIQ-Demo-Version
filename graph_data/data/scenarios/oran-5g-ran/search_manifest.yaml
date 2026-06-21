@@ -1,0 +1,29 @@
+# Search manifest — O-RAN 5G RAN scenario
+# Usage:
+#   cd graph_data
+#   uv run python3 scripts/azureaisearch/deploy_scenario.py --manifest data/scenarios/oran-5g-ran/search_manifest.yaml --upload-files
+
+scenario:
+  name: "oran-5g-ran"
+  data_root: "data/scenarios/oran-5g-ran"
+
+indexes:
+  - name: "oran-runbooks-index"
+    source: "data/knowledge/runbooks"
+    file_types: ["*.md"]
+    blob_container: "oran-runbooks"
+
+  - name: "oran-tickets-index"
+    source: "data/knowledge/tickets"
+    file_types: ["*.txt"]
+    blob_container: "oran-tickets"
+
+  - name: "oran-equipment-index"
+    source: "data/knowledge/equipment"
+    file_types: ["*.md"]
+    blob_container: "oran-equipment"
+
+  - name: "oran-specs-index"
+    source: "data/knowledge/infra_specs"
+    file_types: ["*.md"]
+    blob_container: "oran-specs"

@@ -15,7 +15,7 @@ Resolution happens once per request in ``build_request_scope()``:
 Downstream usage (tools, agents, routers):
     from app.foundation.request_scope import get_request_scope
     scope = get_request_scope()
-    workspace_id = scope.fabric_config.workspace_id   # typed, no dict diving
+    cosmos_db = scope.cosmos_graph_config.database   # typed, no dict diving
 
 Key collaborators:
     - app/_middleware.py         — calls build_request_scope() once per request
@@ -39,21 +39,6 @@ from typing import Any
 logger = logging.getLogger(__name__)
 
 # ── Typed service config dataclasses ─────────────────────────────────────────
-
-
-@dataclass(frozen=True)
-class FabricServiceConfig:
-    """Pre-extracted Fabric service configuration from scenario.yaml.
-
-    Eliminates the repeated pattern of:
-        cfg.get("services", {}).get("fabric", {}).get("workspace_id")
-    with a single attribute read.
-    """
-
-    workspace_id: str = ""
-    graph_model_id: str = ""
-    eventhouse_query_uri: str = ""
-    kql_db_name: str = ""
 
 
 @dataclass(frozen=True)
@@ -116,9 +101,6 @@ class RequestScope:
     # Resolved scenario data
     scenario_yaml: dict = field(default_factory=dict)
     prompts_dir: Path = field(default_factory=lambda: Path("."))
-
-    # Pre-extracted service configs
-    fabric_config: FabricServiceConfig = field(default_factory=FabricServiceConfig)
 
     # Search indexes: key → index_name
     search_indexes: dict[str, str] = field(default_factory=dict)
@@ -222,9 +204,6 @@ def build_request_scope(
     from app.scenario._deployment_registry import get_scenario_deployment
     deployment_record = get_scenario_deployment(scenario_name)
 
-    # Extract Fabric service config from scenario.yaml
-    fabric_config = _extract_fabric_config(scenario_yaml)
-
     # Extract per-scenario Cosmos bindings (db/graph/container) from scenario.yaml
     cosmos_graph_config, cosmos_telemetry_config = _extract_cosmos_config(scenario_yaml)
 
@@ -236,7 +215,6 @@ def build_request_scope(
         llm_model=llm_model,
         scenario_yaml=scenario_yaml,
         prompts_dir=prompts_dir,
-        fabric_config=fabric_config,
         search_indexes=search_indexes,
         search_semantic_configs=search_semantic_configs,
         cosmos_graph_config=cosmos_graph_config,
@@ -283,40 +261,6 @@ def _extract_cosmos_config(cfg: dict) -> tuple[CosmosGraphConfig, CosmosTelemetr
         alerts_container=str(telem.get("alerts_container", "") or ""),
     )
     return graph_cfg, telem_cfg
-
-
-def _extract_fabric_config(cfg: dict) -> FabricServiceConfig:
-    """Extract FabricServiceConfig from scenario.yaml.
-
-    Priority: services.fabric > backends.graph_config.fabric > env vars.
-    """
-    # Priority 1: services.fabric (canonical location)
-    svc = cfg.get("services", {}).get("fabric", {})
-    if svc.get("workspace_id") and svc.get("graph_model_id"):
-        return FabricServiceConfig(
-            workspace_id=svc["workspace_id"],
-            graph_model_id=svc["graph_model_id"],
-            eventhouse_query_uri=svc.get("eventhouse_query_uri", ""),
-            kql_db_name=svc.get("kql_db_name", ""),
-        )
-
-    # Priority 2: backends.graph_config.fabric (backward compat)
-    fabric_cfg = cfg.get("backends", {}).get("graph_config", {}).get("fabric", {})
-    if fabric_cfg.get("workspace_id") and fabric_cfg.get("graph_model_id"):
-        return FabricServiceConfig(
-            workspace_id=fabric_cfg["workspace_id"],
-            graph_model_id=fabric_cfg["graph_model_id"],
-            eventhouse_query_uri=fabric_cfg.get("eventhouse_query_uri", ""),
-            kql_db_name=fabric_cfg.get("kql_db_name", ""),
-        )
-
-    # Fallback: env vars
-    return FabricServiceConfig(
-        workspace_id=os.environ.get("FABRIC_WORKSPACE_ID", ""),
-        graph_model_id=os.environ.get("FABRIC_GRAPH_MODEL_ID", ""),
-        eventhouse_query_uri=os.environ.get("EVENTHOUSE_QUERY_URI", ""),
-        kql_db_name=os.environ.get("FABRIC_KQL_DB_NAME", ""),
-    )
 
 
 def _extract_search_indexes(

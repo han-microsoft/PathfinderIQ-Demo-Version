@@ -1,0 +1,95 @@
+- tool_call_id: '["run_AEoz0TiIzLK7kxFuW0jPOzZ5", "call_fEHjUBnFARIbirvdMpKu7clA"]'
+  title: 模式识别
+  body: >
+    三种不同的服务类型在同一秒内故障 — AI识别出共享基础设施故障，
+    并同时派遣三个专家智能体。
+
+- tool_call_id: '["run_a1f40f45XgPJNc6Wo7KvkevV", "call_5jct0KYlinJAwDuWfMO4ZNlN"]'
+  title: 影响范围映射
+  body: >
+    一个图谱查询追踪VPN流量通过MPLS路径到物理光纤 —
+    揭示三条可能的路由以及哪条承载受影响的服务。
+
+- tool_call_id: '["run_a1f40f45XgPJNc6Wo7KvkevV", "call_8QHdNQJc4I7zhg5hX391V62m"]'
+  title: 共同原因确认
+  body: >
+    VPN、宽带和移动服务全部汇聚在同一通道 — 一个故障
+    导致了全部20条告警。
+
+- tool_call_id: '["run_a1f40f45XgPJNc6Wo7KvkevV", "call_pn4NjU1Qn8LhiMNASvXJBLGP"]'
+  title: 图谱＋遥测
+  body: >
+    图谱确定了可疑链路；KQL确认在服务告警开始前一秒
+    发生了FIBRE_CUT。
+
+- tool_call_id: '["run_a1f40f45XgPJNc6Wo7KvkevV", "call_SvKyC9lH2LCg6xzloV5qTNnu"]'
+  title: 备用可用
+  body: >
+    FIBRE-01已中断。FIBRE-02以50%容量正常运行 — 可以安全承接
+    重新路由的流量。
+
+- tool_call_id: 'call_sensor_graph'
+  title: 传感器发现
+  body: >
+    一个查询返回故障光纤沿线的每个光传感器及GPS坐标 —
+    无需电子表格。
+
+- tool_call_id: 'call_sensor_readings'
+  title: 故障定位
+  body: >
+    45公里处的传感器读数正常，195公里处的传感器显示光信号丢失 —
+    故障从900公里通道缩小到150公里区段。
+
+- tool_call_id: 'call_conduit_check'
+  title: 隐藏风险
+  body: >
+    两条光纤共享同一地下管道 — 所谓的"备用"
+    并非物理上独立的路径。
+
+- tool_call_id: '["run_ncVHImkr43GefbeHh8U6Npso", "call_SCa8VO20xVEkhAwoTE9twgOF"]'
+  title: 精准找到操作规程
+  body: >
+    语义搜索返回精确的光纤切断SOP — 包括操作员通常跳过的步骤：
+    验证备用路径的物理多样性。
+
+- tool_call_id: '["run_ncVHImkr43GefbeHh8U6Npso", "call_6r57d0BUKKOXLtetkdo8WZfu"]'
+  title: 每小时$75,000
+  body: >
+    该通道上的历史事件（包括之前的双光纤故障） —
+    以及受影响企业客户的量化SLA罚款风险。
+
+- tool_call_id: '["run_pxeoazA1A64zzmILd0fvuZcI", "call_aY9vOiE9Fm7a8wzLOYoFjtgJ"]'
+  title: 图谱中的物理站点
+  body: >
+    故障光纤沿线的每个放大器站点 — GPS和校准日期 —
+    已准备好进行现场派遣。
+
+- tool_call_id: '["run_pxeoazA1A64zzmILd0fvuZcI", "call_AOUQSa1GrQfv3efr9INPMXEB"]'
+  title: 谁现在可用
+  body: >
+    最近仓库的值班工程师 — 姓名、电话、车辆和换班时间 —
+    一次图谱遍历替代电话逐个询问。
+
+- tool_call_id: '["run_pxeoazA1A64zzmILd0fvuZcI", "call_doi37Mt5Seb3oSp828xpPJT1"]'
+  title: 设备检查
+  body: >
+    派遣前搜索仓库清单 — 提前标记最近仓库的库存缺失，
+    而不是等工程师到达后才发现。
+
+- tool_call_id: '["run_AEoz0TiIzLK7kxFuW0jPOzZ5", "call_lWtuR9GoHkGxVxgJMW9iS4zZ"]'
+  title: 重新路由
+  body: >
+    流量切换到备用路径 — 基于已确认的容量余量
+    和操作手册阈值，而非猜测。
+
+- tool_call_id: 'call_dispatch_dave'
+  title: 派遣
+  body: >
+    GPS、门禁密码、传感器ID和检查清单在几秒内
+    从图谱数据中组装完成。
+
+- tool_call_id: 'call_delegate_comms'
+  title: 单一信息源
+  body: >
+    SEV-1工单、客户通告和相关方邮件全部从相同的根本原因、
+    影响范围和修复状态生成。

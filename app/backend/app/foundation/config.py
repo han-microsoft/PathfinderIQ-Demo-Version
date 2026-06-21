@@ -68,17 +68,6 @@ class Settings(BaseSettings):
     llm_api_key: str = ""    # Required for "openai" provider; unused by "agent"
     llm_model: str = ""  # Model deployment name — set per-agent in scenario.yaml or via LLM_MODEL env var
 
-    # ── Microsoft Fabric ─────────────────────────────────────────────────
-    # Read by tools/fabric/ via os.getenv() AND by this pydantic model.
-    # FABRIC_WORKSPACE_ID + FABRIC_GRAPH_MODEL_ID enable query_graph (GQL).
-    # EVENTHOUSE_QUERY_URI + FABRIC_KQL_DB_NAME enable query_telemetry (KQL).
-    fabric_workspace_id: str = ""      # Fabric workspace GUID
-    fabric_api_url: str = ""           # https://api.fabric.microsoft.com/v1
-    fabric_graph_model_id: str = ""    # GUID of the ontology graph model
-    fabric_scope: str = "https://api.fabric.microsoft.com/.default"
-    eventhouse_query_uri: str = ""     # https://<cluster>.kusto.fabric.microsoft.com
-    fabric_kql_db_name: str = ""       # KQL database name in the Eventhouse
-
     # ── Cosmos DB graph (Gremlin API) ────────────────────────────────────
     # Backs query_graph. Topology lives in a Cosmos Gremlin graph; the agent
     # emits Apache TinkerPop (Gremlin) traversals. Auth: managed identity /

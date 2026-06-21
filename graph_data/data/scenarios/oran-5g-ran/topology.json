@@ -1,0 +1,6006 @@
+{
+  "topology_nodes": [
+    {
+      "id": "CORE-AU-5GC",
+      "label": "CoreNetwork",
+      "properties": {
+        "CoreId": "CORE-AU-5GC",
+        "Name": "National 5G Core",
+        "Region": "AU",
+        "NSSF": "active",
+        "AMF": "active",
+        "Latitude": "-33.8688",
+        "Longitude": "151.2093",
+        "_size": 12
+      }
+    },
+    {
+      "id": "GNB-SYD-01",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-SYD-01",
+        "Name": "Sydney gNB 1",
+        "City": "Sydney",
+        "Region": "NSW",
+        "Vendor": "Nokia",
+        "Model": "AirScale-ASIR",
+        "Latitude": "-33.86836",
+        "Longitude": "151.18196",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-SYD-02",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-SYD-02",
+        "Name": "Sydney gNB 2",
+        "City": "Sydney",
+        "Region": "NSW",
+        "Vendor": "Samsung",
+        "Model": "vRAN-3.0",
+        "Latitude": "-33.84533",
+        "Longitude": "151.17963",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-MEL-01",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-MEL-01",
+        "Name": "Melbourne gNB 1",
+        "City": "Melbourne",
+        "Region": "VIC",
+        "Vendor": "Samsung",
+        "Model": "vRAN-3.0",
+        "Latitude": "-37.78391",
+        "Longitude": "144.98962",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-MEL-02",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-MEL-02",
+        "Name": "Melbourne gNB 2",
+        "City": "Melbourne",
+        "Region": "VIC",
+        "Vendor": "Mavenir",
+        "Model": "OpenBeam-OB-78",
+        "Latitude": "-37.80335",
+        "Longitude": "144.93092",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-BNE-01",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-BNE-01",
+        "Name": "Brisbane gNB 1",
+        "City": "Brisbane",
+        "Region": "QLD",
+        "Vendor": "Mavenir",
+        "Model": "OpenBeam-OB-78",
+        "Latitude": "-27.44496",
+        "Longitude": "153.00916",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-BNE-02",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-BNE-02",
+        "Name": "Brisbane gNB 2",
+        "City": "Brisbane",
+        "Region": "QLD",
+        "Vendor": "Ericsson",
+        "Model": "AIR-6488",
+        "Latitude": "-27.46879",
+        "Longitude": "152.98558",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-PER-01",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-PER-01",
+        "Name": "Perth gNB 1",
+        "City": "Perth",
+        "Region": "WA",
+        "Vendor": "Ericsson",
+        "Model": "AIR-6488",
+        "Latitude": "-31.94201",
+        "Longitude": "115.84822",
+        "_size": 10
+      }
+    },
+    {
+      "id": "GNB-PER-02",
+      "label": "gNB",
+      "properties": {
+        "gNBId": "GNB-PER-02",
+        "Name": "Perth gNB 2",
+        "City": "Perth",
+        "Region": "WA",
+        "Vendor": "Nokia",
+        "Model": "AirScale-ASIR",
+        "Latitude": "-31.91058",
+        "Longitude": "115.87881",
+        "_size": 10
+      }
+    },
+    {
+      "id": "CU-SYD-01",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-SYD-01",
+        "gNBId": "GNB-SYD-01",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-2.1.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-SYD-02",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-SYD-02",
+        "gNBId": "GNB-SYD-02",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-2.2.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-MEL-01",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-MEL-01",
+        "gNBId": "GNB-MEL-01",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-3.1.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-MEL-02",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-MEL-02",
+        "gNBId": "GNB-MEL-02",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-3.2.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-BNE-01",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-BNE-01",
+        "gNBId": "GNB-BNE-01",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-4.1.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-BNE-02",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-BNE-02",
+        "gNBId": "GNB-BNE-02",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-4.2.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-PER-01",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-PER-01",
+        "gNBId": "GNB-PER-01",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-2.1.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "CU-PER-02",
+      "label": "CU",
+      "properties": {
+        "CUId": "CU-PER-02",
+        "gNBId": "GNB-PER-02",
+        "CUType": "CU-CP+UP",
+        "SoftwareVersion": "oran-cu-2.2.1",
+        "_size": 8
+      }
+    },
+    {
+      "id": "DU-SYD-01-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-SYD-01-1",
+        "gNBId": "GNB-SYD-01",
+        "CUId": "CU-SYD-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-SYD-01-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-SYD-01-2",
+        "gNBId": "GNB-SYD-01",
+        "CUId": "CU-SYD-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-SYD-02-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-SYD-02-1",
+        "gNBId": "GNB-SYD-02",
+        "CUId": "CU-SYD-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-SYD-02-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-SYD-02-2",
+        "gNBId": "GNB-SYD-02",
+        "CUId": "CU-SYD-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-MEL-01-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-MEL-01-1",
+        "gNBId": "GNB-MEL-01",
+        "CUId": "CU-MEL-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-MEL-01-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-MEL-01-2",
+        "gNBId": "GNB-MEL-01",
+        "CUId": "CU-MEL-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-MEL-02-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-MEL-02-1",
+        "gNBId": "GNB-MEL-02",
+        "CUId": "CU-MEL-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-MEL-02-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-MEL-02-2",
+        "gNBId": "GNB-MEL-02",
+        "CUId": "CU-MEL-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-BNE-01-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-BNE-01-1",
+        "gNBId": "GNB-BNE-01",
+        "CUId": "CU-BNE-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-BNE-01-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-BNE-01-2",
+        "gNBId": "GNB-BNE-01",
+        "CUId": "CU-BNE-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-BNE-02-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-BNE-02-1",
+        "gNBId": "GNB-BNE-02",
+        "CUId": "CU-BNE-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-BNE-02-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-BNE-02-2",
+        "gNBId": "GNB-BNE-02",
+        "CUId": "CU-BNE-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-PER-01-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-PER-01-1",
+        "gNBId": "GNB-PER-01",
+        "CUId": "CU-PER-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-PER-01-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-PER-01-2",
+        "gNBId": "GNB-PER-01",
+        "CUId": "CU-PER-01",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-PER-02-1",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-PER-02-1",
+        "gNBId": "GNB-PER-02",
+        "CUId": "CU-PER-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "DU-PER-02-2",
+      "label": "DU",
+      "properties": {
+        "DUId": "DU-PER-02-2",
+        "gNBId": "GNB-PER-02",
+        "CUId": "CU-PER-02",
+        "Numerology": "mu1-30kHz",
+        "MaxLayers": "4",
+        "_size": 7
+      }
+    },
+    {
+      "id": "CELL-SYD-01-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-1-1",
+        "DUId": "DU-SYD-01-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "21",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-01-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-1-2",
+        "DUId": "DU-SYD-01-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "22",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-01-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-1-3",
+        "DUId": "DU-SYD-01-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "23",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-01-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-2-1",
+        "DUId": "DU-SYD-01-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "25",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-01-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-2-2",
+        "DUId": "DU-SYD-01-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "26",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-01-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-01-2-3",
+        "DUId": "DU-SYD-01-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "27",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-1-1",
+        "DUId": "DU-SYD-02-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "37",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-1-2",
+        "DUId": "DU-SYD-02-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "38",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-1-3",
+        "DUId": "DU-SYD-02-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "39",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-2-1",
+        "DUId": "DU-SYD-02-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "41",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-2-2",
+        "DUId": "DU-SYD-02-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "42",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-SYD-02-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-SYD-02-2-3",
+        "DUId": "DU-SYD-02-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "43",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-1-1",
+        "DUId": "DU-MEL-01-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "85",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-1-2",
+        "DUId": "DU-MEL-01-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "86",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-1-3",
+        "DUId": "DU-MEL-01-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "87",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-2-1",
+        "DUId": "DU-MEL-01-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "89",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-2-2",
+        "DUId": "DU-MEL-01-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "90",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-01-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-01-2-3",
+        "DUId": "DU-MEL-01-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "91",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-1-1",
+        "DUId": "DU-MEL-02-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "101",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-1-2",
+        "DUId": "DU-MEL-02-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "102",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-1-3",
+        "DUId": "DU-MEL-02-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "103",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-2-1",
+        "DUId": "DU-MEL-02-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "105",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-2-2",
+        "DUId": "DU-MEL-02-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "106",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-MEL-02-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-MEL-02-2-3",
+        "DUId": "DU-MEL-02-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "107",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-1-1",
+        "DUId": "DU-BNE-01-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "149",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-1-2",
+        "DUId": "DU-BNE-01-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "150",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-1-3",
+        "DUId": "DU-BNE-01-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "151",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-2-1",
+        "DUId": "DU-BNE-01-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "153",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-2-2",
+        "DUId": "DU-BNE-01-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "154",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-01-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-01-2-3",
+        "DUId": "DU-BNE-01-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "155",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-1-1",
+        "DUId": "DU-BNE-02-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "165",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-1-2",
+        "DUId": "DU-BNE-02-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "166",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-1-3",
+        "DUId": "DU-BNE-02-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "167",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-2-1",
+        "DUId": "DU-BNE-02-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "169",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-2-2",
+        "DUId": "DU-BNE-02-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "170",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-BNE-02-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-BNE-02-2-3",
+        "DUId": "DU-BNE-02-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "171",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-1-1",
+        "DUId": "DU-PER-01-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "213",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-1-2",
+        "DUId": "DU-PER-01-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "214",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-1-3",
+        "DUId": "DU-PER-01-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "215",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-2-1",
+        "DUId": "DU-PER-01-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "217",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-2-2",
+        "DUId": "DU-PER-01-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "218",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-01-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-01-2-3",
+        "DUId": "DU-PER-01-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "219",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-1-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-1-1",
+        "DUId": "DU-PER-02-1",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "229",
+        "AzimuthDeg": "120",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-1-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-1-2",
+        "DUId": "DU-PER-02-1",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "230",
+        "AzimuthDeg": "240",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-1-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-1-3",
+        "DUId": "DU-PER-02-1",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "231",
+        "AzimuthDeg": "0",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-2-1",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-2-1",
+        "DUId": "DU-PER-02-2",
+        "Band": "n78",
+        "FreqMHz": "3500",
+        "PCI": "233",
+        "AzimuthDeg": "120",
+        "MaxPRB": "273",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-2-2",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-2-2",
+        "DUId": "DU-PER-02-2",
+        "Band": "n28",
+        "FreqMHz": "700",
+        "PCI": "234",
+        "AzimuthDeg": "240",
+        "MaxPRB": "106",
+        "_size": 6
+      }
+    },
+    {
+      "id": "CELL-PER-02-2-3",
+      "label": "Cell",
+      "properties": {
+        "CellId": "CELL-PER-02-2-3",
+        "DUId": "DU-PER-02-2",
+        "Band": "n258",
+        "FreqMHz": "26000",
+        "PCI": "235",
+        "AzimuthDeg": "0",
+        "MaxPRB": "132",
+        "_size": 6
+      }
+    },
+    {
+      "id": "SL-EMBB-01",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-EMBB-01",
+        "SST": "eMBB",
+        "SNSSAI": "01-000001",
+        "SLALatencyMs": "20",
+        "SLAThroughputMbps": "100",
+        "TenantName": "ConsumerMBB",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SL-URLLC-01",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-URLLC-01",
+        "SST": "URLLC",
+        "SNSSAI": "02-000001",
+        "SLALatencyMs": "5",
+        "SLAThroughputMbps": "50",
+        "TenantName": "SmartGridCo",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SL-MMTC-01",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-MMTC-01",
+        "SST": "mMTC",
+        "SNSSAI": "03-000001",
+        "SLALatencyMs": "100",
+        "SLAThroughputMbps": "1",
+        "TenantName": "MeteringIoT",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SL-EMBB-02",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-EMBB-02",
+        "SST": "eMBB",
+        "SNSSAI": "01-000002",
+        "SLALatencyMs": "25",
+        "SLAThroughputMbps": "80",
+        "TenantName": "StadiumVideo",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SL-URLLC-02",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-URLLC-02",
+        "SST": "URLLC",
+        "SNSSAI": "02-000002",
+        "SLALatencyMs": "8",
+        "SLAThroughputMbps": "40",
+        "TenantName": "RoboticsAU",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SL-MMTC-02",
+      "label": "Slice",
+      "properties": {
+        "SliceId": "SL-MMTC-02",
+        "SST": "mMTC",
+        "SNSSAI": "03-000002",
+        "SLALatencyMs": "120",
+        "SLAThroughputMbps": "1",
+        "TenantName": "FleetTelematics",
+        "_size": 8
+      }
+    },
+    {
+      "id": "SLAP-SL-EMBB-01",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-EMBB-01",
+        "SliceId": "SL-EMBB-01",
+        "MaxLatencyMs": "20",
+        "MinThroughputMbps": "100",
+        "PenaltyPerHourUSD": "1500",
+        "Tier": "SILVER",
+        "_size": 5
+      }
+    },
+    {
+      "id": "SLAP-SL-URLLC-01",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-URLLC-01",
+        "SliceId": "SL-URLLC-01",
+        "MaxLatencyMs": "5",
+        "MinThroughputMbps": "50",
+        "PenaltyPerHourUSD": "5000",
+        "Tier": "GOLD",
+        "_size": 5
+      }
+    },
+    {
+      "id": "SLAP-SL-MMTC-01",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-MMTC-01",
+        "SliceId": "SL-MMTC-01",
+        "MaxLatencyMs": "100",
+        "MinThroughputMbps": "1",
+        "PenaltyPerHourUSD": "300",
+        "Tier": "STANDARD",
+        "_size": 5
+      }
+    },
+    {
+      "id": "SLAP-SL-EMBB-02",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-EMBB-02",
+        "SliceId": "SL-EMBB-02",
+        "MaxLatencyMs": "25",
+        "MinThroughputMbps": "80",
+        "PenaltyPerHourUSD": "1800",
+        "Tier": "SILVER",
+        "_size": 5
+      }
+    },
+    {
+      "id": "SLAP-SL-URLLC-02",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-URLLC-02",
+        "SliceId": "SL-URLLC-02",
+        "MaxLatencyMs": "8",
+        "MinThroughputMbps": "40",
+        "PenaltyPerHourUSD": "4200",
+        "Tier": "GOLD",
+        "_size": 5
+      }
+    },
+    {
+      "id": "SLAP-SL-MMTC-02",
+      "label": "SLAPolicy",
+      "properties": {
+        "SLAPolicyId": "SLAP-SL-MMTC-02",
+        "SliceId": "SL-MMTC-02",
+        "MaxLatencyMs": "120",
+        "MinThroughputMbps": "1",
+        "PenaltyPerHourUSD": "250",
+        "Tier": "STANDARD",
+        "_size": 5
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-1-1",
+        "CellId": "CELL-SYD-01-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "479",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-1-2",
+        "CellId": "CELL-SYD-01-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "20",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-2-1",
+        "CellId": "CELL-SYD-01-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "403",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-2-2",
+        "CellId": "CELL-SYD-01-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "1626",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-3-1",
+        "CellId": "CELL-SYD-01-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "199",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-1-3-2",
+        "CellId": "CELL-SYD-01-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "338",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-1-1",
+        "CellId": "CELL-SYD-01-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "221",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-1-2",
+        "CellId": "CELL-SYD-01-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "34",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-2-1",
+        "CellId": "CELL-SYD-01-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "460",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-2-2",
+        "CellId": "CELL-SYD-01-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2931",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-3-1",
+        "CellId": "CELL-SYD-01-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "375",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-01-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-01-2-3-2",
+        "CellId": "CELL-SYD-01-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "316",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-1-1",
+        "CellId": "CELL-SYD-02-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "479",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-1-2",
+        "CellId": "CELL-SYD-02-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "31",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-2-1",
+        "CellId": "CELL-SYD-02-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "142",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-2-2",
+        "CellId": "CELL-SYD-02-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2147",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-3-1",
+        "CellId": "CELL-SYD-02-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "179",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-1-3-2",
+        "CellId": "CELL-SYD-02-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "383",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-1-1",
+        "CellId": "CELL-SYD-02-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "191",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-1-2",
+        "CellId": "CELL-SYD-02-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "32",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-2-1",
+        "CellId": "CELL-SYD-02-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "224",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-2-2",
+        "CellId": "CELL-SYD-02-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2160",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-3-1",
+        "CellId": "CELL-SYD-02-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "415",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-SYD-02-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-SYD-02-2-3-2",
+        "CellId": "CELL-SYD-02-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "272",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-1-1",
+        "CellId": "CELL-MEL-01-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "192",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-1-2",
+        "CellId": "CELL-MEL-01-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "15",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-2-1",
+        "CellId": "CELL-MEL-01-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "480",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-2-2",
+        "CellId": "CELL-MEL-01-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2269",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-3-1",
+        "CellId": "CELL-MEL-01-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "131",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-1-3-2",
+        "CellId": "CELL-MEL-01-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "302",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-1-1",
+        "CellId": "CELL-MEL-01-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "220",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-1-2",
+        "CellId": "CELL-MEL-01-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "25",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-2-1",
+        "CellId": "CELL-MEL-01-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "328",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-2-2",
+        "CellId": "CELL-MEL-01-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2179",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-3-1",
+        "CellId": "CELL-MEL-01-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "220",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-01-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-01-2-3-2",
+        "CellId": "CELL-MEL-01-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "385",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-1-1",
+        "CellId": "CELL-MEL-02-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "410",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-1-2",
+        "CellId": "CELL-MEL-02-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "11",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-2-1",
+        "CellId": "CELL-MEL-02-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "469",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-2-2",
+        "CellId": "CELL-MEL-02-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "1010",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-3-1",
+        "CellId": "CELL-MEL-02-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "365",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-1-3-2",
+        "CellId": "CELL-MEL-02-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "129",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-1-1",
+        "CellId": "CELL-MEL-02-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "473",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-1-2",
+        "CellId": "CELL-MEL-02-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "38",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-2-1",
+        "CellId": "CELL-MEL-02-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "128",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-2-2",
+        "CellId": "CELL-MEL-02-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2058",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-3-1",
+        "CellId": "CELL-MEL-02-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "287",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-MEL-02-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-MEL-02-2-3-2",
+        "CellId": "CELL-MEL-02-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "351",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-1-1",
+        "CellId": "CELL-BNE-01-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "307",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-1-2",
+        "CellId": "CELL-BNE-01-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "29",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-2-1",
+        "CellId": "CELL-BNE-01-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "204",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-2-2",
+        "CellId": "CELL-BNE-01-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2478",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-3-1",
+        "CellId": "CELL-BNE-01-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "225",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-1-3-2",
+        "CellId": "CELL-BNE-01-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "464",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-1-1",
+        "CellId": "CELL-BNE-01-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "270",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-1-2",
+        "CellId": "CELL-BNE-01-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "34",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-2-1",
+        "CellId": "CELL-BNE-01-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "298",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-2-2",
+        "CellId": "CELL-BNE-01-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2974",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-3-1",
+        "CellId": "CELL-BNE-01-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "254",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-01-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-01-2-3-2",
+        "CellId": "CELL-BNE-01-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "242",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-1-1",
+        "CellId": "CELL-BNE-02-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "368",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-1-2",
+        "CellId": "CELL-BNE-02-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "32",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-2-1",
+        "CellId": "CELL-BNE-02-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "362",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-2-2",
+        "CellId": "CELL-BNE-02-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "1850",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-3-1",
+        "CellId": "CELL-BNE-02-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "321",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-1-3-2",
+        "CellId": "CELL-BNE-02-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "260",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-1-1",
+        "CellId": "CELL-BNE-02-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "390",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-1-2",
+        "CellId": "CELL-BNE-02-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "34",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-2-1",
+        "CellId": "CELL-BNE-02-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "408",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-2-2",
+        "CellId": "CELL-BNE-02-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2538",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-3-1",
+        "CellId": "CELL-BNE-02-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "349",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-BNE-02-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-BNE-02-2-3-2",
+        "CellId": "CELL-BNE-02-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "225",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-1-1",
+        "CellId": "CELL-PER-01-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "161",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-1-2",
+        "CellId": "CELL-PER-01-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "40",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-2-1",
+        "CellId": "CELL-PER-01-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "284",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-2-2",
+        "CellId": "CELL-PER-01-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2651",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-3-1",
+        "CellId": "CELL-PER-01-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "159",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-1-3-2",
+        "CellId": "CELL-PER-01-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "383",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-1-1",
+        "CellId": "CELL-PER-01-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "343",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-1-2",
+        "CellId": "CELL-PER-01-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "36",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-2-1",
+        "CellId": "CELL-PER-01-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "473",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-2-2",
+        "CellId": "CELL-PER-01-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2924",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-3-1",
+        "CellId": "CELL-PER-01-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "384",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-01-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-01-2-3-2",
+        "CellId": "CELL-PER-01-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "342",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-1-1",
+        "CellId": "CELL-PER-02-1-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "159",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-1-2",
+        "CellId": "CELL-PER-02-1-1",
+        "SliceId": "SL-URLLC-02",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "24",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-2-1",
+        "CellId": "CELL-PER-02-1-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "433",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-2-2",
+        "CellId": "CELL-PER-02-1-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2347",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-3-1",
+        "CellId": "CELL-PER-02-1-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "463",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-1-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-1-3-2",
+        "CellId": "CELL-PER-02-1-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "206",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-1-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-1-1",
+        "CellId": "CELL-PER-02-2-1",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "407",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-1-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-1-2",
+        "CellId": "CELL-PER-02-2-1",
+        "SliceId": "SL-URLLC-01",
+        "DeviceClass": "IndustrialController",
+        "SubscriberCount": "23",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-2-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-2-1",
+        "CellId": "CELL-PER-02-2-2",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "364",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-2-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-2-2",
+        "CellId": "CELL-PER-02-2-2",
+        "SliceId": "SL-MMTC-01",
+        "DeviceClass": "IoTModule",
+        "SubscriberCount": "2989",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-3-1",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-3-1",
+        "CellId": "CELL-PER-02-2-3",
+        "SliceId": "SL-EMBB-01",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "289",
+        "_size": 4
+      }
+    },
+    {
+      "id": "UE-CELL-PER-02-2-3-2",
+      "label": "UE",
+      "properties": {
+        "UEId": "UE-CELL-PER-02-2-3-2",
+        "CellId": "CELL-PER-02-2-3",
+        "SliceId": "SL-EMBB-02",
+        "DeviceClass": "Smartphone",
+        "SubscriberCount": "359",
+        "_size": 4
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-SYD-01",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-SYD-01",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-SYD-01",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-SYD-01-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-SYD-01-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-SYD-01",
+        "TargetId": "DU-SYD-01-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-1",
+        "TargetId": "CELL-SYD-01-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-1",
+        "TargetId": "CELL-SYD-01-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-1",
+        "TargetId": "CELL-SYD-01-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-SYD-01-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-SYD-01-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-SYD-01",
+        "TargetId": "DU-SYD-01-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-2",
+        "TargetId": "CELL-SYD-01-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-2",
+        "TargetId": "CELL-SYD-01-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-01-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-01-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-01-2",
+        "TargetId": "CELL-SYD-01-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-SYD-02",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-SYD-02",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-SYD-02",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-SYD-02-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-SYD-02-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-SYD-02",
+        "TargetId": "DU-SYD-02-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-1",
+        "TargetId": "CELL-SYD-02-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-1",
+        "TargetId": "CELL-SYD-02-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-1",
+        "TargetId": "CELL-SYD-02-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-SYD-02-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-SYD-02-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-SYD-02",
+        "TargetId": "DU-SYD-02-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-2",
+        "TargetId": "CELL-SYD-02-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-2",
+        "TargetId": "CELL-SYD-02-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-SYD-02-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-SYD-02-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-SYD-02-2",
+        "TargetId": "CELL-SYD-02-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-MEL-01",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-MEL-01",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-MEL-01",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-MEL-01-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-MEL-01-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-MEL-01",
+        "TargetId": "DU-MEL-01-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-1",
+        "TargetId": "CELL-MEL-01-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-1",
+        "TargetId": "CELL-MEL-01-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-1",
+        "TargetId": "CELL-MEL-01-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-MEL-01-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-MEL-01-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-MEL-01",
+        "TargetId": "DU-MEL-01-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-2",
+        "TargetId": "CELL-MEL-01-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-2",
+        "TargetId": "CELL-MEL-01-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-01-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-01-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-01-2",
+        "TargetId": "CELL-MEL-01-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-MEL-02",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-MEL-02",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-MEL-02",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-MEL-02-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-MEL-02-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-MEL-02",
+        "TargetId": "DU-MEL-02-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-1",
+        "TargetId": "CELL-MEL-02-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-1",
+        "TargetId": "CELL-MEL-02-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-1",
+        "TargetId": "CELL-MEL-02-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-MEL-02-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-MEL-02-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-MEL-02",
+        "TargetId": "DU-MEL-02-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-2",
+        "TargetId": "CELL-MEL-02-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-2",
+        "TargetId": "CELL-MEL-02-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-MEL-02-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-MEL-02-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-MEL-02-2",
+        "TargetId": "CELL-MEL-02-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-BNE-01",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-BNE-01",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-BNE-01",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-BNE-01-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-BNE-01-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-BNE-01",
+        "TargetId": "DU-BNE-01-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-1",
+        "TargetId": "CELL-BNE-01-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-1",
+        "TargetId": "CELL-BNE-01-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-1",
+        "TargetId": "CELL-BNE-01-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-BNE-01-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-BNE-01-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-BNE-01",
+        "TargetId": "DU-BNE-01-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-2",
+        "TargetId": "CELL-BNE-01-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-2",
+        "TargetId": "CELL-BNE-01-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-01-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-01-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-01-2",
+        "TargetId": "CELL-BNE-01-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-BNE-02",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-BNE-02",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-BNE-02",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-BNE-02-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-BNE-02-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-BNE-02",
+        "TargetId": "DU-BNE-02-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-1",
+        "TargetId": "CELL-BNE-02-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-1",
+        "TargetId": "CELL-BNE-02-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-1",
+        "TargetId": "CELL-BNE-02-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-BNE-02-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-BNE-02-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-BNE-02",
+        "TargetId": "DU-BNE-02-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-2",
+        "TargetId": "CELL-BNE-02-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-2",
+        "TargetId": "CELL-BNE-02-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-BNE-02-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-BNE-02-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-BNE-02-2",
+        "TargetId": "CELL-BNE-02-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-PER-01",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-PER-01",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-PER-01",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-PER-01-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-PER-01-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-PER-01",
+        "TargetId": "DU-PER-01-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-1",
+        "TargetId": "CELL-PER-01-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-1",
+        "TargetId": "CELL-PER-01-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-1",
+        "TargetId": "CELL-PER-01-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-PER-01-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-PER-01-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-PER-01",
+        "TargetId": "DU-PER-01-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-2",
+        "TargetId": "CELL-PER-01-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-2",
+        "TargetId": "CELL-PER-01-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-01-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-01-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-01-2",
+        "TargetId": "CELL-PER-01-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-BH-GNB-PER-02",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-BH-GNB-PER-02",
+        "LinkType": "BACKHAUL_N3",
+        "SourceId": "GNB-PER-02",
+        "TargetId": "CORE-AU-5GC",
+        "CapacityGbps": "25",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-PER-02-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-PER-02-1",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-PER-02",
+        "TargetId": "DU-PER-02-1",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-1-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-1-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-1",
+        "TargetId": "CELL-PER-02-1-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-1-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-1-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-1",
+        "TargetId": "CELL-PER-02-1-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-1-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-1-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-1",
+        "TargetId": "CELL-PER-02-1-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-MH-DU-PER-02-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-MH-DU-PER-02-2",
+        "LinkType": "MIDHAUL_F1",
+        "SourceId": "CU-PER-02",
+        "TargetId": "DU-PER-02-2",
+        "CapacityGbps": "10",
+        "MediaType": "Fibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-2-1",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-2-1",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-2",
+        "TargetId": "CELL-PER-02-2-1",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-2-2",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-2-2",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-2",
+        "TargetId": "CELL-PER-02-2-2",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    },
+    {
+      "id": "LINK-FH-CELL-PER-02-2-3",
+      "label": "TransportLink",
+      "properties": {
+        "LinkId": "LINK-FH-CELL-PER-02-2-3",
+        "LinkType": "FRONTHAUL_eCPRI",
+        "SourceId": "DU-PER-02-2",
+        "TargetId": "CELL-PER-02-2-3",
+        "CapacityGbps": "25",
+        "MediaType": "DarkFibre",
+        "_size": 5
+      }
+    }
+  ],
+  "topology_edges": [
+    {
+      "source": "GNB-SYD-01",
+      "target": "CU-SYD-01",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-SYD-02",
+      "target": "CU-SYD-02",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-MEL-01",
+      "target": "CU-MEL-01",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-MEL-02",
+      "target": "CU-MEL-02",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-BNE-01",
+      "target": "CU-BNE-01",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-BNE-02",
+      "target": "CU-BNE-02",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-PER-01",
+      "target": "CU-PER-01",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-PER-02",
+      "target": "CU-PER-02",
+      "label": "hosts"
+    },
+    {
+      "source": "GNB-SYD-01",
+      "target": "DU-SYD-01-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-SYD-01",
+      "target": "DU-SYD-01-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-SYD-01",
+      "target": "DU-SYD-01-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-SYD-01",
+      "target": "DU-SYD-01-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-SYD-02",
+      "target": "DU-SYD-02-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-SYD-02",
+      "target": "DU-SYD-02-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-SYD-02",
+      "target": "DU-SYD-02-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-SYD-02",
+      "target": "DU-SYD-02-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-MEL-01",
+      "target": "DU-MEL-01-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-MEL-01",
+      "target": "DU-MEL-01-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-MEL-01",
+      "target": "DU-MEL-01-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-MEL-01",
+      "target": "DU-MEL-01-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-MEL-02",
+      "target": "DU-MEL-02-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-MEL-02",
+      "target": "DU-MEL-02-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-MEL-02",
+      "target": "DU-MEL-02-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-MEL-02",
+      "target": "DU-MEL-02-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-BNE-01",
+      "target": "DU-BNE-01-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-BNE-01",
+      "target": "DU-BNE-01-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-BNE-01",
+      "target": "DU-BNE-01-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-BNE-01",
+      "target": "DU-BNE-01-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-BNE-02",
+      "target": "DU-BNE-02-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-BNE-02",
+      "target": "DU-BNE-02-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-BNE-02",
+      "target": "DU-BNE-02-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-BNE-02",
+      "target": "DU-BNE-02-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-PER-01",
+      "target": "DU-PER-01-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-PER-01",
+      "target": "DU-PER-01-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-PER-01",
+      "target": "DU-PER-01-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-PER-01",
+      "target": "DU-PER-01-2",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-PER-02",
+      "target": "DU-PER-02-1",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-PER-02",
+      "target": "DU-PER-02-1",
+      "label": "controls"
+    },
+    {
+      "source": "GNB-PER-02",
+      "target": "DU-PER-02-2",
+      "label": "hosts"
+    },
+    {
+      "source": "CU-PER-02",
+      "target": "DU-PER-02-2",
+      "label": "controls"
+    },
+    {
+      "source": "DU-SYD-01-1",
+      "target": "CELL-SYD-01-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-01-1",
+      "target": "CELL-SYD-01-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-01-1",
+      "target": "CELL-SYD-01-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-01-2",
+      "target": "CELL-SYD-01-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-01-2",
+      "target": "CELL-SYD-01-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-01-2",
+      "target": "CELL-SYD-01-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-1",
+      "target": "CELL-SYD-02-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-1",
+      "target": "CELL-SYD-02-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-1",
+      "target": "CELL-SYD-02-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-2",
+      "target": "CELL-SYD-02-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-2",
+      "target": "CELL-SYD-02-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-SYD-02-2",
+      "target": "CELL-SYD-02-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-1",
+      "target": "CELL-MEL-01-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-1",
+      "target": "CELL-MEL-01-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-1",
+      "target": "CELL-MEL-01-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-2",
+      "target": "CELL-MEL-01-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-2",
+      "target": "CELL-MEL-01-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-01-2",
+      "target": "CELL-MEL-01-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-1",
+      "target": "CELL-MEL-02-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-1",
+      "target": "CELL-MEL-02-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-1",
+      "target": "CELL-MEL-02-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-2",
+      "target": "CELL-MEL-02-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-2",
+      "target": "CELL-MEL-02-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-MEL-02-2",
+      "target": "CELL-MEL-02-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-1",
+      "target": "CELL-BNE-01-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-1",
+      "target": "CELL-BNE-01-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-1",
+      "target": "CELL-BNE-01-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-2",
+      "target": "CELL-BNE-01-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-2",
+      "target": "CELL-BNE-01-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-01-2",
+      "target": "CELL-BNE-01-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-1",
+      "target": "CELL-BNE-02-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-1",
+      "target": "CELL-BNE-02-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-1",
+      "target": "CELL-BNE-02-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-2",
+      "target": "CELL-BNE-02-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-2",
+      "target": "CELL-BNE-02-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-BNE-02-2",
+      "target": "CELL-BNE-02-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-1",
+      "target": "CELL-PER-01-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-1",
+      "target": "CELL-PER-01-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-1",
+      "target": "CELL-PER-01-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-2",
+      "target": "CELL-PER-01-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-2",
+      "target": "CELL-PER-01-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-01-2",
+      "target": "CELL-PER-01-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-1",
+      "target": "CELL-PER-02-1-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-1",
+      "target": "CELL-PER-02-1-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-1",
+      "target": "CELL-PER-02-1-3",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-2",
+      "target": "CELL-PER-02-2-1",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-2",
+      "target": "CELL-PER-02-2-2",
+      "label": "serves"
+    },
+    {
+      "source": "DU-PER-02-2",
+      "target": "CELL-PER-02-2-3",
+      "label": "serves"
+    },
+    {
+      "source": "CELL-SYD-01-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-01-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-SYD-02-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-01-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-MEL-02-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-01-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-BNE-02-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-2",
+      "target": "SL-MMTC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-01-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-1",
+      "target": "SL-URLLC-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-1-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-1",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-1",
+      "target": "SL-URLLC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-2",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-2",
+      "target": "SL-MMTC-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-3",
+      "target": "SL-EMBB-01",
+      "label": "carries"
+    },
+    {
+      "source": "CELL-PER-02-2-3",
+      "target": "SL-EMBB-02",
+      "label": "carries"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-1-1",
+      "target": "CELL-SYD-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-1-2",
+      "target": "CELL-SYD-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-2-1",
+      "target": "CELL-SYD-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-2-2",
+      "target": "CELL-SYD-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-3-1",
+      "target": "CELL-SYD-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-3-2",
+      "target": "CELL-SYD-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-1-1",
+      "target": "CELL-SYD-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-1-2",
+      "target": "CELL-SYD-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-2-1",
+      "target": "CELL-SYD-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-2-2",
+      "target": "CELL-SYD-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-3-1",
+      "target": "CELL-SYD-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-3-2",
+      "target": "CELL-SYD-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-01-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-1-1",
+      "target": "CELL-SYD-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-1-2",
+      "target": "CELL-SYD-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-2-1",
+      "target": "CELL-SYD-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-2-2",
+      "target": "CELL-SYD-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-3-1",
+      "target": "CELL-SYD-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-3-2",
+      "target": "CELL-SYD-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-1-1",
+      "target": "CELL-SYD-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-1-2",
+      "target": "CELL-SYD-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-2-1",
+      "target": "CELL-SYD-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-2-2",
+      "target": "CELL-SYD-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-3-1",
+      "target": "CELL-SYD-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-3-2",
+      "target": "CELL-SYD-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-SYD-02-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-1-1",
+      "target": "CELL-MEL-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-1-2",
+      "target": "CELL-MEL-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-2-1",
+      "target": "CELL-MEL-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-2-2",
+      "target": "CELL-MEL-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-3-1",
+      "target": "CELL-MEL-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-3-2",
+      "target": "CELL-MEL-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-1-1",
+      "target": "CELL-MEL-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-1-2",
+      "target": "CELL-MEL-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-2-1",
+      "target": "CELL-MEL-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-2-2",
+      "target": "CELL-MEL-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-3-1",
+      "target": "CELL-MEL-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-3-2",
+      "target": "CELL-MEL-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-01-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-1-1",
+      "target": "CELL-MEL-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-1-2",
+      "target": "CELL-MEL-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-2-1",
+      "target": "CELL-MEL-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-2-2",
+      "target": "CELL-MEL-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-3-1",
+      "target": "CELL-MEL-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-3-2",
+      "target": "CELL-MEL-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-1-1",
+      "target": "CELL-MEL-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-1-2",
+      "target": "CELL-MEL-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-2-1",
+      "target": "CELL-MEL-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-2-2",
+      "target": "CELL-MEL-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-3-1",
+      "target": "CELL-MEL-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-3-2",
+      "target": "CELL-MEL-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-MEL-02-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-1-1",
+      "target": "CELL-BNE-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-1-2",
+      "target": "CELL-BNE-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-2-1",
+      "target": "CELL-BNE-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-2-2",
+      "target": "CELL-BNE-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-3-1",
+      "target": "CELL-BNE-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-3-2",
+      "target": "CELL-BNE-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-1-1",
+      "target": "CELL-BNE-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-1-2",
+      "target": "CELL-BNE-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-2-1",
+      "target": "CELL-BNE-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-2-2",
+      "target": "CELL-BNE-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-3-1",
+      "target": "CELL-BNE-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-3-2",
+      "target": "CELL-BNE-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-01-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-1-1",
+      "target": "CELL-BNE-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-1-2",
+      "target": "CELL-BNE-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-2-1",
+      "target": "CELL-BNE-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-2-2",
+      "target": "CELL-BNE-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-3-1",
+      "target": "CELL-BNE-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-3-2",
+      "target": "CELL-BNE-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-1-1",
+      "target": "CELL-BNE-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-1-2",
+      "target": "CELL-BNE-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-2-1",
+      "target": "CELL-BNE-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-2-2",
+      "target": "CELL-BNE-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-3-1",
+      "target": "CELL-BNE-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-3-2",
+      "target": "CELL-BNE-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-BNE-02-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-1-1",
+      "target": "CELL-PER-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-1-2",
+      "target": "CELL-PER-01-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-2-1",
+      "target": "CELL-PER-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-2-2",
+      "target": "CELL-PER-01-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-3-1",
+      "target": "CELL-PER-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-3-2",
+      "target": "CELL-PER-01-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-1-1",
+      "target": "CELL-PER-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-1-2",
+      "target": "CELL-PER-01-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-2-1",
+      "target": "CELL-PER-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-2-2",
+      "target": "CELL-PER-01-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-3-1",
+      "target": "CELL-PER-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-3-2",
+      "target": "CELL-PER-01-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-01-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-1-1",
+      "target": "CELL-PER-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-1-2",
+      "target": "CELL-PER-02-1-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-1-2",
+      "target": "SL-URLLC-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-2-1",
+      "target": "CELL-PER-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-2-2",
+      "target": "CELL-PER-02-1-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-3-1",
+      "target": "CELL-PER-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-3-2",
+      "target": "CELL-PER-02-1-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-1-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-1-1",
+      "target": "CELL-PER-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-1-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-1-2",
+      "target": "CELL-PER-02-2-1",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-1-2",
+      "target": "SL-URLLC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-2-1",
+      "target": "CELL-PER-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-2-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-2-2",
+      "target": "CELL-PER-02-2-2",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-2-2",
+      "target": "SL-MMTC-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-3-1",
+      "target": "CELL-PER-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-3-1",
+      "target": "SL-EMBB-01",
+      "label": "uses"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-3-2",
+      "target": "CELL-PER-02-2-3",
+      "label": "attached_to"
+    },
+    {
+      "source": "UE-CELL-PER-02-2-3-2",
+      "target": "SL-EMBB-02",
+      "label": "uses"
+    },
+    {
+      "source": "SL-EMBB-01",
+      "target": "SLAP-SL-EMBB-01",
+      "label": "governed_by"
+    },
+    {
+      "source": "SL-URLLC-01",
+      "target": "SLAP-SL-URLLC-01",
+      "label": "governed_by"
+    },
+    {
+      "source": "SL-MMTC-01",
+      "target": "SLAP-SL-MMTC-01",
+      "label": "governed_by"
+    },
+    {
+      "source": "SL-EMBB-02",
+      "target": "SLAP-SL-EMBB-02",
+      "label": "governed_by"
+    },
+    {
+      "source": "SL-URLLC-02",
+      "target": "SLAP-SL-URLLC-02",
+      "label": "governed_by"
+    },
+    {
+      "source": "SL-MMTC-02",
+      "target": "SLAP-SL-MMTC-02",
+      "label": "governed_by"
+    },
+    {
+      "source": "LINK-BH-GNB-SYD-01",
+      "target": "GNB-SYD-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-SYD-01",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-01-1",
+      "target": "CU-SYD-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-01-1",
+      "target": "DU-SYD-01-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-1",
+      "target": "DU-SYD-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-1",
+      "target": "CELL-SYD-01-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-2",
+      "target": "DU-SYD-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-2",
+      "target": "CELL-SYD-01-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-3",
+      "target": "DU-SYD-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-1-3",
+      "target": "CELL-SYD-01-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-01-2",
+      "target": "CU-SYD-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-01-2",
+      "target": "DU-SYD-01-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-1",
+      "target": "DU-SYD-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-1",
+      "target": "CELL-SYD-01-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-2",
+      "target": "DU-SYD-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-2",
+      "target": "CELL-SYD-01-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-3",
+      "target": "DU-SYD-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-01-2-3",
+      "target": "CELL-SYD-01-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-SYD-02",
+      "target": "GNB-SYD-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-SYD-02",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-02-1",
+      "target": "CU-SYD-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-02-1",
+      "target": "DU-SYD-02-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-1",
+      "target": "DU-SYD-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-1",
+      "target": "CELL-SYD-02-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-2",
+      "target": "DU-SYD-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-2",
+      "target": "CELL-SYD-02-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-3",
+      "target": "DU-SYD-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-1-3",
+      "target": "CELL-SYD-02-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-02-2",
+      "target": "CU-SYD-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-SYD-02-2",
+      "target": "DU-SYD-02-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-1",
+      "target": "DU-SYD-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-1",
+      "target": "CELL-SYD-02-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-2",
+      "target": "DU-SYD-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-2",
+      "target": "CELL-SYD-02-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-3",
+      "target": "DU-SYD-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-SYD-02-2-3",
+      "target": "CELL-SYD-02-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-MEL-01",
+      "target": "GNB-MEL-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-MEL-01",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-01-1",
+      "target": "CU-MEL-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-01-1",
+      "target": "DU-MEL-01-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-1",
+      "target": "DU-MEL-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-1",
+      "target": "CELL-MEL-01-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-2",
+      "target": "DU-MEL-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-2",
+      "target": "CELL-MEL-01-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-3",
+      "target": "DU-MEL-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-1-3",
+      "target": "CELL-MEL-01-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-01-2",
+      "target": "CU-MEL-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-01-2",
+      "target": "DU-MEL-01-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-1",
+      "target": "DU-MEL-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-1",
+      "target": "CELL-MEL-01-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-2",
+      "target": "DU-MEL-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-2",
+      "target": "CELL-MEL-01-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-3",
+      "target": "DU-MEL-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-01-2-3",
+      "target": "CELL-MEL-01-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-MEL-02",
+      "target": "GNB-MEL-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-MEL-02",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-02-1",
+      "target": "CU-MEL-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-02-1",
+      "target": "DU-MEL-02-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-1",
+      "target": "DU-MEL-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-1",
+      "target": "CELL-MEL-02-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-2",
+      "target": "DU-MEL-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-2",
+      "target": "CELL-MEL-02-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-3",
+      "target": "DU-MEL-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-1-3",
+      "target": "CELL-MEL-02-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-02-2",
+      "target": "CU-MEL-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-MEL-02-2",
+      "target": "DU-MEL-02-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-1",
+      "target": "DU-MEL-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-1",
+      "target": "CELL-MEL-02-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-2",
+      "target": "DU-MEL-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-2",
+      "target": "CELL-MEL-02-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-3",
+      "target": "DU-MEL-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-MEL-02-2-3",
+      "target": "CELL-MEL-02-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-BNE-01",
+      "target": "GNB-BNE-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-BNE-01",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-01-1",
+      "target": "CU-BNE-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-01-1",
+      "target": "DU-BNE-01-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-1",
+      "target": "DU-BNE-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-1",
+      "target": "CELL-BNE-01-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-2",
+      "target": "DU-BNE-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-2",
+      "target": "CELL-BNE-01-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-3",
+      "target": "DU-BNE-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-1-3",
+      "target": "CELL-BNE-01-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-01-2",
+      "target": "CU-BNE-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-01-2",
+      "target": "DU-BNE-01-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-1",
+      "target": "DU-BNE-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-1",
+      "target": "CELL-BNE-01-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-2",
+      "target": "DU-BNE-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-2",
+      "target": "CELL-BNE-01-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-3",
+      "target": "DU-BNE-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-01-2-3",
+      "target": "CELL-BNE-01-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-BNE-02",
+      "target": "GNB-BNE-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-BNE-02",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-02-1",
+      "target": "CU-BNE-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-02-1",
+      "target": "DU-BNE-02-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-1",
+      "target": "DU-BNE-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-1",
+      "target": "CELL-BNE-02-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-2",
+      "target": "DU-BNE-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-2",
+      "target": "CELL-BNE-02-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-3",
+      "target": "DU-BNE-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-1-3",
+      "target": "CELL-BNE-02-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-02-2",
+      "target": "CU-BNE-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-BNE-02-2",
+      "target": "DU-BNE-02-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-1",
+      "target": "DU-BNE-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-1",
+      "target": "CELL-BNE-02-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-2",
+      "target": "DU-BNE-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-2",
+      "target": "CELL-BNE-02-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-3",
+      "target": "DU-BNE-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-BNE-02-2-3",
+      "target": "CELL-BNE-02-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-PER-01",
+      "target": "GNB-PER-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-PER-01",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-PER-01-1",
+      "target": "CU-PER-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-PER-01-1",
+      "target": "DU-PER-01-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-1",
+      "target": "DU-PER-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-1",
+      "target": "CELL-PER-01-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-2",
+      "target": "DU-PER-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-2",
+      "target": "CELL-PER-01-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-3",
+      "target": "DU-PER-01-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-1-3",
+      "target": "CELL-PER-01-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-PER-01-2",
+      "target": "CU-PER-01",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-PER-01-2",
+      "target": "DU-PER-01-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-1",
+      "target": "DU-PER-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-1",
+      "target": "CELL-PER-01-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-2",
+      "target": "DU-PER-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-2",
+      "target": "CELL-PER-01-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-3",
+      "target": "DU-PER-01-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-01-2-3",
+      "target": "CELL-PER-01-2-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-BH-GNB-PER-02",
+      "target": "GNB-PER-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-BH-GNB-PER-02",
+      "target": "CORE-AU-5GC",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-PER-02-1",
+      "target": "CU-PER-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-PER-02-1",
+      "target": "DU-PER-02-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-1",
+      "target": "DU-PER-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-1",
+      "target": "CELL-PER-02-1-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-2",
+      "target": "DU-PER-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-2",
+      "target": "CELL-PER-02-1-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-3",
+      "target": "DU-PER-02-1",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-1-3",
+      "target": "CELL-PER-02-1-3",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-MH-DU-PER-02-2",
+      "target": "CU-PER-02",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-MH-DU-PER-02-2",
+      "target": "DU-PER-02-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-1",
+      "target": "DU-PER-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-1",
+      "target": "CELL-PER-02-2-1",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-2",
+      "target": "DU-PER-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-2",
+      "target": "CELL-PER-02-2-2",
+      "label": "link_target"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-3",
+      "target": "DU-PER-02-2",
+      "label": "link_source"
+    },
+    {
+      "source": "LINK-FH-CELL-PER-02-2-3",
+      "target": "CELL-PER-02-2-3",
+      "label": "link_target"
+    }
+  ]
+}

@@ -1,0 +1,194 @@
+# ============================================================================
+# Scenario Manifest — O-RAN 5G RAN (Slice SLA Breach Incident)
+# ============================================================================
+
+name: oran-5g-ran
+display_name: "O-RAN 5G RAN — Slice SLA Breach"
+description: >
+  A fronthaul (eCPRI) degradation on a Melbourne gNB drives PRB congestion
+  across its cells, RRC setup failures, and a URLLC network-slice SLA breach.
+  The AI investigates root cause down the gNB -> CU -> DU -> Cell hierarchy,
+  quantifies slice/tenant blast radius and SLA penalty exposure, and pulls
+  O-RAN/3GPP runbooks for remediation.
+version: "1.0"
+domain: telecommunications-ran
+
+use_cases:
+  - "URLLC slice SLA breach root-cause down the CU/DU/Cell split"
+  - "Fronthaul eCPRI degradation isolation via per-cell PRB + RRC KPMs"
+  - "Slice/tenant blast-radius and penalty-exposure assessment"
+  - "Alarm-storm correlation across cells, DU, and slice"
+  - "O-RAN/3GPP runbook and precedent retrieval for RAN incidents"
+
+example_questions:
+  - "What is causing the URLLC slice SLA breach and where did it start?"
+  - "Which cells and DU are congested, and what is their PRB utilisation?"
+  - "Which tenants and UEs are affected by the SL-URLLC-01 degradation?"
+  - "What is the SLA penalty exposure for the breached slice?"
+  - "What is the O-RAN runbook for fronthaul eCPRI degradation?"
+
+paths:
+  entities: data/entities
+  graph_schema: graph_schema.yaml
+  telemetry: data/telemetry
+  runbooks: data/knowledge/runbooks
+  tickets: data/knowledge/tickets
+  prompts: data/prompts
+
+data_sources:
+  # Per-scenario Cosmos bindings (P2): endpoint + credentials are account-global
+  # (env/settings); only db + container names are scenario-owned. This pack
+  # targets a separate "oran" namespace in the SAME Cosmos accounts.
+  graph:
+    database: "oran"
+    graph: "topology"
+  telemetry:
+    database: "oran"
+    telemetry_container: "telemetry"
+    alerts_container: "alerts"
+
+  search_indexes:
+    runbooks:
+      index_name: "oran-runbooks-index"
+      source: "data/knowledge/runbooks"
+      blob_container: "oran-runbooks"
+    tickets:
+      index_name: "oran-tickets-index"
+      source: "data/knowledge/tickets"
+      blob_container: "oran-tickets"
+    equipment:
+      index_name: "oran-equipment-index"
+      source: "data/knowledge/equipment"
+      blob_container: "oran-equipment"
+    infra_specs:
+      index_name: "oran-specs-index"
+      source: "data/knowledge/infra_specs"
+      blob_container: "oran-specs"
+
+agents:
+  default: orchestrator
+
+  orchestrator:
+    name: RANOrchestrator
+    model: gpt-5.4
+    description: >
+      RAN operations orchestrator. Decomposes slice/cell incidents, delegates
+      to specialists, synthesises findings, and presents remediation plans.
+    instructions:
+      - orchestrator/orchestrator_preamble.md
+      - orchestrator/investigation_protocol.md
+    tools:
+      - tools.delegation:delegate_to_agent
+      - tools.capability:find_capabilities
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/nocorchestrator_headshot.png
+      full_body: ui/assets/agents/nocorchestrator_fullbody.png
+      product_summary: >
+        Uses Microsoft Foundry to orchestrate agent tooling across the RAN
+        investigation.
+      powered_by:
+        - logo: ui/assets/logos/foundryiq-logo.png
+          label: Azure AI Foundry
+          description: Multi-agent orchestration and agent tool execution.
+
+  networkInvestigator:
+    name: RANInvestigator
+    model: gpt-5.4
+    description: >
+      RAN graph + telemetry analysis. Traverses the gNB/CU/DU/Cell/Slice
+      topology and correlates per-cell/slice/UE KPMs and alarms to localise
+      faults and assess blast radius.
+    instructions:
+      - core_rules.md
+      - network_investigator_identity.md
+      - scenario_context.md
+      - tool_query_graph.md
+      - graph_schema.md
+      - "{graph_backend_prompt}"
+      - "{alerts_backend_prompt}"
+      - "{telemetry_backend_prompt}"
+    tools:
+      - tools.graph_explorer:query_graph
+      - tools.telemetry:query_alerts
+      - tools.telemetry:query_telemetry
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/networkinvestigator_headshot.png
+      full_body: ui/assets/agents/networkinvestigator_fullbody.png
+      product_summary: >
+        Uses Cosmos DB Gremlin for graph traversal across the RAN hierarchy and
+        Cosmos DB NoSQL for per-cell/slice/UE KPM and alarm correlation.
+      powered_by:
+        - logo: ui/assets/logos/cosmosdb_logo.png
+          label: Cosmos DB (Gremlin + NoSQL)
+          description: Graph traversal and telemetry correlation.
+
+  knowledgeAnalyst:
+    name: KnowledgeAnalyst
+    model: gpt-5.4
+    description: >
+      Procedural guidance and precedent. Searches O-RAN/3GPP runbooks, past
+      RAN incident tickets, equipment sheets, and architecture specs.
+    instructions:
+      - core_rules.md
+      - knowledge_analyst_identity.md
+      - scenario_context.md
+      - knowledge_analyst/search_methodology.md
+    tools:
+      - tools.search:search_runbooks
+      - tools.search:search_tickets
+      - tools.search:search_equipment
+      - tools.search:search_infra_specs
+      - tools.thinking:thinking
+    ui:
+      headshot: ui/assets/agents/knowledgeanalyst_headshot.png
+      full_body: ui/assets/agents/knowledgeanalyst_fullbody.png
+      product_summary: >
+        Uses Foundry IQ vector + semantic search over O-RAN/3GPP operational
+        knowledge.
+      powered_by:
+        - logo: ui/assets/logos/foundryiq-logo.png
+          label: Foundry IQ
+          description: Retrieval orchestration across operational knowledge.
+        - logo: ui/assets/logos/azureaisearch.png
+          label: Azure AI Search
+          description: Vector and semantic retrieval for runbooks and tickets.
+
+graph_styles:
+  node_types:
+    CoreNetwork:   { color: "#38BDF8", size: 12, icon: "router" }
+    gNB:           { color: "#A78BFA", size: 10, icon: "antenna" }
+    CU:            { color: "#FB923C", size: 8, icon: "switch" }
+    DU:            { color: "#F59E0B", size: 7, icon: "switch" }
+    Cell:          { color: "#22D3EE", size: 6, icon: "antenna" }
+    Slice:         { color: "#CA8A04", size: 8, icon: "service" }
+    SLAPolicy:     { color: "#FB7185", size: 5, icon: "policy" }
+    UE:            { color: "#34D399", size: 4, icon: "person" }
+    TransportLink: { color: "#3B82F6", size: 5, icon: "link" }
+
+telemetry_baselines:
+  slice_kpm:
+    - metric: LatencyMs
+      normal: "URLLC 2–5 ms, eMBB 10–25 ms"
+      degraded: "URLLC > 5 ms (SLA breach), eMBB > 40 ms"
+    - metric: PRBUtilPct
+      normal: "30–70%"
+      degraded: "> 85%"
+    - metric: ThroughputMbps
+      normal: "at/above slice SLA floor"
+      degraded: "below SLA floor"
+  cell_kpm:
+    - metric: PRBUtilPct
+      normal: "30–70%"
+      degraded: "> 90% sustained"
+    - metric: RRCSuccessPct
+      normal: "> 98%"
+      degraded: "< 95%"
+  ue_kpm:
+    - metric: CQI
+      normal: "9–15"
+      degraded: "< 6"
+    - metric: BLERPct
+      normal: "< 3%"
+      degraded: "> 10%"

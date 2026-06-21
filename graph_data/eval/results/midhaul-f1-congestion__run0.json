@@ -1,0 +1,49 @@
+{
+  "case_id": "midhaul-f1-congestion",
+  "run": 0,
+  "split": "train",
+  "event_class": "midhaul_congestion",
+  "severity": "serious",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 3,
+      "total": 3,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "query_graph",
+    "thinking",
+    "query_graph",
+    "query_graph",
+    "query_telemetry",
+    "thinking",
+    "query_alerts",
+    "query_graph"
+  ],
+  "elapsed": 41.8,
+  "event_counts": {
+    "tool_call_start": 10,
+    "tool_call_end": 10,
+    "tool_result": 10,
+    "token": 950,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**RANInvestigator verdict:** **shared upstream issue**, not a per-cell fault. The bottleneck is the **10 Gbps F1 midhaul link `LINK-MH-DU-BNE-01-1` between `CU-BNE-01` and `DU-BNE-01-1`**.\n\n### Evidence chain\n\n| Layer | Evidence | Readout | Conclusion |\n|---|---|---|---|\n| Alarm correlation | `query_alerts` on DU/gNB/cells | Repeated `PRB_CONGESTION` on **all 3 cells** with description **\u201cuniform across DU \u2014 midhaul-bound\u201d** | Symmetric impact pattern; not isolated to one cell |\n| DU topology | `query_graph` on `DU-BNE-01-1` | DU serves `CELL-BNE-01-1-1`, `-2`, `-3` | Common fault domain confirmed |\n| Upstream topology | `query_graph` on DU/CU links | `DU-BNE-01-1` is fed by **`LINK-MH-DU-BNE-01-1`**, `MIDHAUL_F1`, `CU-BNE-01 \u2192 DU-BNE-01-1`, `CapacityGbps=10` | Single shared upstream path identified |\n| Cell KPMs | `query_telemetry` on 3 cells | PRB **45.8\u201363.6%**, RRC success **98.6\u201399.8%**, throughput degraded but variable across all three | Radio layer not congested/severely failing; degradation is downstream/upstream cap, not per-cell RF collapse |\n| Direct transport alarm | `query_alerts` on `LINK-MH-DU-BNE-01-1` | `MIDHAUL_CONGESTION`, **MAJOR**: **\u201cF1 midhaul LINK-MH-DU-BNE-01-1 saturated; all served cells throughput-capped\u201d** | Root cause confirmed |\n\n### Cell comparison\n\n| Cell | Band | Recent PRB Util | Recent RRC Success | Recent DL Throughput | Interpretation |\n|---|---:|---:|---:|---:|---|\n| `CELL-BNE-01-1-1` | n258 | 53.2\u201363.6% | 98.93\u201399.79% | 187.4\u2013347.7 Mbps | Healthy radio; throughput capped |\n| `CELL-BNE-01-1-2` | n78 | 47.9\u201354.2% | 98.65\u201399.74% | 228.1\u2013333.1 Mbps | Healthy radio; throughput capped |\n| `CELL-BNE-01-1-3` | n28 | 45.8\u201354.3% | 98.60\u201399.59% | 186.0\u2013324.3 Mbps | Healthy radio; throughput capped |\n\n### Assessment\n- **Not per-cell:** all cells degraded together despite different bands and sectors.\n- **Not DU radio overload:** PRB is moderate, not collapse-level, and RRC setup remains healthy.\n- **Shared upstream fault:** one common F1 link feeds the DU, and that link has a **MAJOR midhaul congestion alarm**.\n\n### Root cause\n**F1 midhaul saturation on `LINK-MH-DU-BNE-01-1` is throughput-capping all cells under `DU-BNE-01-1`.**\n\n### Blast radius\n- Directly affected:\n  - `DU-BNE-01-1`\n  - `CELL-BNE-01-1-1`\n  - `CELL-BNE-01-1-2`\n  - `CELL-BNE-01-1-3`\n- Not evidenced as shared beyond this DU:\n  - `LINK-MH-DU-BNE-01-2` exists on same CU, but no matching congestion evidence in this investigation.\n\n### Immediate actions\n1. **Relieve/shed traffic from `LINK-MH-DU-BNE-01-1`**: rebalance DU load if CU/transport policy allows.\n2. **Check transport policing/QoS on F1 midhaul** for misprofiled shaping at 10 Gbps.\n3. **Inspect recent traffic step-up** on `DU-BNE-01-1` versus sibling DU for skew.\n4. **Escalate transport team** for fibre/midhaul capacity review or temporary augmentation.\n\n**Bottom line:** this is a **shared upstream midhaul issue**, not three independent cell faults."
+}

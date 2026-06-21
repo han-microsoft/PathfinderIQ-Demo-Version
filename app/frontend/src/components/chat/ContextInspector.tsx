@@ -128,7 +128,7 @@ export function ContextInspector({ agentId, threadPosition, message, onClose }: 
             </button>
             {showPrompt && (
               <div className="mt-2 space-y-2">
-                {loading && <p className="text-text-muted">Loading...</p>}
+                {loading && <p className="text-text-muted animate-pulse">Loading…</p>}
                 {promptData && !promptData.error && (
                   <>
                     <Row label="Char Count" value={String(promptData.char_count)} />

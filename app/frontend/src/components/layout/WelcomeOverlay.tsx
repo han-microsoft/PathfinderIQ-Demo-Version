@@ -30,7 +30,12 @@ function StatusBadge({ status }: { status: InitStatus }) {
 
 export function WelcomeOverlay() {
   const [phase, setPhase] = useState<"intro" | "init">("intro");
-  const [visible, setVisible] = useState(true);
+  // Honor the persisted dismissal: returning users (and every scenario-swap
+  // page reload) land directly in the app instead of being re-gated by the
+  // marketing + init screens.
+  const [visible, setVisible] = useState<boolean>(() => {
+    try { return localStorage.getItem(STORAGE_KEY) !== "1"; } catch { return true; }
+  });
   const [fadeOut, setFadeOut] = useState(false);
 
   const sessions = useReadinessStore((s) => s.sessions);
@@ -79,6 +84,14 @@ export function WelcomeOverlay() {
     }, 500);
   };
 
+  // Esc closes the overlay (standard dialog affordance).
+  useEffect(() => {
+    if (!visible) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") handleDismiss(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [visible]);
+
   if (!visible) return null;
 
   const statusItems: { label: string; status: InitStatus }[] = [
@@ -98,8 +111,9 @@ export function WelcomeOverlay() {
       {phase === "intro" ? (
         <>
           <button
-            onClick={handleShowInit}
-            className="absolute top-6 right-8 px-5 py-2.5 rounded-lg bg-status-warning hover:bg-status-warning text-black font-bold text-sm transition-colors shadow-lg"
+            onClick={handleDismiss}
+            className="absolute top-6 right-8 z-10 px-5 py-2.5 rounded-lg bg-status-warning hover:bg-status-warning text-black font-bold text-sm transition-colors shadow-lg"
+            aria-label="Close welcome screen"
           >
             ✕
           </button>
@@ -107,8 +121,8 @@ export function WelcomeOverlay() {
           <div className="h-full w-full overflow-y-auto">
             <div className="mx-auto flex max-w-5xl flex-col gap-6 px-8 py-10">
               <div className="flex flex-col gap-4">
-                <h1 className="text-5xl font-bold text-text-primary flex items-center gap-4">
-                  <img src="/images/pathfinderIQ_logo_notext.png" alt="" className="h-14 w-auto" />
+                <h1 className="text-3xl sm:text-5xl font-bold text-text-primary flex flex-wrap items-center gap-3 sm:gap-4 min-w-0 break-words">
+                  <img src="/images/pathfinderIQ_logo_notext.png" alt="" className="h-10 sm:h-14 w-auto shrink-0" />
                   Pathfinder IQ
                 </h1>
 
@@ -295,7 +309,7 @@ export function WelcomeOverlay() {
           {/* Welcome text — staggered fade-in */}
           <div className="flex flex-col items-center gap-4 mb-12">
             <h1
-              className={`text-5xl font-bold text-text-primary transition-all duration-700 ${
+              className={`text-3xl sm:text-5xl font-bold text-text-primary text-center px-4 transition-all duration-700 ${
                 showTitle ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
