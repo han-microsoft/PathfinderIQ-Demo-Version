@@ -28,7 +28,7 @@
     The orchestrator is now reading the correlated alerts, forming a diagnosis
     plan, and dispatching tasks to three specialist agents simultaneously.
     Each agent has its own tools and data sources, but they all share the same
-    graph ontology as their common understanding of the network.
+    network graph as their common picture of the network.
 
     Watch for the highlights on key tool results, they explain why each
     finding matters.
@@ -36,20 +36,19 @@
 
 - title: Network Investigator
   body: >
-    This agent queries the network ontology in Microsoft Fabric using GQL to
-    trace topology dependencies, then cross-references real-time telemetry
-    from Fabric Eventhouse (KQL) to confirm optical power loss. It also
-    performs per-sensor fault localization, reading individual optical sensors
-    along the corridor to triangulate the exact fault segment, and checks
-    whether the backup fibre shares the same physical conduit.
+    This agent reads the live network graph in Microsoft Fabric to trace which
+    services depend on the failed link, then cross-references real-time optical
+    telemetry to confirm the loss of light. It reads the individual optical
+    sensors along the corridor to pinpoint the exact fault segment, and checks
+    whether the “backup” fibre actually shares the same physical conduit.
   cta: Continue
   agent_image: ui/assets/agents/networkinvestigator_fullbody.png
   powered_by:
     logo: ui/assets/logos/fabric-logo.png
     label: Fabric IQ
     description: >
-      Fabric Graph (GQL) for topology traversal and sensor lookup, plus Fabric
-      Eventhouse (KQL) for real-time telemetry and per-sensor readings.
+      A live, connected network graph for topology and sensor lookup, plus
+      real-time optical telemetry — the data layer behind the diagnosis.
 
 - title: Knowledge Analyst
   body: >
@@ -116,12 +115,15 @@
 
 - title: Investigation Complete
   body: >
-    From chaos to resolution, the agents recognised the pattern across twenty
-    alerts, traced the root cause through the graph, localised the fault to a
-    150 km corridor segment, discovered the backup fibre shares the same duct,
-    quantified $75k per hour in SLA exposure, dispatched a field engineer with
-    GPS and equipment, and communicated to all stakeholders. All evidence-
-    based, all in minutes.
+    From chaos to resolution in minutes. The agents recognised the pattern
+    across twenty alarms, traced the root cause, and exposed the hidden flaw —
+    the “redundant” backup runs through the same duct. They quantified the
+    exposure at $75,000 an hour, then paused to let the operator approve the
+    field dispatch before rolling a truck. Because the reroute landed in about
+    ninety seconds, that exposure was held to under $2,000 — and using
+    Microsoft 365 context, the right customers were notified inside their
+    contractual 15-minute window. Evidence-based, human-approved, and measured
+    in dollars.
   cta: Continue
 
 - title: Demo Complete

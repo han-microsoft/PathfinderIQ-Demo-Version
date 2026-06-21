@@ -32,6 +32,29 @@ from __future__ import annotations
 
 RESPONSE_CATALOG: list[dict] = [
 
+    # ── People / escalation contacts (incident notification) ─────────────
+    {
+        "id": "people-customer-contacts",
+        "source_type": "Microsoft 365 — email + Teams",
+        "keywords": (
+            "who notify contact contacts escalation customer ACME BigBank "
+            "people stakeholder notification SLA impacting outage incident "
+            "Priya Tom prior context corridor SYD-MEL sydney melbourne"
+        ),
+        "response": (
+            "**From Microsoft 365 (Work IQ):**\n\n"
+            "- **Customer escalation contacts** — ACME Corporation: *Priya Naidoo, "
+            "Network Operations Lead* (`acme-noc@acme.example`). BigBank Financial: "
+            "*Tom Webster, Infrastructure Duty Manager* (`noc@bigbank.example`, 24×7 desk).\n"
+            "- **Contractual clock (email, 3 weeks ago)** — \"SYD–MEL latency excursion\" "
+            "thread from *Hannah Cole (NOC Lead)*: ACME's contract requires customer "
+            "notification within **15 minutes** of any SLA-affecting event.\n"
+            "- **Governance context (Teams · NOC channel)** — a pinned note from the "
+            "February infrastructure review flagged the **shared inland-conduit risk**; "
+            "a diverse Brisbane path was approved but **not yet provisioned**."
+        ),
+    },
+
     # ── Emails ───────────────────────────────────────────────────────────
 
     {

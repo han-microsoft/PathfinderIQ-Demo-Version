@@ -25,6 +25,7 @@ import { DelegationResult } from "./DelegationResult";
 import { IncidentReportArgs } from "./IncidentReportArgs";
 import { JsonFallback } from "./JsonFallback";
 import { OptionsCard } from "./OptionsCard";
+import { WorkIqResult } from "./WorkIqResult";
 
 export { ArgumentsGrid } from "./ArgumentsGrid";
 
@@ -68,6 +69,9 @@ const TOOL_RENDERERS: Record<string, ComponentType<ToolResultProps>> = {
 
   /* Options — structured decision choices with clickable buttons */
   present_options: OptionsCard,
+
+  /* Work IQ (Microsoft 365) — natural-language context card */
+  ask_work_iq: WorkIqResult,
 };
 
 /**

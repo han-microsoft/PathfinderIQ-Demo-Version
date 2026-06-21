@@ -241,9 +241,9 @@ export function computeMapFeatures(
   const rng = mulberry32(42);
   const items: MapFeatureItem[] = [];
 
-  // ─ Rectangular parks near ~18% of nodes (no overlap) ─
+  // ─ Rectangular parks near ~4% of nodes (no overlap) ─
   for (let i = 0; i < positioned.length; i++) {
-    if (rng() > 0.18) continue;           // only a few nodes
+    if (rng() > 0.04) continue;           // very sparse — operational, not touristy
     const n = positioned[i];
     const w = 30 + rng() * 55;            // 30–85 world units wide
     const h = 22 + rng() * 40;            // 22–62 tall
@@ -262,7 +262,7 @@ export function computeMapFeatures(
   }
 
   // ─ Extra parks scattered widely (no overlap) ─
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 3; i++) {
     const angle = rng() * Math.PI * 2;
     const dist = spread * (0.3 + rng() * 0.8); // go further out
     const w = 35 + rng() * 65;
@@ -282,7 +282,7 @@ export function computeMapFeatures(
   }
 
   // ─ Rivers / creeks (thin meandering lines) ─
-  const riverCount = 3 + Math.floor(rng() * 3);  // 3-5
+  const riverCount = 1 + Math.floor(rng() * 2);  // 1-2
   for (let i = 0; i < riverCount; i++) {
     const startAngle = rng() * Math.PI * 2;
     const sx = cx + Math.cos(startAngle) * spread * (0.5 + rng() * 0.5);
@@ -308,7 +308,7 @@ export function computeMapFeatures(
   }
 
   // ─ Lakes (bigger, more prominent — no overlap) ─
-  const lakeCount = 3 + Math.floor(rng() * 3);   // 3-5
+  const lakeCount = 1 + Math.floor(rng() * 2);   // 1-2
   for (let i = 0; i < lakeCount; i++) {
     const angle = rng() * Math.PI * 2;
     const dist = spread * (0.2 + rng() * 0.65);
@@ -512,7 +512,12 @@ export function drawPaperBackground(
   if (globalScale >= 0.3) {
     const pattern = getCityTilePattern(ctx);
     if (pattern) {
+      // Solid paper base, then the city-block texture at reduced opacity so the
+      // topology roads/towns are the dominant layer (was full-strength = noisy).
+      ctx.fillStyle = MAP_COLORS.paper;
+      ctx.fillRect(drawX0, drawY0, drawW, drawH);
       ctx.save();
+      ctx.globalAlpha = 0.3;
       pattern.setTransform(new DOMMatrix());
       ctx.fillStyle = pattern;
       ctx.fillRect(drawX0, drawY0, drawW, drawH);
@@ -727,9 +732,25 @@ export function drawRoad(
   style: RoadStyle,
   globalScale: number,
   seed: number,
+  emphasize = false,
 ): void {
   const { cx, cy } = roadControlPoint(x1, y1, x2, y2, seed);
   const scale = Math.min(globalScale, 3);
+
+  // Incident emphasis: a bright amber halo beneath the road so the blast path
+  // stands out against the muted atlas.
+  if (emphasize) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.quadraticCurveTo(cx, cy, x2, y2);
+    ctx.strokeStyle = 'rgba(251,191,36,0.75)';
+    ctx.lineWidth = (style.outerWidth + 12) / scale;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+    ctx.restore();
+  }
 
   // Road glow/shadow
   ctx.save();
@@ -840,9 +861,26 @@ export function drawTownMarker(
   color: string,
   label: string,
   globalScale: number,
+  opts: { showLabel?: boolean; emphasize?: boolean; dim?: boolean } = {},
 ): void {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return;
+  const { showLabel = true, emphasize = false, dim = false } = opts;
   const s = Math.min(globalScale, 4);
+
+  if (dim) ctx.globalAlpha = 0.32;
+
+  // Incident emphasis ring — amber halo so blast-radius towns pop.
+  if (emphasize) {
+    ctx.beginPath();
+    ctx.arc(x, y, size * 2.1, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(251,191,36,0.30)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x, y, size + 3 / s, 0, Math.PI * 2);
+    ctx.strokeStyle = '#F59E0B';
+    ctx.lineWidth = 2.5 / s;
+    ctx.stroke();
+  }
 
   // Glow halo
   const glowRadius = size * 2.5;
@@ -880,7 +918,10 @@ export function drawTownMarker(
   ctx.fill();
 
   // Callout label
-  if (globalScale < 0.12) return;
+  if (globalScale < 0.12 || !showLabel) {
+    ctx.globalAlpha = 1;
+    return;
+  }
   const fontSize = Math.max(3.5, Math.min(13, 11 / s));
   ctx.save();
   ctx.font = `600 ${fontSize}px 'Segoe UI', system-ui, sans-serif`;
@@ -936,6 +977,7 @@ export function drawTownMarker(
   ctx.fillText(label, x, calloutY);
 
   ctx.restore();
+  ctx.globalAlpha = 1;
 }
 
 // ─── Compass Rose ────────────────────────────────────────────────────────────

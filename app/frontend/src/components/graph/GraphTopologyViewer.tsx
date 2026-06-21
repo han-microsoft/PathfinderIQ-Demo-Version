@@ -147,19 +147,34 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
     [data.edges],
   );
 
-  // Filtering
-  const filteredNodes = data.nodes.filter((n) => {
-    if (activeLabels.length > 0 && !activeLabels.includes(n.label)) return false;
-    return true;
-  });
-  const nodeIdSet = new Set(filteredNodes.map((n) => n.id));
-  const filteredEdges = data.edges.filter((e) => {
-    const srcId = typeof e.source === 'string' ? e.source : e.source.id;
-    const tgtId = typeof e.target === 'string' ? e.target : e.target.id;
-    if (!nodeIdSet.has(srcId) || !nodeIdSet.has(tgtId)) return false;
-    if (activeEdgeLabels.length > 0 && !activeEdgeLabels.includes(e.label)) return false;
-    return true;
-  });
+  // Incident Focus — emphasise blast-radius nodes (topology.json `_incident`).
+  // Default OFF, so the standard view is unchanged for every scenario.
+  const [incidentFocus, setIncidentFocus] = useState(false);
+  const hasIncident = useMemo(
+    () => data.nodes.some((n) => String(n.properties?.['_incident'] ?? '') === 'true'),
+    [data.nodes],
+  );
+  const handleToggleIncidentFocus = useCallback(() => {
+    setIncidentFocus((v) => !v);
+  }, []);
+
+  // Filtering — MEMOISED so the node/edge array refs stay stable across renders.
+  // (react-force-graph re-initialises the whole layout when graphData identity
+  // changes; new arrays each render collapsed the graph back into a blob and
+  // discarded the spacing forces.)
+  const { filteredNodes, filteredEdges } = useMemo(() => {
+    const fn = data.nodes.filter(
+      (n) => activeLabels.length === 0 || activeLabels.includes(n.label),
+    );
+    const idSet = new Set(fn.map((n) => n.id));
+    const fe = data.edges.filter((e) => {
+      const srcId = typeof e.source === 'string' ? e.source : e.source.id;
+      const tgtId = typeof e.target === 'string' ? e.target : e.target.id;
+      if (!idSet.has(srcId) || !idSet.has(tgtId)) return false;
+      return activeEdgeLabels.length === 0 || activeEdgeLabels.includes(e.label);
+    });
+    return { filteredNodes: fn, filteredEdges: fe };
+  }, [data.nodes, data.edges, activeLabels, activeEdgeLabels]);
 
   const BAR_HEIGHT = 36;
   const TOOLBAR_HEIGHT = BAR_HEIGHT + (showNodeBar ? BAR_HEIGHT : 0) + (showEdgeBar ? BAR_HEIGHT : 0);
@@ -225,6 +240,9 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
         viewMode={viewMode}
         onToggleViewMode={() => setViewMode((v) => v === 'graph' ? 'map' : 'graph')}
         onFillCorners={() => mapCanvasRef.current?.fillCorners()}
+        hasIncident={hasIncident}
+        incidentFocus={incidentFocus}
+        onToggleIncidentFocus={handleToggleIncidentFocus}
       />
 
       {showNodeBar && (
@@ -292,6 +310,7 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
             edgeLabelColor={labelStyle.edgeColor}
             nodeScale={labelStyle.nodeScale}
             edgeWidth={labelStyle.edgeWidth}
+            incidentFocus={incidentFocus}
             onNodeHover={handleNodeHover}
             onLinkHover={handleLinkHover}
             onNodeRightClick={handleNodeRightClick}
@@ -302,6 +321,7 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
         ) : (
           <GraphCanvas
             ref={canvasRef}
+            incidentFocus={incidentFocus}
             nodes={filteredNodes}
             edges={filteredEdges}
             width={width}

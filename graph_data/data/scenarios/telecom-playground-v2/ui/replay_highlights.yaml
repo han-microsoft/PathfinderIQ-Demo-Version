@@ -84,11 +84,25 @@
     Traffic shifts to the backup path — backed by confirmed capacity headroom
     and the runbook threshold, not guesswork.
 
+- tool_call_id: 'call_dispatch_options'
+  title: Operator Stays in Control
+  body: >
+    The AI doesn’t act unilaterally — it presents a clear, costed choice (one
+    team vs two) with a recommendation, and waits for the operator to approve
+    before dispatching.
+
 - tool_call_id: 'call_dispatch_dave'
   title: Dispatch
   body: >
     GPS, gate code, sensor IDs, and the inspection checklist are assembled
     from graph data in seconds.
+
+- tool_call_id: 'call_workiq_contacts'
+  title: Knows Who to Call
+  body: >
+    Work IQ surfaces the right customer contacts from Microsoft 365 — plus the
+    15-minute SLA notification clock and the prior governance note that the
+    “redundant” backup was never truly diverse.
 
 - tool_call_id: 'call_delegate_comms'
   title: One Source of Truth

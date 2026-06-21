@@ -1,10 +1,12 @@
 - title: Scenario Overview
   body: >
-    A fibre cut on the Sydney-Melbourne corridor has triggered a cascading
-    alert storm across enterprise VPNs, broadband, and mobile services. In
-    this demo, a multi-agent system built entirely on the Microsoft stack
-    investigates root cause, blast radius, and remediation in minutes, work
-    that previously took hours of manual coordination.
+    It's 2:31 PM. In one second, twenty alarms cascade across the
+    Sydney-Melbourne corridor — two enterprise banks lose their VPNs and the
+    SLA penalty clock starts ticking. A fibre cut has severed the primary path.
+    Coordinating a response by hand takes a NOC hours. Watch a multi-agent team
+    on the Microsoft IQ stack find the root cause, expose a hidden shared-risk
+    in the "redundant" backup, quantify the exact dollar exposure, and execute
+    the fix — in minutes.
   cta: Start Demo
 
 - title: NOC Orchestrator
@@ -28,7 +30,7 @@
     The orchestrator is now reading the correlated alerts, forming a diagnosis
     plan, and dispatching tasks to three specialist agents simultaneously.
     Each agent has its own tools and data sources, but they all share the same
-    graph ontology as their common understanding of the network.
+    network graph as their common picture of the network.
 
     Watch for the highlights on key tool results, they explain why each
     finding matters.
@@ -36,20 +38,19 @@
 
 - title: Network Investigator
   body: >
-    This agent queries the network ontology in Microsoft Fabric using GQL to
-    trace topology dependencies, then cross-references real-time telemetry
-    from Fabric Eventhouse (KQL) to confirm optical power loss. It also
-    performs per-sensor fault localization, reading individual optical sensors
-    along the corridor to triangulate the exact fault segment, and checks
-    whether the backup fibre shares the same physical conduit.
+    This agent reads the live network graph in Microsoft Fabric to trace which
+    services depend on the failed link, then cross-references real-time optical
+    telemetry to confirm the loss of light. It reads the individual optical
+    sensors along the corridor to pinpoint the exact fault segment, and checks
+    whether the “backup” fibre actually shares the same physical conduit.
   cta: Continue
   agent_image: ui/assets/agents/networkinvestigator_fullbody.png
   powered_by:
     logo: ui/assets/logos/fabric-logo.png
     label: Fabric IQ
     description: >
-      Fabric Graph (GQL) for topology traversal and sensor lookup, plus Fabric
-      Eventhouse (KQL) for real-time telemetry and per-sensor readings.
+      A live, connected network graph for topology and sensor lookup, plus
+      real-time optical telemetry — the data layer behind the diagnosis.
 
 - title: Knowledge Analyst
   body: >
@@ -77,8 +78,8 @@
   cta: Continue
   agent_image: ui/assets/agents/fieldcoordinator_fullbody.png
   powered_by:
-    logo: ui/assets/logos/copilot-logo.png
-    label: Work IQ
+    logo: ui/assets/logos/fabric-logo.png
+    label: Fabric IQ
     description: >
       Graph traversal for depot and roster lookup plus AI Search for equipment
       manifests, bridging digital topology to physical field operations.
@@ -86,42 +87,51 @@
 - title: Orchestrator - Remediation
   body: >
     The orchestrator synthesises all specialist findings and executes
-    immediate remediation: rerouting VPN traffic to the backup MPLS path,
-    placing the failed link in admin-down to prevent flapping, dispatching the
-    nearest field engineer to the Goulburn splice site, and calling them to
-    confirm ETA.
+    immediate remediation: rerouting VPN traffic to the backup MPLS path and
+    placing the failed link in admin-down. Before sending anyone to site, it
+    pauses and presents the operator a clear, costed choice — one team or two
+    — with a recommendation, then dispatches the nearest engineer to the
+    Goulburn splice site and calls them to confirm ETA. Because the reroute
+    landed in about ninety seconds, the enterprise SLA exposure was held to a
+    fraction of the $75,000-per-hour it would otherwise have cost.
   cta: Continue
   powered_by:
     logo: ui/assets/logos/foundryiq-logo.png
     label: Foundry Agents
     description: >
-      Tool calling for network remediation, reroute, admin-down, field
-      dispatch, and engineer coordination.
+      Tool calling for network remediation, reroute, admin-down, operator
+      approval, field dispatch, and engineer coordination.
 
 - title: Communications Specialist
   body: >
-    The final specialist handles all incident communications, creating a
-    formal SEV-1 incident ticket, publishing customer advisories to affected
-    enterprise VPN customers, and emailing a structured incident report to NOC
-    leadership. All three reference the same root cause, blast radius, and
-    remediation status.
+    The final specialist handles all incident communications. It first checks
+    Microsoft 365 — Work IQ — for the right people to notify, surfacing ACME's
+    and BigBank's escalation contacts and the contractual 15-minute
+    notification clock. It then creates a formal SEV-1 incident ticket,
+    publishes customer advisories to the affected enterprise VPN customers,
+    and emails a structured incident report to NOC leadership — all referencing
+    the same root cause, blast radius, and remediation status.
   cta: Continue
   agent_image: ui/assets/agents/communicationsspecialist_fullbody.png
   powered_by:
-    logo: ui/assets/logos/foundryiq-logo.png
-    label: Foundry Agents
+    logo: ui/assets/logos/copilot-logo.png
+    label: Work IQ
     description: >
-      Structured document generation for incident tickets, customer advisories,
-      and stakeholder reports from a single synthesis.
+      Microsoft 365 context (customer contacts, prior incident email, NOC
+      Teams governance note) plus structured generation of incident tickets,
+      customer advisories, and stakeholder reports.
 
 - title: Investigation Complete
   body: >
-    From chaos to resolution, the agents recognised the pattern across twenty
-    alerts, traced the root cause through the graph, localised the fault to a
-    150 km corridor segment, discovered the backup fibre shares the same duct,
-    quantified $75k per hour in SLA exposure, dispatched a field engineer with
-    GPS and equipment, and communicated to all stakeholders. All evidence-
-    based, all in minutes.
+    From chaos to resolution in minutes. The agents recognised the pattern
+    across twenty alarms, traced the root cause, and exposed the hidden flaw —
+    the “redundant” backup runs through the same duct. They quantified the
+    exposure at $75,000 an hour, then paused to let the operator approve the
+    field dispatch before rolling a truck. Because the reroute landed in about
+    ninety seconds, that exposure was held to under $2,000 — and using
+    Microsoft 365 context, the right customers were notified inside their
+    contractual 15-minute window. Evidence-based, human-approved, and measured
+    in dollars.
   cta: Continue
 
 - title: Demo Complete

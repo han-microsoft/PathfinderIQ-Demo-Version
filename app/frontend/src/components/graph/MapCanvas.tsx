@@ -37,9 +37,7 @@ import {
   drawRoadLabel,
   drawTownMarker,
   drawCompassRose,
-  drawMapBanner,
   drawMapLegend,
-  drawClouds,
   drawPaperEdge,
   getViewportBounds,
   classifyRoad,
@@ -75,6 +73,7 @@ interface MapCanvasProps {
   nodeScale?: number;
   edgeWidth?: number;
   edgeColorOverride?: Record<string, string>;
+  incidentFocus?: boolean;
   onNodeHover: (node: TopologyNode | null) => void;
   onLinkHover: (edge: TopologyEdge | null) => void;
   onNodeRightClick: (node: TopologyNode, event: MouseEvent) => void;
@@ -89,6 +88,7 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
       nodes, edges, width, height,
       nodeDisplayField, nodeColorOverride, dataVersion,
       nodeScale = 1,
+      incidentFocus = false,
       onNodeHover, onLinkHover, onNodeRightClick, onBackgroundClick,
       onMouseEnter, onMouseLeave,
     },
@@ -96,10 +96,16 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
   ) {
     const fgRef = useRef<ForceGraphMethods<GNode, GLink> | undefined>(undefined);
     const [frozen, setFrozen] = useState(false);
-    const [flat, setFlat] = useState(false);
+    // Flat “fill corners” is the default — a clean, operations-console layout
+    // (no 3D paper tilt). Users can still toggle the tilted-paper view.
+    const [flat, setFlat] = useState(true);
+    // One-shot auto-fit guard: frame the layout once after it settles, then
+    // never again — re-fitting on every engine cooldown (e.g. after a node
+    // drag) snaps the viewport back and breaks pan/zoom navigation.
+    const hasFitRef = useRef(false);
 
     useImperativeHandle(ref, () => ({
-      zoomToFit: () => fgRef.current?.zoomToFit(400, 60),
+      zoomToFit: () => fgRef.current?.zoomToFit(400, flat ? 14 : 60),
       fillCorners: () => {
         setFlat((prev) => {
           const next = !prev;
@@ -123,10 +129,64 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
     }), []);
 
     useEffect(() => {
+      hasFitRef.current = false;
       if (fgRef.current && nodes.length > 0) {
-        setTimeout(() => fgRef.current?.zoomToFit(400, 60), 600);
+        // Fallback fit only — onEngineStop normally fits first once the spacing
+        // forces settle (~2-4s). Long timeout avoids framing a half-spread blob.
+        setTimeout(() => {
+          if (hasFitRef.current) return;
+          hasFitRef.current = true;
+          fgRef.current?.zoomToFit(400, flat ? 14 : 60);
+        }, 3500);
       }
     }, [dataVersion]);
+
+    // Force a repaint when Incident Focus toggles. The render loop parks once
+    // the layout cools, so a prop change alone would not redraw the
+    // emphasis/dimming until the next pan/zoom interaction.
+    useEffect(() => {
+      const fg = fgRef.current as unknown as {
+        resumeAnimation?: () => void; pauseAnimation?: () => void;
+      } | undefined;
+      if (!fg) return;
+      fg.resumeAnimation?.();
+      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 700);
+      return () => clearTimeout(t);
+    }, [incidentFocus, frozen]);
+
+    // Force a repaint when the panel is resized (e.g. dragging the chat/graph
+    // splitter). The canvas resizes but, if the simulation is paused, the
+    // render loop is parked and the map goes blank until "play" resumes it.
+    // Resume briefly so it redraws at the new size, then re-pause if frozen.
+    useEffect(() => {
+      const fg = fgRef.current as unknown as {
+        resumeAnimation?: () => void; pauseAnimation?: () => void;
+      } | undefined;
+      if (!fg) return;
+      fg.resumeAnimation?.();
+      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 400);
+      return () => clearTimeout(t);
+    }, [width, height, frozen]);
+
+    // ── Spacing forces: spread towns apart so the atlas reads clearly ───────
+    // react-force-graph defaults pack nodes tightly into a central blob. Apply
+    // a stronger charge + longer link distance, re-applied over ~2s because the
+    // engine resets forces when graphData identity changes.
+    useEffect(() => {
+      const fg = fgRef.current;
+      if (!fg || nodes.length === 0) return;
+      let tries = 0;
+      const apply = () => {
+        const charge = fg.d3Force?.('charge');
+        const link = fg.d3Force?.('link');
+        charge?.strength?.(-620);
+        link?.distance?.(130);
+        link?.strength?.(0.18);
+        fg.d3ReheatSimulation?.();
+        if (++tries < 8) setTimeout(apply, 250);
+      };
+      apply();
+    }, [dataVersion, nodes.length]);
 
     const getNodeColor = useNodeColor(nodeColorOverride);
 
@@ -167,12 +227,9 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
       [nodes],
     );
 
-    // ── Overlay: compass, banner, legend, paper edge (drawn in screen coords) ─
+    // ── Overlay: compass, legend, paper edge (drawn in screen coords) ─
     const onRenderFramePost = useCallback(
       (ctx: CanvasRenderingContext2D, _globalScale: number) => {
-        // Capture transform before resetting (for parallax clouds)
-        const t = ctx.getTransform();
-
         // Reset to screen coordinates
         ctx.save();
         ctx.resetTransform();
@@ -180,14 +237,10 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
         const ch = ctx.canvas.height;
         const dpr = window.devicePixelRatio || 1;
 
-        // Parallax clouds (drawn first, behind UI overlays)
-        drawClouds(ctx, cw, ch, t.e, t.f, dpr);
-
         // Paper edge border & vignette
         drawPaperEdge(ctx, cw, ch, dpr);
 
         drawCompassRose(ctx, cw - 50 * dpr, ch - 60 * dpr, 28.6 * dpr);
-        drawMapBanner(ctx, 12 * dpr, 10 * dpr);
         drawMapLegend(ctx, cw - 338, 20);
 
         ctx.restore();
@@ -208,9 +261,18 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
           ? node.id
           : String(node.properties?.[displayField] ?? node.id);
 
-        drawTownMarker(ctx, node.x, node.y, size, color, label, globalScale);
+        const isIncident = String(node.properties?.['_incident'] ?? '') === 'true';
+        const emphasize = incidentFocus && isIncident;
+        const dim = incidentFocus && !isIncident;
+        // Declutter: at the fit-all default zoom only incident towns are labelled;
+        // every town's callout appears once the operator zooms in (or on hover).
+        const showLabel = globalScale > 1.2 || emphasize;
+
+        drawTownMarker(ctx, node.x, node.y, size, color, label, globalScale, {
+          showLabel, emphasize, dim,
+        });
       },
-      [getNodeColor, nodeDisplayField, nodeScale],
+      [getNodeColor, nodeDisplayField, nodeScale, incidentFocus],
     );
 
     // ── Link rendering: roads ───────────────────────────────────────────────
@@ -224,13 +286,23 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
         const style = ROAD_STYLES[rType] ?? ROAD_STYLES.default;
         const seed = typeof link.id === 'string' ? hashStrLocal(link.id) : (link.id as number ?? 0);
 
-        drawRoad(ctx, src.x, src.y, tgt.x, tgt.y, style, globalScale, seed);
+        const bothIncident = String(src.properties?.['_incident'] ?? '') === 'true'
+          && String(tgt.properties?.['_incident'] ?? '') === 'true';
+        const emphasize = incidentFocus && bothIncident;
+        const dim = incidentFocus && !bothIncident;
 
-        // Road label (road code like "M4")
-        const code = roadCode(typeof link.id === 'string' ? link.id : String(link.id ?? ''), rType);
-        drawRoadLabel(ctx, src.x, src.y, tgt.x, tgt.y, code, globalScale, seed);
+        if (dim) ctx.globalAlpha = 0.18;
+        drawRoad(ctx, src.x, src.y, tgt.x, tgt.y, style, globalScale, seed, emphasize);
+        ctx.globalAlpha = 1;
+
+        // Road label (road code like "M4") — declutter at fit-all zoom; incident
+        // roads stay labelled so the blast path is always legible.
+        if (!dim && (globalScale > 1.4 || emphasize)) {
+          const code = roadCode(typeof link.id === 'string' ? link.id : String(link.id ?? ''), rType);
+          drawRoadLabel(ctx, src.x, src.y, tgt.x, tgt.y, code, globalScale, seed);
+        }
       },
-      [],
+      [incidentFocus],
     );
 
     // ── Event handlers ──────────────────────────────────────────────────────
@@ -299,6 +371,12 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
     paperDims.current = { w: paperW, h: paperH };
 
     useEffect(() => {
+      // The BCR override only exists to undo CSS-3D-transform distortion of
+      // getBoundingClientRect. In flat mode there is NO transform, so the
+      // native BCR is exact — patching it there feeds d3-zoom/drag slightly
+      // wrong rects (off by the paper border), making pan/zoom sluggish and
+      // unresponsive. Skip the patch entirely when flat.
+      if (flat) return;
       const outerEl = outerRef.current;
       const paperEl = paperRef.current;
       if (!outerEl || !paperEl) return;
@@ -335,7 +413,7 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
           el.getBoundingClientRect = origBCR;
         }
       };
-    }, []);
+    }, [flat]);
 
     // ── Zoom handlers ─────────────────────────────────────────────────────
     const handleZoomIn = useCallback(() => {
@@ -387,9 +465,14 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
             onBackgroundClick={onBackgroundClick}
             /* ──── physics ──── */
             d3AlphaDecay={0.02}
-            d3VelocityDecay={0.3}
+            d3VelocityDecay={0.28}
             cooldownTicks={frozen ? 0 : Infinity}
-            cooldownTime={3000}
+            cooldownTime={4000}
+            onEngineStop={() => {
+              if (hasFitRef.current) return;
+              hasFitRef.current = true;
+              fgRef.current?.zoomToFit(500, flat ? 14 : 60);
+            }}
             enableNodeDrag={true}
             enableZoomInteraction={true}
             enablePanInteraction={true}

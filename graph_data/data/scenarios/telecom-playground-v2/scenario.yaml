@@ -127,6 +127,7 @@ agents:
       - tools.network:set_link_status
       - tools.dispatch:dispatch_field_engineer
       - tools.dispatch:call_engineer
+      - tools.options:present_options
       - tools.thinking:thinking
     ui:
       headshot: ui/assets/agents/nocorchestrator_headshot.png
@@ -163,13 +164,13 @@ agents:
       headshot: ui/assets/agents/networkinvestigator_headshot.png
       full_body: ui/assets/agents/networkinvestigator_fullbody.png
       product_summary: >
-        Uses Fabric IQ for graph traversal (GQL) to trace topology
-        dependencies, and Fabric Eventhouse (KQL) for real-time telemetry and
-        per-sensor fault localization.
+        Uses Fabric IQ to read the live network graph and trace which services
+        depend on the failed link, then correlates real-time optical telemetry
+        to pinpoint the fault along the corridor.
       powered_by:
         - logo: ui/assets/logos/fabric-logo.png
-          label: Fabric IQ (GQL + KQL)
-          description: Graph traversal and telemetry correlation in Fabric.
+          label: Fabric IQ
+          description: Live network graph and real-time telemetry correlation.
 
   knowledgeAnalyst:
     name: KnowledgeAnalyst
@@ -226,12 +227,12 @@ agents:
       headshot: ui/assets/agents/fieldcoordinator_headshot.png
       full_body: ui/assets/agents/fieldcoordinator_fullbody.png
       product_summary: >
-        Uses Fabric IQ to build and traverse the operational graph, running
-        GQL queries to find assets, relationships, and field context quickly.
+        Uses Fabric IQ to traverse the operational network graph, finding the
+        physical sites, depots, and on-duty engineers for the fault — fast.
       powered_by:
         - logo: ui/assets/logos/fabric-logo.png
-          label: Fabric IQ (GQL)
-          description: Graph traversal for depots, rosters, and field context.
+          label: Fabric IQ
+          description: Network graph traversal for depots, rosters, and field context.
         - logo: ui/assets/logos/azureaisearch.png
           label: Azure AI Search
           description: Equipment and infrastructure document retrieval.
@@ -251,6 +252,7 @@ agents:
       - tools.incidents:create_incident_ticket
       - tools.incidents:update_advisory
       - tools.email:send_incident_report
+      - tools.workiq:ask_work_iq
       - tools.thinking:thinking
     ui:
       headshot: ui/assets/agents/communicationsspecialist_headshot.png

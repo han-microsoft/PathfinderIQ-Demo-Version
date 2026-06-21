@@ -1,9 +1,0 @@
-INCIDENT TKT-2025-05-30-0402
-Date: 2025-05-30
-Severity: P2
-Site: gNB-SYD-01 / DU-SYD-01-1
-Fault: RRC_SETUP_FAILURE from PCI collision after neighbour add.
-Impact: RRCSuccessPct dropped to 88% on one cell.
-Resolution: reassigned PCI to remove mod-3 collision; success rate to 99.4%.
-Time to resolve: 27 min.
-Lessons: validate PCI plan (mod-3/mod-30) before neighbour list changes.

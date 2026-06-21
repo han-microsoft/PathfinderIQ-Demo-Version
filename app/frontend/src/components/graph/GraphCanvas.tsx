@@ -64,6 +64,8 @@ interface GraphCanvasProps {
   nodeScale?: number;
   edgeWidth?: number;
   edgeColorOverride?: Record<string, string>;
+  /** When true, dim all nodes/links except those flagged `properties._incident`. Default false = unchanged. */
+  incidentFocus?: boolean;
   onNodeHover: (node: TopologyNode | null) => void;
   onLinkHover: (edge: TopologyEdge | null) => void;
   onNodeRightClick: (node: TopologyNode, event: MouseEvent) => void;
@@ -81,12 +83,17 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
       nodeScale = 1,
       edgeWidth,
       edgeColorOverride,
+      incidentFocus = false,
       onNodeHover, onLinkHover, onNodeRightClick, onBackgroundClick,
       onMouseEnter, onMouseLeave },
     ref,
   ) {
     const fgRef = useRef<ForceGraphMethods<GNode, GLink> | undefined>(undefined);
     const [frozen, setFrozen] = useState(false);
+    // One-shot auto-fit guard: frame once after the layout settles, then never
+    // again — re-fitting on every engine cooldown (e.g. after a node drag) snaps
+    // the viewport back and breaks pan/zoom navigation.
+    const hasFitRef = useRef(false);
 
     useImperativeHandle(ref, () => ({
       zoomToFit: () => fgRef.current?.zoomToFit(400, 40),
@@ -101,10 +108,68 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
     }), []);
 
     useEffect(() => {
+      hasFitRef.current = false;
       if (fgRef.current && nodes.length > 0) {
-        setTimeout(() => fgRef.current?.zoomToFit(400, 40), 500);
+        setTimeout(() => {
+          if (hasFitRef.current) return;
+          hasFitRef.current = true;
+          fgRef.current?.zoomToFit(400, 40);
+        }, 3500);
       }
     }, [dataVersion]);
+
+    // Force a repaint when Incident Focus toggles. The render loop is parked
+    // once the layout cools, so a prop change alone would not redraw the
+    // emphasis/dimming until the next interaction.
+    useEffect(() => {
+      const fg = fgRef.current as unknown as {
+        resumeAnimation?: () => void; pauseAnimation?: () => void;
+      } | undefined;
+      if (!fg) return;
+      fg.resumeAnimation?.();
+      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 700);
+      return () => clearTimeout(t);
+    }, [incidentFocus, frozen]);
+
+    // Force a repaint when the panel is resized (e.g. dragging the chat/graph
+    // splitter). If the simulation is paused the render loop is parked and the
+    // graph goes blank until "play" resumes it; resume briefly to redraw at the
+    // new size, then re-pause if frozen.
+    useEffect(() => {
+      const fg = fgRef.current as unknown as {
+        resumeAnimation?: () => void; pauseAnimation?: () => void;
+      } | undefined;
+      if (!fg) return;
+      fg.resumeAnimation?.();
+      const t = setTimeout(() => { if (frozen) fg.pauseAnimation?.(); }, 400);
+      return () => clearTimeout(t);
+    }, [width, height, frozen]);
+
+    // Spread nodes apart — the d3 default charge (-30) + link pull collapses
+    // ~90 nodes into an unreadable blob. Apply strong repulsion + weak links,
+    // re-applied over the first ~2s (forces can be re-created on data set).
+    useEffect(() => {
+      const fg = fgRef.current;
+      if (!fg || nodes.length === 0) return;
+      let n = 0;
+      const apply = () => {
+        const charge = fg.d3Force('charge') as { strength?: (s: number) => void } | undefined;
+        const link = fg.d3Force('link') as
+          { distance?: (d: number) => void; strength?: (s: number) => void } | undefined;
+        charge?.strength?.(-550);
+        link?.distance?.(120);
+        link?.strength?.(0.2);
+        fg.d3ReheatSimulation();
+      };
+      apply();
+      const id = setInterval(() => { apply(); if (++n >= 8) clearInterval(id); }, 250);
+      const fit = setTimeout(() => {
+        if (hasFitRef.current) return;
+        hasFitRef.current = true;
+        fg.zoomToFit(600, 60);
+      }, 2800);
+      return () => { clearInterval(id); clearTimeout(fit); };
+    }, [dataVersion, nodes.length]);
 
     const getNodeColor = useNodeColor(nodeColorOverride);
 
@@ -135,32 +200,50 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
       (node: GNode, ctx: CanvasRenderingContext2D, globalScale: number) => {
         const size = (Number(node.properties['_size']) || 6) * nodeScale;
         const color = getNodeColor(node.label);
-        const { textPrimary, borderDefault } = themeColors;
+        const isIncident = String(node.properties['_incident'] ?? '') === 'true';
+        const dim = incidentFocus && !isIncident;
+
+        ctx.save();
+        if (dim) ctx.globalAlpha = 0.12;
 
         ctx.beginPath();
         ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
         ctx.fillStyle = color;
         ctx.fill();
-        ctx.strokeStyle = borderDefault;
-        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = 'rgba(226,232,240,0.30)';
+        ctx.lineWidth = 0.6;
         ctx.stroke();
+
+        // Incident-focus emphasis ring (amber halo on blast-radius nodes)
+        if (incidentFocus && isIncident) {
+          ctx.beginPath();
+          ctx.arc(node.x!, node.y!, size + 2.5, 0, 2 * Math.PI);
+          ctx.strokeStyle = '#FBBF24';
+          ctx.lineWidth = 2.5 / globalScale;
+          ctx.stroke();
+        }
 
         const displayField = nodeDisplayField[node.label] ?? 'id';
         const label = displayField === 'id'
           ? node.id
           : String(node.properties[displayField] ?? node.id);
 
-        const autoSize = Math.max(10 / globalScale, 3);
+        const autoSize = Math.max(11 / globalScale, 4);
         const fontSize = nodeLabelFontSize != null ? nodeLabelFontSize / globalScale : autoSize;
-        if (fontSize > 0) {
-          ctx.font = `${fontSize}px 'Segoe UI', system-ui, sans-serif`;
-          ctx.fillStyle = nodeLabelColor ?? textPrimary;
+        // Declutter: with ~90 nodes, always-on labels smear together. Show labels
+        // only when zoomed in, or for incident nodes during Incident Focus.
+        // (Hover always shows the name via the tooltip.)
+        const showLabel = globalScale > 1.4 || (incidentFocus && isIncident);
+        if (fontSize > 0 && !dim && showLabel) {
+          ctx.font = `600 ${fontSize}px 'Segoe UI', system-ui, sans-serif`;
+          ctx.fillStyle = (incidentFocus && isIncident) ? '#FBBF24' : (nodeLabelColor ?? '#E5E7EB');
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
           ctx.fillText(label, node.x!, node.y! + size + 2);
         }
+        ctx.restore();
       },
-      [getNodeColor, nodeDisplayField, themeColors, nodeLabelFontSize, nodeLabelColor, nodeScale],
+      [getNodeColor, nodeDisplayField, themeColors, nodeLabelFontSize, nodeLabelColor, nodeScale, incidentFocus],
     );
 
     const linkCanvasObjectMode = () => 'after' as const;
@@ -175,9 +258,11 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
         const autoSize = Math.max(8 / globalScale, 2.5);
         const fontSize = edgeLabelFontSize != null ? edgeLabelFontSize / globalScale : autoSize;
 
-        if (fontSize > 0) {
+        // Only show edge (relationship) labels when zoomed in — otherwise ~111
+        // labels smear across the graph.
+        if (fontSize > 0 && globalScale > 1.7) {
           ctx.font = `${fontSize}px 'Segoe UI', system-ui, sans-serif`;
-          ctx.fillStyle = edgeLabelColor ?? themeColors.textMuted;
+          ctx.fillStyle = edgeLabelColor ?? 'rgba(148,163,184,0.85)';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText(link.label, midX, midY);
@@ -211,17 +296,24 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
           width={width}
           height={height}
           graphData={{ nodes: nodes as GNode[], links: edges as GLink[] }}
-          backgroundColor="transparent"
+          backgroundColor="#0e1726"
           nodeCanvasObject={nodeCanvasObject}
           nodeCanvasObjectMode={() => 'replace'}
           nodeId="id"
           linkSource="source"
           linkTarget="target"
           linkColor={(link: GLink) => {
+            if (incidentFocus) {
+              const s = link.source as GNode; const t = link.target as GNode;
+              const sInc = String(s?.properties?.['_incident'] ?? '') === 'true';
+              const tInc = String(t?.properties?.['_incident'] ?? '') === 'true';
+              if (sInc && tInc) return '#FBBF24';
+              return 'rgba(148,163,184,0.05)';
+            }
             if (edgeColorOverride && link.label && edgeColorOverride[link.label]) {
               return edgeColorOverride[link.label];
             }
-            return themeColors.borderDefault;
+            return 'rgba(148,163,184,0.28)';
           }}
           linkWidth={edgeWidth ?? 1.5}
           linkDirectionalArrowLength={4}
@@ -235,9 +327,14 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
           onNodeClick={handleNodeDoubleClick}
           onBackgroundClick={onBackgroundClick}
           d3AlphaDecay={0.02}
-          d3VelocityDecay={0.3}
+          d3VelocityDecay={0.25}
           cooldownTicks={frozen ? 0 : Infinity}
-          cooldownTime={3000}
+          cooldownTime={5000}
+          onEngineStop={() => {
+            if (hasFitRef.current) return;
+            hasFitRef.current = true;
+            fgRef.current?.zoomToFit(500, 60);
+          }}
           enableNodeDrag={true}
           enableZoomInteraction={true}
           enablePanInteraction={true}
