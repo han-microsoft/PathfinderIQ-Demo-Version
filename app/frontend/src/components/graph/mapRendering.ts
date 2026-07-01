@@ -861,10 +861,10 @@ export function drawTownMarker(
   color: string,
   label: string,
   globalScale: number,
-  opts: { showLabel?: boolean; emphasize?: boolean; dim?: boolean } = {},
+  opts: { showLabel?: boolean; emphasize?: boolean; dim?: boolean; discounted?: boolean } = {},
 ): void {
   if (!Number.isFinite(x) || !Number.isFinite(y)) return;
-  const { showLabel = true, emphasize = false, dim = false } = opts;
+  const { showLabel = true, emphasize = false, dim = false, discounted = false } = opts;
   const s = Math.min(globalScale, 4);
 
   if (dim) ctx.globalAlpha = 0.32;
@@ -880,6 +880,19 @@ export function drawTownMarker(
     ctx.strokeStyle = '#F59E0B';
     ctx.lineWidth = 2.5 / s;
     ctx.stroke();
+  }
+
+  // Discounted — examined by the agent, then ruled out as unrelated to the
+  // incident. Violet dashed ring so it reads as "considered, not affected".
+  if (discounted) {
+    ctx.save();
+    ctx.setLineDash([4 / s, 3 / s]);
+    ctx.beginPath();
+    ctx.arc(x, y, size + 3 / s, 0, Math.PI * 2);
+    ctx.strokeStyle = '#A855F7';
+    ctx.lineWidth = 2.5 / s;
+    ctx.stroke();
+    ctx.restore();
   }
 
   // Glow halo
@@ -1077,6 +1090,7 @@ export function drawMapBanner(
 export function drawMapLegend(
   ctx: CanvasRenderingContext2D,
   screenX: number, screenY: number,
+  incidentFocus = false,
 ): void {
   ctx.save();
   const entries: Array<[string, RoadStyle]> = [
@@ -1092,7 +1106,8 @@ export function drawMapLegend(
   const padX = 20;
   const padY = 16;
   const sampleW = 48;
-  const totalH = entries.length * lineH + padY * 2 + 28;
+  const extraRows = incidentFocus ? 1 : 0;
+  const totalH = (entries.length + extraRows) * lineH + padY * 2 + 28;
   const totalW = 320;
   const r = 10;
 
@@ -1132,6 +1147,23 @@ export function drawMapLegend(
     ctx.textBaseline = 'middle';
     ctx.fillText(name, screenX + padX + sampleW + 16, ey + 10);
   });
+
+  // Node-state row: violet dashed circle = examined-but-ruled-out. Only
+  // meaningful while Incident Focus is on, so it is shown conditionally.
+  if (incidentFocus) {
+    const ey = screenY + padY + 32 + entries.length * lineH;
+    ctx.save();
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    ctx.arc(screenX + padX + sampleW / 2, ey + 10, 9, 0, Math.PI * 2);
+    ctx.strokeStyle = '#A855F7';
+    ctx.lineWidth = 2.5;
+    ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = '#4A4540';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Examined — ruled out', screenX + padX + sampleW + 16, ey + 10);
+  }
 
   ctx.restore();
 }

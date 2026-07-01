@@ -156,25 +156,46 @@ export function ReplayHighlight() {
     };
   }, [highlight, reposition]);
 
-  /* Reposition on window resize and on scroll within the chat container. */
+  /* Reposition on window resize, element/panel resize, and scroll. */
   useEffect(() => {
     if (!highlight) return;
 
     const el = findToolElement(highlight.targetId);
     const scrollParent = el ? findScrollParent(el) : null;
 
-    const handler = () => reposition();
+    /* Coalesce bursts of resize/scroll callbacks into one rAF-aligned
+       reposition so the callout tracks the target smoothly. */
+    let raf = 0;
+    const handler = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => reposition());
+    };
+
     window.addEventListener("resize", handler);
     /* Track scroll so the tooltip stays pinned to the tool card. */
     if (scrollParent) {
       scrollParent.addEventListener("scroll", handler, { passive: true });
     }
 
+    /* ResizeObserver keeps the callout a fixed distance from the target
+       even when ELEMENTS are resized (panel splitter drag, result table
+       growing/shrinking) — not just on a window resize. Observe both the
+       target card (its own size changes) and the scroll parent (panel
+       height changes that shift the card's position). */
+    let ro: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(handler);
+      if (el) ro.observe(el);
+      if (scrollParent) ro.observe(scrollParent);
+    }
+
     return () => {
+      cancelAnimationFrame(raf);
       window.removeEventListener("resize", handler);
       if (scrollParent) {
         scrollParent.removeEventListener("scroll", handler);
       }
+      if (ro) ro.disconnect();
     };
   }, [highlight, reposition]);
 

@@ -38,6 +38,7 @@ import { GraphToolbar } from './GraphToolbar';
 import { GraphEdgeToolbar } from './GraphEdgeToolbar';
 import { GraphTooltip } from './GraphTooltip';
 import { GraphContextMenu } from './GraphContextMenu';
+import { NodeDetailsPanel } from './NodeDetailsPanel';
 import { usePausableSimulation } from './usePausableSimulation';
 import { useTooltipTracking } from './useTooltipTracking';
 import { useNodeColor } from './useNodeColor';
@@ -150,6 +151,8 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
   // Incident Focus — emphasise blast-radius nodes (topology.json `_incident`).
   // Default OFF, so the standard view is unchanged for every scenario.
   const [incidentFocus, setIncidentFocus] = useState(false);
+  // Clicked node → details panel (cleared on background click / Escape / X).
+  const [selectedNode, setSelectedNode] = useState<TopologyNode | null>(null);
   const hasIncident = useMemo(
     () => data.nodes.some((n) => String(n.properties?.['_incident'] ?? '') === 'true'),
     [data.nodes],
@@ -314,7 +317,8 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
             onNodeHover={handleNodeHover}
             onLinkHover={handleLinkHover}
             onNodeRightClick={handleNodeRightClick}
-            onBackgroundClick={() => setContextMenu(null)}
+            onNodeSelect={setSelectedNode}
+            onBackgroundClick={() => { setContextMenu(null); setSelectedNode(null); }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           />
@@ -339,11 +343,14 @@ export function GraphTopologyViewer({ width, height }: GraphTopologyViewerProps)
             onNodeHover={handleNodeHover}
             onLinkHover={handleLinkHover}
             onNodeRightClick={handleNodeRightClick}
-            onBackgroundClick={() => setContextMenu(null)}
+            onNodeSelect={setSelectedNode}
+            onBackgroundClick={() => { setContextMenu(null); setSelectedNode(null); }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           />
         )}
+
+        <NodeDetailsPanel node={selectedNode} onClose={() => setSelectedNode(null)} />
 
         {isPaused && (
           <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full

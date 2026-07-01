@@ -24,7 +24,8 @@
  *   Rendered by the root App layout at the top of the viewport.
  */
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Search, Bug, ChevronDown, ChevronUp, Settings, Play } from 'lucide-react';
+import { Search, Bug, ChevronDown, ChevronUp, Settings, Play, SkipForward, Info, Boxes, FlaskConical } from 'lucide-react';
+import { useWorkshopStore } from '@/stores/workshopStore';
 import { useChatStore } from '@/stores/chatStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { useAgentStore } from '@/stores/agentStore';
@@ -175,6 +176,46 @@ export function Header({ style }: HeaderProps) {
         </button>
       </SidebarSection>
 
+      {/* ── Welcome / about ───────────────────────── */}
+      <div className="px-3 pt-2">
+        <button
+          id="ontology-studio-button"
+          onClick={() => useWorkshopStore.getState().openStudio()}
+          className="mb-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+          title="Ontology Studio — from documents to knowledge graph"
+        >
+          <Boxes className="h-3.5 w-3.5" />
+          Ontology Studio
+        </button>
+        <button
+          id="agent-lab-button"
+          onClick={() => useWorkshopStore.getState().openLab()}
+          className="mb-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+          title="Agent Lab — evidence-gated agent-team optimization"
+        >
+          <FlaskConical className="h-3.5 w-3.5" />
+          Agent Lab
+        </button>
+        <button
+          id="welcome-button"
+          onClick={() => window.dispatchEvent(new Event("pfiq:open-welcome"))}
+          className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-neutral-bg3 hover:bg-neutral-bg4
+                     text-text-secondary text-xs font-medium border border-border/40
+                     transition-colors cursor-pointer"
+          title="Open the welcome screen"
+        >
+          <Info className="h-3.5 w-3.5" />
+          {t("sidebar.welcome")}
+        </button>
+      </div>
+
       {/* ── Demo replay button ───────────────────────────────────────── */}
       <div className="px-3 py-2">
         <button
@@ -204,6 +245,20 @@ export function Header({ style }: HeaderProps) {
         >
           <Play className="h-3 w-3 fill-current" />
           {t("sidebar.fastReplay")}
+        </button>
+        <button
+          id="skip-to-end-button"
+          onClick={() => {
+            useReplayStore.getState().startReplay("skip");
+            runReplay();
+          }}
+          className="mt-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+        >
+          <SkipForward className="h-3 w-3 fill-current" />
+          {t("sidebar.skipToEnd")}
         </button>
       </div>
 

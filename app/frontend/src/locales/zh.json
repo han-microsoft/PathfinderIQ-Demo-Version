@@ -122,6 +122,8 @@
   "sidebar.language": "语言",
   "sidebar.seeDemo": "观看 PathfinderIQ 演示！",
   "sidebar.fastReplay": "快速回放 (4倍速)",
+  "sidebar.skipToEnd": "跳至结尾",
+  "sidebar.welcome": "欢迎与资源",
   "sidebar.uiTheme": "界面主题",
   "sidebar.switch": "切换",
   "sidebar.signOut": "退出登录",

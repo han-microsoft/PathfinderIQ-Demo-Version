@@ -109,3 +109,16 @@
   body: >
     SEV-1 ticket, customer advisory, and stakeholder email are all generated
     from the same synthesis, with no manual retyping.
+- tool_call_id: '["run_blastradius", "call_blastradius"]'
+  title: Business Impact, Quantified
+  body: >
+    One tool call rolls up the damage — 18,400 users affected, $75,000/hour in
+    SLA penalties, and $4.2M of customer contracts at risk — and confirms the
+    mobile 5G services are NOT affected, bounding the blast radius. The numbers
+    a CIO needs, in seconds.
+- tool_call_id: '["run_blastradius_orch", "call_blastradius_orch"]'
+  title: The Bottom Line
+  body: >
+    The orchestrator closes with the quantified business impact — 18,400 users,
+    $75,000/hour in SLA exposure, $4.2M of contracts at risk, mobile 5G ruled
+    out. From alert storm to costed executive summary in minutes.

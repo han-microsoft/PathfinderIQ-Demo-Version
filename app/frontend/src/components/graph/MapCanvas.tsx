@@ -77,6 +77,7 @@ interface MapCanvasProps {
   onNodeHover: (node: TopologyNode | null) => void;
   onLinkHover: (edge: TopologyEdge | null) => void;
   onNodeRightClick: (node: TopologyNode, event: MouseEvent) => void;
+  onNodeSelect?: (node: TopologyNode) => void;
   onBackgroundClick: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -90,7 +91,7 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
       nodeScale = 1,
       incidentFocus = false,
       onNodeHover, onLinkHover, onNodeRightClick, onBackgroundClick,
-      onMouseEnter, onMouseLeave,
+      onMouseEnter, onMouseLeave, onNodeSelect,
     },
     ref,
   ) {
@@ -233,11 +234,11 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
         drawPaperEdge(ctx, cw, ch, dpr);
 
         drawCompassRose(ctx, cw - 50 * dpr, ch - 60 * dpr, 28.6 * dpr);
-        drawMapLegend(ctx, cw - 338, 20);
+        drawMapLegend(ctx, cw - 338, 20, incidentFocus);
 
         ctx.restore();
       },
-      [],
+      [incidentFocus],
     );
 
     // ── Node rendering: town markers ────────────────────────────────────────
@@ -254,14 +255,20 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
           : String(node.properties?.[displayField] ?? node.id);
 
         const isIncident = String(node.properties?.['_incident'] ?? '') === 'true';
+        const isDiscounted = String(node.properties?.['_discounted'] ?? '') === 'true';
         const emphasize = incidentFocus && isIncident;
-        const dim = incidentFocus && !isIncident;
+        // Discounted = examined by the agent then ruled out as unrelated. Keep
+        // it visible (not dimmed) in a distinct violet so the audience sees
+        // what was considered and set aside, separate from the blast radius.
+        const discounted = incidentFocus && isDiscounted;
+        const dim = incidentFocus && !isIncident && !isDiscounted;
+        const markerColor = discounted ? '#A855F7' : color;
         // Declutter: at the fit-all default zoom only incident towns are labelled;
         // every town's callout appears once the operator zooms in (or on hover).
-        const showLabel = globalScale > 1.2 || emphasize;
+        const showLabel = globalScale > 1.2 || emphasize || discounted;
 
-        drawTownMarker(ctx, node.x, node.y, size, color, label, globalScale, {
-          showLabel, emphasize, dim,
+        drawTownMarker(ctx, node.x, node.y, size, markerColor, label, globalScale, {
+          showLabel, emphasize, dim, discounted,
         });
       },
       [getNodeColor, nodeDisplayField, nodeScale, incidentFocus],
@@ -307,9 +314,10 @@ export const MapCanvas = forwardRef<MapCanvasHandle, MapCanvasProps>(
       [onLinkHover],
     );
     const handleNodeDoubleClick = useCallback((node: GNode) => {
+      onNodeSelect?.(node);
       fgRef.current?.centerAt(node.x, node.y, 600);
       fgRef.current?.zoom(4, 600);
-    }, []);
+    }, [onNodeSelect]);
 
     // ── Compute paper dimensions ────────────────────────────────────────
     const paperW = flat ? width : (() => {

@@ -93,3 +93,14 @@
   body: >
     SEV-1工单、客户通告和相关方邮件全部从相同的根本原因、
     影响范围和修复状态生成。
+
+- tool_call_id: '["run_blastradius", "call_blastradius"]'
+  title: 量化业务影响
+  body: >
+    一次工具调用即汇总损失 — 影响 18,400 名用户、每小时 75,000 美元的 SLA 罚款、
+    420 万美元的客户合同面临风险，并确认移动 5G 服务未受影响，界定影响范围。CIO 所需的数字，几秒内呈现。
+- tool_call_id: '["run_blastradius_orch", "call_blastradius_orch"]'
+  title: 关键结论
+  body: >
+    协调器以量化的业务影响收尾 — 18,400 名用户、每小时 75,000 美元的 SLA 风险、
+    420 万美元的合同风险，移动 5G 已排除。从告警风暴到量化成本的高管摘要，仅需数分钟。

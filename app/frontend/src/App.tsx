@@ -35,6 +35,8 @@ import { WelcomeOverlay } from "./components/layout/WelcomeOverlay";
 import { ReplayTourOverlay } from "./components/replay/ReplayTourOverlay";
 import { ReplayHighlight } from "./components/replay/ReplayHighlight";
 import { DemoButtonHint } from "./components/replay/DemoButtonHint";
+import { OntologyStudio } from "./components/workshop/OntologyStudio";
+import { AgentLab } from "./components/workshop/AgentLab";
 import { lazy, Suspense, useEffect } from "react";
 import { useResizable } from "./hooks/useResizable";
 import { useReadinessStore } from "./stores/readinessStore";
@@ -124,6 +126,8 @@ export default function App() {
       <ReplayTourOverlay />
       <ReplayHighlight />
       <DemoButtonHint />
+      <OntologyStudio />
+      <AgentLab />
 
       <div className="flex h-screen w-screen overflow-hidden bg-neutral-bg1">
       {/* Left: resizable nav sidebar */}

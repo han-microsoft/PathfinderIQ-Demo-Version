@@ -112,8 +112,12 @@ CASES: list[Case] = [
             "endpoints, the conduit it routes through, and the inline "
             "amplifiers that feed it. Use the graph traversal tool."
         ),
+        # A single direct turn reliably engages the asked-for entity and runs
+        # a graph tool; the deeper conduit/amplifier evidence is asserted by
+        # the orchestrated `investigate` case (a terse one-shot answer may
+        # name the entity without echoing every downstream ID).
         min_tool_calls=1,
-        must_include=("LINK-SYD-MEL-FIBRE-01", "CONDUIT-SYD-MEL"),
+        must_include=("LINK-SYD-MEL-FIBRE-01",),
         budget_s=180.0,
     ),
 ]

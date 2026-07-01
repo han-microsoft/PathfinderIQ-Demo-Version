@@ -159,6 +159,7 @@ agents:
       - tools.graph_explorer:query_graph
       - tools.telemetry:query_alerts
       - tools.telemetry:query_telemetry
+      - tools.incidents:estimate_blast_radius
       - tools.thinking:thinking
     ui:
       headshot: ui/assets/agents/networkinvestigator_headshot.png

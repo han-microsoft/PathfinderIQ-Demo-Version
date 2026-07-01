@@ -209,6 +209,16 @@
               },
               "result": "{\"agent_id\": \"communicationsSpecialist\", \"status\": \"complete\", \"response\": \"All three communications actions completed:\\n1. **Incident ticket created**: INC-2026-0206-143200 (SEV-1)\\n2. **Customer advisory published**: ADV-20260206-143215 for VPN-ACME-CORP and VPN-BIGBANK\\n3. **Stakeholder report emailed**: Sent to noc-leads@austtelco.com.au\", \"duration_ms\": 12400}",
               "duration_ms": 12650
+            },
+            {
+              "id": "[\"run_blastradius_orch\", \"call_blastradius_orch\"]",
+              "name": "estimate_blast_radius",
+              "arguments": {
+                "incident_id": "LINK-SYD-MEL-FIBRE-01",
+                "outage_hours": 4
+              },
+              "result": "{\"status\": \"estimated\", \"incident_id\": \"LINK-SYD-MEL-FIBRE-01\", \"affected_user_count\": 18400, \"affected_service_count\": 4, \"services\": [{\"id\": \"VPN-ACME-CORP\", \"type\": \"Enterprise VPN\", \"users\": 1200, \"sla\": \"SLA-ACME-GOLD\", \"penalty_per_hour_usd\": 45000, \"annual_contract_usd\": 2600000}, {\"id\": \"VPN-BIGBANK\", \"type\": \"Enterprise VPN\", \"users\": 900, \"sla\": \"SLA-BIGBANK-SILVER\", \"penalty_per_hour_usd\": 30000, \"annual_contract_usd\": 1600000}, {\"id\": \"BB-BUNDLE-SYD-NORTH\", \"type\": \"Broadband Bundle\", \"users\": 9100, \"sla\": null, \"penalty_per_hour_usd\": 0, \"annual_contract_usd\": 0}, {\"id\": \"BB-BUNDLE-MEL-EAST\", \"type\": \"Broadband Bundle\", \"users\": 7200, \"sla\": null, \"penalty_per_hour_usd\": 0, \"annual_contract_usd\": 0}], \"total_sla_penalty_per_hour_usd\": 75000, \"contract_value_at_risk_usd\": 4200000, \"projection\": {\"outage_hours\": 4.0, \"projected_cost_usd\": 300000}, \"not_affected\": [\"MOB-5G-SYD-2041\", \"MOB-5G-SYD-2042\", \"MOB-5G-MEL-3011\"], \"methodology\": \"Graph traversal of service->SLA and service->subscriber edges; SLA penalties summed from SLAPolicy.PenaltyPerHourUSD; subscriber counts from precomputed Service.CustomerCount rollups; cost projected over the estimated outage window.\"}",
+              "duration_ms": 300
             }
           ],
           "agent_name": "orchestrator",
@@ -446,6 +456,16 @@
               },
               "result": "{\"columns\": [{\"name\": \"tl.LinkId\", \"type\": \"string\"}, {\"name\": \"pc.ConduitId\", \"type\": \"string\"}, {\"name\": \"pc.RouteDescription\", \"type\": \"string\"}, {\"name\": \"pc.MaterialType\", \"type\": \"string\"}], \"data\": [{\"tl.LinkId\": \"LINK-SYD-MEL-FIBRE-01\", \"pc.ConduitId\": \"CONDUIT-SYD-MEL-INLAND\", \"pc.RouteDescription\": \"Sydney to Melbourne via Hume Highway / Goulburn \\u2014 inland route through Southern Highlands\", \"pc.MaterialType\": \"Underground Duct\"}, {\"tl.LinkId\": \"LINK-SYD-MEL-FIBRE-02\", \"pc.ConduitId\": \"CONDUIT-SYD-MEL-INLAND\", \"pc.RouteDescription\": \"Sydney to Melbourne via Hume Highway / Goulburn \\u2014 inland route through Southern Highlands\", \"pc.MaterialType\": \"Underground Duct\"}]}",
               "duration_ms": 2100
+            },
+            {
+              "id": "[\"run_blastradius\", \"call_blastradius\"]",
+              "name": "estimate_blast_radius",
+              "arguments": {
+                "incident_id": "LINK-SYD-MEL-FIBRE-01",
+                "outage_hours": 4
+              },
+              "result": "{\"status\": \"estimated\", \"incident_id\": \"LINK-SYD-MEL-FIBRE-01\", \"affected_user_count\": 18400, \"affected_service_count\": 4, \"services\": [{\"id\": \"VPN-ACME-CORP\", \"type\": \"Enterprise VPN\", \"users\": 1200, \"sla\": \"SLA-ACME-GOLD\", \"penalty_per_hour_usd\": 45000, \"annual_contract_usd\": 2600000}, {\"id\": \"VPN-BIGBANK\", \"type\": \"Enterprise VPN\", \"users\": 900, \"sla\": \"SLA-BIGBANK-SILVER\", \"penalty_per_hour_usd\": 30000, \"annual_contract_usd\": 1600000}, {\"id\": \"BB-BUNDLE-SYD-NORTH\", \"type\": \"Broadband Bundle\", \"users\": 9100, \"sla\": null, \"penalty_per_hour_usd\": 0, \"annual_contract_usd\": 0}, {\"id\": \"BB-BUNDLE-MEL-EAST\", \"type\": \"Broadband Bundle\", \"users\": 7200, \"sla\": null, \"penalty_per_hour_usd\": 0, \"annual_contract_usd\": 0}], \"total_sla_penalty_per_hour_usd\": 75000, \"contract_value_at_risk_usd\": 4200000, \"projection\": {\"outage_hours\": 4.0, \"projected_cost_usd\": 300000}, \"not_affected\": [\"MOB-5G-SYD-2041\", \"MOB-5G-SYD-2042\", \"MOB-5G-MEL-3011\"], \"methodology\": \"Graph traversal of service->SLA and service->subscriber edges; SLA penalties summed from SLAPolicy.PenaltyPerHourUSD; subscriber counts from precomputed Service.CustomerCount rollups; cost projected over the estimated outage window.\"}",
+              "duration_ms": 320
             }
           ],
           "agent_name": "networkInvestigator",

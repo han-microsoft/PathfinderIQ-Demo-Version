@@ -127,7 +127,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-SYD-NORTH-01",
         "City": "Sydney",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -138,7 +139,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-SYD-NORTH-01",
         "City": "Sydney",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -160,7 +162,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-MEL-EAST-01",
         "City": "Melbourne",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -460,7 +463,8 @@
         "CustomerName": "Mobile Subscribers - SYD 2041",
         "CustomerCount": "4200",
         "ActiveUsers": "4200",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {
@@ -472,7 +476,8 @@
         "CustomerName": "Mobile Subscribers - SYD 2042",
         "CustomerCount": "4300",
         "ActiveUsers": "4300",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {
@@ -484,7 +489,8 @@
         "CustomerName": "Mobile Subscribers - MEL 3011",
         "CustomerCount": "3800",
         "ActiveUsers": "3800",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {

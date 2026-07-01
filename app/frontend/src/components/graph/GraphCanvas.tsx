@@ -69,6 +69,7 @@ interface GraphCanvasProps {
   onNodeHover: (node: TopologyNode | null) => void;
   onLinkHover: (edge: TopologyEdge | null) => void;
   onNodeRightClick: (node: TopologyNode, event: MouseEvent) => void;
+  onNodeSelect?: (node: TopologyNode) => void;
   onBackgroundClick: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -85,7 +86,7 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
       edgeColorOverride,
       incidentFocus = false,
       onNodeHover, onLinkHover, onNodeRightClick, onBackgroundClick,
-      onMouseEnter, onMouseLeave },
+      onMouseEnter, onMouseLeave, onNodeSelect },
     ref,
   ) {
     const fgRef = useRef<ForceGraphMethods<GNode, GLink> | undefined>(undefined);
@@ -191,14 +192,17 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
         const size = (Number(node.properties['_size']) || 6) * nodeScale;
         const color = getNodeColor(node.label);
         const isIncident = String(node.properties['_incident'] ?? '') === 'true';
-        const dim = incidentFocus && !isIncident;
+        const isDiscounted = String(node.properties['_discounted'] ?? '') === 'true';
+        const discounted = incidentFocus && isDiscounted;
+        const dim = incidentFocus && !isIncident && !isDiscounted;
 
         ctx.save();
         if (dim) ctx.globalAlpha = 0.12;
 
         ctx.beginPath();
         ctx.arc(node.x!, node.y!, size, 0, 2 * Math.PI);
-        ctx.fillStyle = color;
+        // Discounted = examined then ruled out as unrelated → distinct violet.
+        ctx.fillStyle = discounted ? '#A855F7' : color;
         ctx.fill();
         ctx.strokeStyle = 'rgba(226,232,240,0.30)';
         ctx.lineWidth = 0.6;
@@ -213,6 +217,17 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
           ctx.stroke();
         }
 
+        // Discounted ring — violet dashed, "considered but ruled out".
+        if (discounted) {
+          ctx.beginPath();
+          ctx.setLineDash([3 / globalScale, 3 / globalScale]);
+          ctx.arc(node.x!, node.y!, size + 2.5, 0, 2 * Math.PI);
+          ctx.strokeStyle = '#A855F7';
+          ctx.lineWidth = 2 / globalScale;
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
         const displayField = nodeDisplayField[node.label] ?? 'id';
         const label = displayField === 'id'
           ? node.id
@@ -223,10 +238,10 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
         // Declutter: with ~90 nodes, always-on labels smear together. Show labels
         // only when zoomed in, or for incident nodes during Incident Focus.
         // (Hover always shows the name via the tooltip.)
-        const showLabel = globalScale > 1.4 || (incidentFocus && isIncident);
+        const showLabel = globalScale > 1.4 || (incidentFocus && isIncident) || discounted;
         if (fontSize > 0 && !dim && showLabel) {
           ctx.font = `600 ${fontSize}px 'Segoe UI', system-ui, sans-serif`;
-          ctx.fillStyle = (incidentFocus && isIncident) ? '#FBBF24' : (nodeLabelColor ?? '#E5E7EB');
+          ctx.fillStyle = (incidentFocus && isIncident) ? '#FBBF24' : discounted ? '#A855F7' : (nodeLabelColor ?? '#E5E7EB');
           ctx.textAlign = 'center';
           ctx.textBaseline = 'top';
           ctx.fillText(label, node.x!, node.y! + size + 2);
@@ -262,9 +277,10 @@ export const GraphCanvas = forwardRef<GraphCanvasHandle, GraphCanvasProps>(
     );
 
     const handleNodeDoubleClick = useCallback((node: GNode) => {
+      onNodeSelect?.(node);
       fgRef.current?.centerAt(node.x, node.y, 600);
       fgRef.current?.zoom(4, 600);
-    }, []);
+    }, [onNodeSelect]);
 
     const handleNodeHoverInternal = useCallback(
       (node: GNode | null) => onNodeHover(node as TopologyNode | null),

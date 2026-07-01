@@ -19,7 +19,7 @@ export function ArgumentsGrid({ args }: ArgumentsGridProps) {
       {entries.map(([key, value]) => (
         <div key={key} className="contents">
           <span className="text-text-muted font-medium">{key}</span>
-          <span className="font-mono text-text-secondary break-all">
+          <span className="font-mono text-text-secondary whitespace-pre-wrap break-words">
             {formatValue(value)}
           </span>
         </div>
@@ -32,6 +32,6 @@ function formatValue(value: unknown): string {
   if (value === null || value === undefined) return "—";
   if (typeof value === "string") return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
-  /* Compact JSON for objects/arrays */
-  return JSON.stringify(value);
+  /* Pretty, indented JSON for objects/arrays so nested args stay readable. */
+  return JSON.stringify(value, null, 2);
 }

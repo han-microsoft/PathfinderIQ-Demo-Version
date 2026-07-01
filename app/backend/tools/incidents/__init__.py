@@ -10,6 +10,7 @@ Dependents:
 """
 
 from tools.incidents._create_ticket import create_incident_ticket  # noqa: F401
+from tools.incidents._estimate_blast_radius import estimate_blast_radius  # noqa: F401
 from tools.incidents._update_advisory import update_advisory  # noqa: F401
 
-__all__ = ["create_incident_ticket", "update_advisory"]
+__all__ = ["create_incident_ticket", "estimate_blast_radius", "update_advisory"]

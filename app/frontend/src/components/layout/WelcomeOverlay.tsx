@@ -38,6 +38,18 @@ export function WelcomeOverlay() {
   });
   const [fadeOut, setFadeOut] = useState(false);
 
+  // Allow re-opening the welcome screen from the sidebar — it carries
+  // valuable product info + resources the operator may want again.
+  useEffect(() => {
+    const reopen = () => {
+      setFadeOut(false);
+      setPhase("intro");
+      setVisible(true);
+    };
+    window.addEventListener("pfiq:open-welcome", reopen);
+    return () => window.removeEventListener("pfiq:open-welcome", reopen);
+  }, []);
+
   const sessions = useReadinessStore((s) => s.sessions);
   const serviceHealth = useReadinessStore((s) => s.serviceHealth);
   const graphTopology = useReadinessStore((s) => s.graphTopology);
