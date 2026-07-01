@@ -49,13 +49,20 @@ const TOOL_ICONS: Record<string, string> = {
   thinking: "💭",
   query_graph: "🔍",
   query_telemetry: "📊",
+  query_alerts: "🚨",
   search_runbooks: "📚",
   search_tickets: "🎫",
   search_equipment: "🧰",
   search_infra_specs: "📐",
   dispatch_field_engineer: "🚀",
   call_engineer: "📞",
+  reroute_traffic: "🔀",
+  set_link_status: "🚦",
+  create_incident_ticket: "🎫",
+  update_advisory: "📣",
+  estimate_blast_radius: "💥",
   send_incident_report: "📧",
+  ask_work_iq: "💼",
   delegate_to_agent: "🤖",
 };
 
@@ -147,7 +154,7 @@ export const ToolCallDisplay = memo(function ToolCallDisplay({
               e.stopPropagation();
               useAgentStore.getState().viewDelegatedTab(delegationAgentId);
             }}
-            className="shrink-0 px-2 py-2 text-[0.75em] font-medium text-brand hover:bg-brand/10 border-r border-border transition-colors"
+            className="shrink-0 px-3 py-2.5 text-[0.75em] font-medium text-brand hover:bg-brand/10 border-r border-border transition-colors"
             title={`Switch to ${delegationAgentId} tab`}
           >
             {t("tool.viewTab")}
@@ -157,7 +164,7 @@ export const ToolCallDisplay = memo(function ToolCallDisplay({
         {/* Expand/collapse toggle — rest of header */}
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex flex-1 items-center gap-2 px-3 py-2 hover:bg-neutral-bg3 transition-colors text-left min-w-0"
+          className="flex flex-1 items-center gap-2 px-3 py-2.5 hover:bg-neutral-bg3 transition-colors text-left min-w-0"
         >
         {delegationIcon ? (
           <img
@@ -219,7 +226,7 @@ export const ToolCallDisplay = memo(function ToolCallDisplay({
 
 {/* Expandable detail — uses specialized renderers */}
       {expanded && (
-        <div className="border-t border-border px-3 py-2 space-y-2">
+        <div className="border-t border-border px-3 py-2.5 space-y-2">
           {/* Arguments — custom renderer or clean key-value grid */}
           {hasArgs && (
             <div>

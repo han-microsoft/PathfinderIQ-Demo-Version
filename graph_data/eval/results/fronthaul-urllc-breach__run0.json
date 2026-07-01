@@ -1,0 +1,47 @@
+{
+  "case_id": "fronthaul-urllc-breach",
+  "run": 0,
+  "split": "train",
+  "event_class": "fronthaul_degradation",
+  "severity": "critical",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 2,
+      "total": 2,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 5,
+      "total": 5,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 2,
+      "total": 2,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_alerts",
+    "query_graph",
+    "query_graph",
+    "query_telemetry",
+    "query_telemetry"
+  ],
+  "elapsed": 43.2,
+  "event_counts": {
+    "tool_call_start": 8,
+    "tool_call_end": 8,
+    "tool_result": 8,
+    "token": 1597,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**RANInvestigator verdict**\n\n**Root cause:** eCPRI fronthaul degradation on all three fronthaul links under **DU-MEL-01-2** caused DU overload, then sustained cell PRB congestion, RRC admission collapse, and URLLC slice SLA breach.  \n**Blast radius:** **DU-MEL-01-2** and cells **CELL-MEL-01-2-1/2/3**.  \n**Tenant/SLA impact:** **SL-URLLC-01 / SmartGridCo** is impacted and **breached**; active penalty exposure **USD 5,000/hour**.\n\n## 1) Alarm sequence\n\n| Time UTC | Source | Alarm | Sev | Meaning |\n|---|---|---:|---|---|\n| 09:10 | LINK-FH-CELL-MEL-01-2-1 | FRONTHAUL_DEGRADED | CRITICAL | Optical power below threshold; CRC rising |\n| 09:10 | LINK-FH-CELL-MEL-01-2-2 | FRONTHAUL_DEGRADED | CRITICAL | Same |\n| 09:10 | LINK-FH-CELL-MEL-01-2-3 | FRONTHAUL_DEGRADED | CRITICAL | Same |\n| 09:10 | DU-MEL-01-2 | DU_OVERLOAD | MAJOR | L1 load elevated following fronthaul degradation |\n| 09:15 | SL-URLLC-01 | SLA_BREACH | CRITICAL | Latency >5 ms; penalty exposure active |\n| 09:25\u201309:55 | CELL-MEL-01-2-1/2/3 | PRB_CONGESTION | MAJOR | Sustained PRB >90% on all three cells |\n\n**Finding:** causal chain is clean: **fronthaul impairment \u2192 DU overload \u2192 cell congestion \u2192 URLLC SLA breach**.  \n**Noise:** **GNB-MEL-01 CLOCK_DRIFT** at 09:30 is minor and described as within tolerance; not causal.\n\n## 2) Topology and affected elements\n\n| DU | Cell | Band | Carried slices |\n|---|---|---|---|\n| DU-MEL-01-2 | CELL-MEL-01-2-1 | n78 | SL-EMBB-01, **SL-URLLC-01** |\n| DU-MEL-01-2 | CELL-MEL-01-2-2 | n28 | SL-EMBB-01, SL-MMTC-01, SL-MMTC-02 |\n| DU-MEL-01-2 | CELL-MEL-01-2-3 | n258 | SL-EMBB-01, SL-EMBB-02 |\n\n**Finding:** only **CELL-MEL-01-2-1** directly carries **SL-URLLC-01**, but all three cells under the DU are degraded, so DU-level capacity stress is broad while SLA breach is slice-specific.\n\n## 3) KPM correlation\n\n### Cell KPMs\n| Cell | PRB util recent | RRC success recent | Verdict |\n|---|---:|---:|---|\n| CELL-MEL-01-2-1 | 96.0\u201398.4% | 81.6\u201384.5% | Severe congestion, admission failures |\n| CELL-MEL-01-2-2 | 95.7\u201397.8% | 81.8\u201384.5% | Severe congestion, admission failures |\n| CELL-MEL-01-2-3 | 95.7\u201398.3% | 81.6\u201383.8% | Severe congestion, admission failures |\n\n**Finding:** all DU-MEL-01-2 cells are well above the >90% congestion threshold; **RRC success is persistently ~82\u201384%**, far below healthy baseline.\n\n### URLLC slice KPMs\n| Time window | Latency | Throughput | PRB util | Active UEs | Verdict |\n|---|---:|---:|---:|---:|---|\n| 09:00\u201309:05 | 3.08\u20133.15 ms | 70.7\u201376.2 Mbps | 51.6\u201353.4% | normal | Healthy baseline |\n| 09:10 | 5.76 ms | 43.8 Mbps | 91.5% | 84 | First SLA miss |\n| 09:15 | 8.48 ms | 37.5 Mbps | 93.0% | 78 | Breach confirmed |\n| 09:20\u201309:55 | 10.41\u201313.78 ms | 25.0\u201331.2 Mbps | 94.5\u201396.0% | 60\u2013115 | Sustained severe breach |\n\n**Finding:** **SL-URLLC-01** fails both latency and throughput commitments after the 09:10 fronthaul event.\n\n## 4) Slice, tenant, SLA impact\n\n| Slice | Tenant | SLA | Observed | Status |\n|---|---|---|---|---|\n| SL-URLLC-01 | SmartGridCo | Max latency **5 ms**, min throughput **50 Mbps** | Latency **5.76\u201313.78 ms**; throughput **25.0\u201343.8 Mbps** | **BREACHED** |\n\n| SLA policy | Tier | Penalty |\n|---|---|---:|\n| SLAP-SL-URLLC-01 | GOLD | **USD 5,000/hour** |\n\n**Blast radius by service**\n- **Direct SLA casualty:** **SmartGridCo / SL-URLLC-01** on **CELL-MEL-01-2-1**.\n- **Broader radio impact:** all traffic on **DU-MEL-01-2** cells suffers congestion; this includes eMBB and mMTC slices on the same DU, though no explicit non-URLLC SLA breach alarm is present in current evidence.\n\n## 5) Root-cause statement\n\n**Primary fault domain:** transport fronthaul optics/eCPRI on **LINK-FH-CELL-MEL-01-2-1/2/3**.  \n**Evidence:** simultaneous critical fronthaul-degraded alarms cite **low optical power + rising CRC**, immediately followed by **DU_OVERLOAD**, then sustained **PRB_CONGESTION** and URLLC degradation.  \n**Conclusion:** this is **not** a core, CU, or timing-origin incident; it is a **DU-MEL-01-2 fronthaul degradation event** with radio resource collapse as the downstream symptom.\n\n## 6) Immediate action focus\n\n1. Restore optical power / clean fiber path on **LINK-FH-CELL-MEL-01-2-1/2/3**.  \n2. Treat **DU-MEL-01-2** as degraded until fronthaul CRC/power normalize.  \n3. Prioritize recovery validation on **CELL-MEL-01-2-1** because it carries **SL-URLLC-01 / SmartGridCo**.  \n4. Keep SLA breach clock running until **latency \u22645 ms** and **throughput \u226550 Mbps** are sustained.\n\n**Bottom line:** **Critical fronthaul degradation on all DU-MEL-01-2 eCPRI links is the root cause; affected cells are CELL-MEL-01-2-1/2/3; SmartGridCo\u2019s URLLC slice SL-URLLC-01 is breached with active GOLD-tier penalty exposure.**"
+}

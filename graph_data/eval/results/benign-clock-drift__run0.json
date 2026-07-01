@@ -1,0 +1,50 @@
+{
+  "case_id": "benign-clock-drift",
+  "run": 0,
+  "split": "train",
+  "event_class": "none",
+  "severity": "benign",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 2,
+      "total": 2,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_graph",
+    "query_telemetry",
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_graph"
+  ],
+  "elapsed": 37.3,
+  "event_counts": {
+    "tool_call_start": 11,
+    "tool_call_end": 11,
+    "tool_result": 11,
+    "token": 750,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**Verdict:** **No immediate operator action for PTP/CLOCK_DRIFT itself.** Current CLOCK_DRIFT alarms look **informational/minor, network-wide, and non-impacting**. The only active service issue observed is **separate**: the known **DU-MEL-01-2 fronthaul congestion** on GNB-MEL-01.\n\n### Evidence summary\n\n| Check | Result | Interpretation |\n|---|---|---|\n| Recent CLOCK_DRIFT alarms | 8 recent alarms, all **MINOR** | No severity escalation |\n| Alarm text | Repeats **\u201cPTP clock drift within tolerance\u201d** / **\u201cno KPI impact\u201d** | Explicitly non-actionable unless trend worsens |\n| Affected scope | gNBs in **Sydney, Melbourne, Brisbane, Perth** | Broad/background condition, not localized failure |\n| Correlated MAJOR/CRITICAL on same gNBs | **None found** | No sign PTP drift is driving service faults |\n| Sample KPI impact check on GNB-MEL-01 | Degradation isolated to **DU-MEL-01-2 cells**; sibling DU cells normal | Matches fronthaul issue, not site-wide timing failure |\n\n### Alarm inventory reviewed\n- **GNB-PER-01** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance / no KPI impact\u201d\n- **GNB-MEL-01** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance\u201d\n- **GNB-PER-02** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance / no KPI impact\u201d\n- **GNB-BNE-01** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance\u201d\n- **GNB-MEL-02** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance / no KPI impact\u201d\n- **GNB-SYD-01** \u2014 repeated MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance\u201d\n- **GNB-BNE-02** \u2014 MINOR CLOCK_DRIFT \u2014 \u201cwithin tolerance\u201d\n\n### Why this is not an action-triggering PTP event\n- **Severity is uniformly MINOR.**\n- **Descriptions state in-tolerance drift.**\n- **No associated MAJOR/CRITICAL alarms** on those same gNBs.\n- On **GNB-MEL-01**, cell KPIs split cleanly:\n  - **DU-MEL-01-2 cells**: PRB ~96\u201398%, RRC success ~82\u201384% \u2192 active impairment.\n  - **DU-MEL-01-1 cells**: PRB ~39\u201360%, RRC success ~98.7\u201399.6% \u2192 healthy.\n- A real timing fault would more likely present as **site-wide synchronization symptoms**, not a **single-DU fronthaul-congestion pattern**.\n\n### Operator action recommendation\n| Priority | Action |\n|---|---|\n| Now | **No PTP corrective action required** based on current evidence. |\n| Now | Keep focus on **DU-MEL-01-2 fronthaul remediation**; that is the service-affecting fault. |\n| Monitor | Watch CLOCK_DRIFT for **severity increase, persistence growth, or KPI correlation**. |\n| Trigger threshold | Act if CLOCK_DRIFT becomes **MAJOR/CRITICAL**, loses \u201cwithin tolerance\u201d wording, or starts correlating with broader cell/gNB degradation. |\n\n### Bottom line\n**CLOCK_DRIFT alarms do not currently indicate an operator-actionable PTP problem.** Treat them as **watch-list noise/background tolerance drift**, not root cause. The actionable network issue remains **fronthaul degradation under DU-MEL-01-2**."
+}

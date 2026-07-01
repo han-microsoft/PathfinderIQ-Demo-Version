@@ -1,0 +1,11 @@
+{
+  "name": "demo-sandbox-dataset",
+  "scenario": "demo-sandbox",
+  "generated_at": "2026-06-20T00:00:00Z",
+  "items": [
+    { "id": "SBX-001", "label": "Edge Node Alpha", "value": "healthy" },
+    { "id": "SBX-002", "label": "Edge Node Beta", "value": "degraded" },
+    { "id": "SBX-003", "label": "Core Service One", "value": "healthy" },
+    { "id": "SBX-004", "label": "Core Service Two", "value": "offline" }
+  ]
+}

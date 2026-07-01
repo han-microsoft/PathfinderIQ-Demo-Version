@@ -144,3 +144,45 @@ async def scenario_asset(asset_path: str, scenario: str | None = None):
     if asset_file is None:
         raise HTTPException(status_code=404, detail="Scenario asset not found")
     return FileResponse(asset_file)
+
+
+# ── /api/scenarios — runtime swap catalog ────────────────────────────────────
+# Plural list endpoint backing the frontend scenario selector. The active
+# scenario is resolved per-request from the X-Scenario-Name header (see
+# app/_middleware.py); this router just enumerates the packs and reports which
+# one is active for the current request.
+
+scenarios_router = APIRouter(prefix="/scenarios", tags=["scenario"])
+
+
+@scenarios_router.get("")
+async def list_scenarios(user: User = Depends(get_current_user)):
+    """List every available scenario pack + flag the request-active one."""
+    from app.scenario._catalog import list_available_scenarios
+    from app.foundation.request_scope import get_request_scope
+
+    active = get_request_scope().scenario_name or settings.scenario_name or ""
+    packs = list_available_scenarios()
+    return {
+        "active": active,
+        "scenarios": [{**p, "active": p["name"] == active} for p in packs],
+    }
+
+
+@scenarios_router.post("/select")
+async def select_scenario(payload: dict, request: Request, user: User = Depends(get_current_user)):
+    """Persist the current user's scenario choice (per-user, no env mutation).
+
+    Validates the requested scenario exists on disk (fresh, path-traversal
+    guarded). The selection is stored per-user-OID; ``os.environ`` is never
+    mutated, so one user's switch cannot bleed into another's requests.
+    """
+    from app.scenario import get_scenario_dir
+    from app.services.preferences import get_preferences_store
+
+    requested = str((payload or {}).get("scenario", "")).strip()
+    if not requested or get_scenario_dir(requested) is None:
+        raise HTTPException(status_code=400, detail=f"Unknown scenario: {requested!r}")
+
+    get_preferences_store(request).set_scenario(user.oid, requested)
+    return {"scenario": requested, "scenario_name": requested}

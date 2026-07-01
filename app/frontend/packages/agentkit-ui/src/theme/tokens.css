@@ -1,0 +1,124 @@
+/*
+ * agentkit-ui / theme / tokens.css — DEFAULT token values (neutral dark theme).
+ *
+ * This is the kit's built-in, self-contained default palette so a fresh
+ * project renders correctly with ZERO hand-authoring. Import it once, then
+ * override any `--color-*` / `--font-*` var in your own stylesheet to
+ * re-theme (light mode, brand colours, etc.).
+ *
+ *   @import "@agentkit/ui/theme/tokens.css";   // defaults
+ *   @import "./my-theme.css";                  // your overrides (loaded after)
+ *
+ * Every variable here is referenced by the Tailwind preset (preset.cjs).
+ * The full contract — which var feeds which Tailwind class group — is in
+ * ./TOKENS.md. Domain-specific groups (a host app's situation/priority/…
+ * tokens) are NOT defined here; the consumer owns those.
+ */
+
+:root {
+  /* ── Typography ─────────────────────────────────────────────────── */
+  --font-sans: "Inter", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+
+  --font-size-micro: 10px;
+  --font-size-label: 11px;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-display: 1.5rem;
+
+  /* ── Brand / accent ─────────────────────────────────────────────── */
+  --color-brand: #1a9c85;
+  --color-brand-hover: #21b89b;
+  --color-brand-light: #2bd4b3;
+  --color-brand-subtle: rgba(26, 156, 133, 0.12);
+  --color-on-accent: #ffffff;
+  /* `accent` is an internal alias used by the status `info` tokens below;
+     defaults to brand so the palette is self-contained. */
+  --color-accent: var(--color-brand);
+  --color-accent-soft: var(--color-brand-subtle);
+
+  /* ── Neutral background ramp (darkest → lightest) ───────────────── */
+  --color-bg-0: #0e1217;
+  --color-bg-1: #161a1f; /* panel body */
+  --color-bg-2: #232932; /* cards, inputs, elevated */
+  --color-bg-3: #2f3641; /* hover / pressed */
+  --color-bg-4: var(--color-bg-3); /* active / pressed */
+  --color-bg-5: #2f353f; /* scrollbar thumb */
+  --color-bg-6: #3b424d; /* scrollbar thumb hover */
+  --color-bg-app: var(--color-bg-0);
+  --color-bg-center-panel: var(--color-bg-1);
+
+  /* ── Text ───────────────────────────────────────────────────────── */
+  --color-text-primary: #e6e8ec;
+  --color-text-secondary: #9ba3ae;
+  --color-text-muted: #6a7280;
+  --color-text-tertiary: var(--color-text-muted);
+
+  /* ── Borders / dividers ─────────────────────────────────────────── */
+  --color-border-default: #0a0c10;
+  --color-border-subtle: var(--color-border-default);
+  --color-border-strong: var(--color-border-default);
+  --color-divider: var(--color-bg-3);
+
+  /* ── Status ─────────────────────────────────────────────────────── */
+  --color-success: #36b136;
+  --color-warning: #f5a524;
+  --color-error: #e5484d;
+  --color-info: var(--color-accent);
+  --color-success-surface: rgba(54, 177, 54, 0.12);
+  --color-warning-surface: rgba(245, 165, 36, 0.12);
+  --color-error-surface: rgba(229, 72, 77, 0.12);
+  --color-info-surface: var(--color-accent-soft);
+
+  /* ── Header ─────────────────────────────────────────────────────── */
+  --color-header-bg: var(--color-bg-1);
+  --color-header-text: var(--color-text-primary);
+  --color-header-border: transparent;
+
+  /* ── Overlay / modal backdrops ──────────────────────────────────── */
+  --color-overlay-bg: var(--color-bg-2);
+  --color-overlay-border: transparent;
+  --color-overlay-hover: rgba(255, 255, 255, 0.04);
+  --color-overlay-backdrop: rgba(0, 0, 0, 0.45);
+  --color-overlay-backdrop-light: var(--color-overlay-backdrop);
+  --color-overlay-backdrop-heavy: var(--color-overlay-backdrop);
+
+  /* ── Placeholder / demo accent ──────────────────────────────────── */
+  --color-placeholder: #9333ea;
+
+  /* ── Section / subsection gradients (collapsible headers) ───────── */
+  --color-section-gradient-from: rgba(63, 63, 70, 0.3);
+  --color-section-gradient-via: rgba(39, 39, 42, 0.1);
+  --color-section-gradient-hover: rgba(63, 63, 70, 0.4);
+  --color-section-label: #a1a1aa;
+  --color-section-indicator: #71717a;
+  --color-section-empty: #71717a;
+  --color-subsection-gradient-from: rgba(63, 63, 70, 0.25);
+  --color-subsection-gradient-via: rgba(39, 39, 42, 0.08);
+  --color-subsection-gradient-hover: rgba(63, 63, 70, 0.35);
+
+  /* ── Error page (ErrorBoundary recovery UI) ─────────────────────── */
+  --color-error-page-bg: #1a1a2e;
+  --color-error-page-text: #e0e0e0;
+  --color-error-page-secondary: #999999;
+  --color-error-page-button-bg: #3b82f6;
+  --color-error-page-code-bg: #0d0d1a;
+  --color-error-page-code-text: #888888;
+
+  /* ── Teams call modal (TeamsCallModal primitive) ────────────────── */
+  --color-teams-backdrop: rgba(27, 27, 27, 0.95);
+  --color-teams-avatar: #464775;
+  --color-teams-status: #6264a7;
+  --color-teams-text: #c8c6c4;
+  --color-teams-text-muted: #8a8886;
+  --color-teams-control-bg: #3b3a39;
+  --color-teams-control-hov: #484644;
+  --color-teams-mute: #c4314b;
+  --color-teams-mute-hover: #a4262c;
+
+  /* ── Motion ─────────────────────────────────────────────────────── */
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}

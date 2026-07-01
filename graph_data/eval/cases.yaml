@@ -1,0 +1,142 @@
+# ============================================================================
+# PathfinderIQ evaluation battery — O-RAN 5G RAN incident cases
+# ============================================================================
+# Lineage: GridIQ evaluations/harness (domain-agnostic core + thin adapter).
+# Each case is a falsifiable investigation: detection (Gate 1) -> investigation
+# observables (Gate 2) -> recommendation (Gate 3), scored against ground truth
+# baked into the seeded telemetry/alarms (see scripts/generate_oran_dataset.py).
+#
+# Scoring (run_eval.py): each gate is a list of OBSERVABLES; an observable is a
+# list of synonyms (OR) — satisfied if any synonym appears in the agent's
+# answer (case-insensitive). Gate score = satisfied / total. `forbidden` tokens
+# flag over-reach (informational). `held_out` cases never drive prompt/tool
+# changes (generalisation measurement).
+
+scenario: oran-5g-ran
+agent: networkInvestigator        # detection+investigation; orchestrator adds Gate-3 synthesis
+
+cases:
+  - id: fronthaul-urllc-breach
+    event_class: fronthaul_degradation
+    severity: critical
+    split: train
+    seed_prompt: >-
+      Investigate the alarm burst on the Melbourne RAN (GNB-MEL-01). Establish
+      the root cause, the affected DU/cells, the slice and tenant impact, and
+      whether an SLA is breached.
+    gate1_detection:
+      - ["fronthaul", "eCPRI", "FRONTHAUL_DEGRADED"]
+      - ["SLA", "breach", "URLLC"]
+    gate2_investigation:
+      - ["DU-MEL-01-2", "MEL-01-2"]
+      - ["CELL-MEL-01-2"]
+      - ["PRB", "congestion"]
+      - ["SL-URLLC-01", "URLLC"]
+      - ["latency", "5 ms", "5ms", "13"]
+    gate3_recommendation:
+      - ["protect", "priorit", "reserv", "PRB"]
+      - ["fronthaul", "SFP", "optic", "reseat", "failover"]
+    forbidden: ["fibre cut", "fiber cut", "busbar"]
+
+  - id: pci-collision-rrc
+    event_class: pci_collision
+    severity: major
+    split: held_out
+    seed_prompt: >-
+      Investigate the RRC setup failures on GNB-SYD-01. Determine the root
+      cause and state whether the transport (fronthaul/midhaul) is healthy.
+    gate1_detection:
+      - ["PCI", "PCI_COLLISION", "collision"]
+      - ["RRC", "RRC_SETUP_FAILURE", "setup failure"]
+    gate2_investigation:
+      - ["CELL-SYD-01-1-1", "SYD-01-1-1"]
+      - ["PCI", "collision", "mod-3", "neighbour", "neighbor"]
+      - ["transport", "fronthaul", "no fault", "healthy", "PRB"]
+    gate3_recommendation:
+      - ["PCI", "reassign", "re-plan", "neighbour", "neighbor"]
+    forbidden: ["fronthaul degradation as root", "SLA breach", "fibre cut"]
+
+  - id: midhaul-f1-congestion
+    event_class: midhaul_congestion
+    severity: serious
+    split: train
+    seed_prompt: >-
+      Throughput is degraded across the cells on DU-BNE-01-1 (GNB-BNE-01).
+      Investigate whether this is a per-cell fault or a shared upstream issue.
+    gate1_detection:
+      - ["midhaul", "MIDHAUL_CONGESTION", "F1"]
+    gate2_investigation:
+      - ["DU-BNE-01-1", "BNE-01-1"]
+      - ["all", "uniform", "every cell", "three cells", "shared"]
+      - ["midhaul", "F1", "LINK-MH"]
+    gate3_recommendation:
+      - ["midhaul", "capacity", "upgrade", "balance", "F1"]
+    forbidden: ["per-cell fronthaul fault", "fibre cut"]
+
+  - id: mmtc-signaling-storm
+    event_class: signaling_storm
+    severity: major
+    split: held_out
+    seed_prompt: >-
+      Investigate the signaling storm alarm on GNB-PER-01. Identify the slice
+      involved and state whether other slices are affected.
+    gate1_detection:
+      - ["signaling storm", "SIGNALING_STORM", "RACH", "reattach"]
+      - ["mMTC", "SL-MMTC-01"]
+    gate2_investigation:
+      - ["SL-MMTC-01", "mMTC"]
+      - ["ActiveUEs", "surge", "spike", "attach", "attempt"]
+      - ["URLLC", "eMBB", "protected", "unaffected", "isolated", "not affected"]
+    gate3_recommendation:
+      - ["RACH", "backoff", "admission", "rate limit", "isolation"]
+    forbidden: ["URLLC SLA breach", "fibre cut"]
+
+  - id: backhaul-n3-flap
+    event_class: backhaul_flap
+    severity: serious
+    split: held_out
+    seed_prompt: >-
+      GNB-SYD-02 shows intermittent throughput loss across all its cells.
+      Investigate whether the root cause is in the RAN or the transport.
+    gate1_detection:
+      - ["backhaul", "BACKHAUL_FLAP", "flap", "N3"]
+    gate2_investigation:
+      - ["GNB-SYD-02", "SYD-02"]
+      - ["intermittent", "flap", "transient", "fluctuat"]
+      - ["backhaul", "transport", "N3", "LINK-BH"]
+    gate3_recommendation:
+      - ["transport", "backhaul", "link", "redundan", "stabil"]
+    forbidden: ["per-cell radio fault", "fibre cut"]
+
+  - id: demand-congestion-no-fault
+    event_class: demand_congestion
+    severity: serious
+    split: train
+    seed_prompt: >-
+      A PRB congestion alarm fired on CELL-BNE-02-1-2 (GNB-BNE-02). Investigate
+      whether there is an underlying fault or this is demand-driven.
+    gate1_detection:
+      - ["PRB", "congestion", "PRB_CONGESTION"]
+    gate2_investigation:
+      - ["CELL-BNE-02-1-2", "BNE-02-1-2"]
+      - ["demand", "no fault", "no transport", "healthy", "RRC"]
+      - ["fronthaul", "ruled out", "no FRONTHAUL", "no alarm", "transport"]
+    gate3_recommendation:
+      - ["carrier aggregation", "load balanc", "offload", "handover", "reservation"]
+    forbidden: ["fronthaul degradation", "dispatch field", "fibre cut"]
+
+  - id: benign-clock-drift
+    event_class: none
+    severity: benign
+    split: train
+    seed_prompt: >-
+      Review the CLOCK_DRIFT (PTP) alarms across the network. Do they indicate
+      a problem that requires operator action?
+    gate1_detection:
+      - ["within tolerance", "benign", "no action", "no impact", "minor", "not require"]
+    gate2_investigation:
+      - ["PTP", "clock", "drift", "timing"]
+      - ["tolerance", "no KPI", "no impact", "normal"]
+    gate3_recommendation:
+      - ["monitor", "no action", "no remediation", "watch"]
+    forbidden: ["escalate to P1", "SLA breach", "dispatch", "root cause"]

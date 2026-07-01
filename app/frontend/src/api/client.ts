@@ -77,6 +77,14 @@ export async function authHeaders(): Promise<HeadersInit> {
     headers["X-User-Language"] = useLocaleStore.getState().locale;
   } catch { /* locale store not yet initialised — default to en */ }
 
+  // Active scenario — backend resolves agents/prompts/tools/datasource/topology
+  // per-request from this header (validated against the on-disk pack allowlist).
+  try {
+    const { useScenarioStore } = await import("@/stores/scenarioStore");
+    const scenario = useScenarioStore.getState().selectedScenario;
+    if (scenario) headers["X-Scenario-Name"] = scenario;
+  } catch { /* scenario store not yet initialised — backend uses operator default */ }
+
   return headers;
 }
 

@@ -1,0 +1,5 @@
+entityId,kind,metric,value,timestamp
+SBX-001,node,health,1.0,2026-06-20T00:00:00Z
+SBX-002,node,health,0.5,2026-06-20T00:00:00Z
+SBX-003,node,health,1.0,2026-06-20T00:00:00Z
+SBX-004,node,health,0.0,2026-06-20T00:00:00Z

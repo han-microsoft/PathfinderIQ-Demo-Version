@@ -20,11 +20,16 @@ import type { ComponentType } from "react";
 import { TabularResult } from "./TabularResult";
 import { SearchResultCards } from "./SearchResultCards";
 import { DispatchSummary } from "./DispatchSummary";
+import { ActionResult } from "./ActionResult";
+import { BlastRadiusResult } from "./BlastRadiusResult";
 import { EmailSummary } from "./EmailSummary";
 import { DelegationResult } from "./DelegationResult";
 import { IncidentReportArgs } from "./IncidentReportArgs";
+import { QueryArgs } from "./QueryArgs";
+import { DelegationArgs } from "./DelegationArgs";
 import { JsonFallback } from "./JsonFallback";
 import { OptionsCard } from "./OptionsCard";
+import { WorkIqResult } from "./WorkIqResult";
 
 export { ArgumentsGrid } from "./ArgumentsGrid";
 
@@ -56,6 +61,15 @@ const TOOL_RENDERERS: Record<string, ComponentType<ToolResultProps>> = {
   /* Dispatch — returns structured action summary */
   dispatch_field_engineer: DispatchSummary,
 
+  /* Action tools — mutate/create something, return a small status envelope */
+  reroute_traffic: ActionResult,
+  set_link_status: ActionResult,
+  create_incident_ticket: ActionResult,
+  update_advisory: ActionResult,
+
+  /* Blast radius — executive impact / financial-exposure card */
+  estimate_blast_radius: BlastRadiusResult,
+
   /* Call engineer — result handled by CallEngineerRenderer inline in ToolCallDisplay.
      Registered here as JsonFallback so expanded view still works if someone expands it. */
   call_engineer: JsonFallback,
@@ -68,6 +82,9 @@ const TOOL_RENDERERS: Record<string, ComponentType<ToolResultProps>> = {
 
   /* Options — structured decision choices with clickable buttons */
   present_options: OptionsCard,
+
+  /* Work IQ (Microsoft 365) — natural-language context card */
+  ask_work_iq: WorkIqResult,
 };
 
 /**
@@ -91,6 +108,11 @@ export interface ToolArgsProps {
  */
 const TOOL_ARGS_RENDERERS: Record<string, ComponentType<ToolArgsProps>> = {
   send_incident_report: IncidentReportArgs,
+  query_graph: QueryArgs,
+  query_graph_local: QueryArgs,
+  query_telemetry: QueryArgs,
+  query_alerts: QueryArgs,
+  delegate_to_agent: DelegationArgs,
 };
 
 /**

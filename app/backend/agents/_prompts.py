@@ -107,17 +107,17 @@ def load_instructions(
 
     # Load scenario-specific prompt files
     for p in paths:
-        # Resolve graph backend prompt placeholder — always GQL (Fabric)
+        # Resolve graph backend prompt placeholder — Cosmos DB Gremlin
         if p == "{graph_backend_prompt}":
-            p = "query_language/gql.md"
+            p = "query_language/gremlin.md"
             logger.debug("Resolved {graph_backend_prompt} → %s", p)
 
-        # Resolve telemetry backend prompt placeholder — always Fabric KQL
+        # Resolve telemetry backend prompt placeholder — Cosmos DB NoSQL
         if p == "{telemetry_backend_prompt}":
             p = "tool_query_telemetry.md"
             logger.debug("Resolved {telemetry_backend_prompt} → %s", p)
 
-        # Resolve alerts backend prompt placeholder — always Fabric
+        # Resolve alerts backend prompt placeholder — Cosmos DB NoSQL
         if p == "{alerts_backend_prompt}":
             p = "tool_query_alerts.md"
             logger.debug("Resolved {alerts_backend_prompt} → %s", p)

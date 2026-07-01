@@ -33,7 +33,7 @@ import json
 import logging
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sse_starlette.sse import EventSourceResponse
 
 from app.deps import get_store, get_current_user, User
@@ -57,6 +57,7 @@ router = APIRouter(prefix="/sessions", tags=["sessions"])
 @router.get("/{session_id}/events")
 async def session_events(
     session_id: str,
+    request: Request,
     token: str | None = Query(None, description="JWT for EventSource auth"),
     store: SessionStore = Depends(get_store),
 ):
@@ -65,22 +66,31 @@ async def session_events(
     EventSource cannot set Authorization headers, so the JWT is passed
     as a query parameter. Validated once on connection open.
     When AUTH_ENABLED=false, token param is ignored.
+
+    The Ed25519 dev-sign side-channel is also honoured: if the signed-request
+    middleware verified this request it attached a principal to the ASGI scope,
+    so headless probes (and the regression bench) can observe the delegation /
+    sub-agent tool-call stream without an interactive Entra login.
     """
     from app.foundation.config import settings
 
     if settings.auth_enabled:
-        if not token:
+        devsign_principal = request.scope.get("devauth_user")
+        if isinstance(devsign_principal, User):
+            user = devsign_principal
+        elif token:
+            from app.auth import _validate_token
+            try:
+                claims = await _validate_token(token)
+            except HTTPException:
+                raise
+            user = User(
+                oid=claims.get("oid", ""),
+                email=claims.get("preferred_username", ""),
+                name=claims.get("name", ""),
+            )
+        else:
             raise HTTPException(status_code=401, detail="Token required")
-        from app.auth import _validate_token
-        try:
-            claims = await _validate_token(token)
-        except HTTPException:
-            raise
-        user = User(
-            oid=claims.get("oid", ""),
-            email=claims.get("preferred_username", ""),
-            name=claims.get("name", ""),
-        )
         session = await store.get(session_id)
         if session is None:
             raise HTTPException(status_code=404, detail="Session not found")

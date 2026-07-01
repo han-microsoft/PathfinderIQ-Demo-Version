@@ -1,0 +1,134 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# agentkit — STANDALONE distribution manifest.
+#
+# This is NOT GridIQ's deploy manifest. GridIQ's container image is built from
+# the ROOT pyproject.toml (../pyproject.toml), which installs the whole GridIQ
+# tree (agentkit + agent/hosting/app/foundation/ops/tools) as hard deps. This
+# sibling manifest, living INSIDE the agentkit/ package dir, is inert to that
+# image build — the Dockerfile installs from the root pyproject and never reads
+# this file. It exists so `agentkit/` can be built and pip-installed on its own
+# as a lean, reusable kernel, independent of GridIQ.
+#
+# DEP-PIN SYNC RULE: every version pin below is copied VERBATIM from the root
+# pyproject.toml. The two manifests MUST NOT drift. When a pin changes in the
+# root, change it here too (and vice versa). The extras mirror the root's
+# [project.optional-dependencies] exactly so `pip install agentkit[maf]` (etc.)
+# resolves to the same SDK versions GridIQ runs.
+#
+# LEAN BASE: the base `dependencies` are ONLY what the agentkit kernel imports
+# unconditionally at module load (verified by static import scan):
+#   - pydantic            (agentkit/contracts/models.py, guardrails, llmops)
+#   - pydantic-settings   (agentkit/config/settings.py)
+#   - pyyaml              (agentkit/core/config_loader.py)
+#   - httpx               (agentkit/tools/adapters/{graph,http}_adapter.py)
+# Every heavy SDK (agent-framework, azure-*, tiktoken, fastapi, gremlin, kusto,
+# search, opentelemetry) is imported LAZILY at its seam and gated behind an
+# extra below — so `pip install agentkit` pulls a tiny dependency tree.
+# ─────────────────────────────────────────────────────────────────────────────
+
+[project]
+name = "agentkit"
+version = "0.1.0"
+description = "agentkit — domain-blind, streaming, tool-calling agent-runtime kernel"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic==2.12.5",
+    "pydantic-settings==2.13.1",
+    "pyyaml==6.0.3",
+    "httpx==0.28.1",
+]
+
+[project.optional-dependencies]
+# ── Per-concern SDK extras (mirror root [project.optional-dependencies]) ──────
+#   [azure]   — agentkit.cloud 3-tier credential factory.
+#   [tokens]  — agentkit.tokens tiktoken counter.
+#   [cosmos]  — agentkit.persistence Cosmos session-store base.
+#   [fastapi] — agentkit.hosting SSE/transport layer + AgentApp.serve/build.
+#   [maf]     — agentkit.sdk Microsoft Agent Framework client binding.
+azure = ["azure-identity==1.26.0b2"]
+tokens = ["tiktoken>=0.7.0"]
+cosmos = ["azure-cosmos==4.9.0"]
+fastapi = [
+    "fastapi==0.131.0",
+    "uvicorn[standard]==0.41.0",
+    "sse-starlette==3.2.0",
+]
+maf = [
+    "agent-framework==1.0.0rc4",
+    "agent-framework-core==1.0.0rc4",
+]
+
+# ── Datasource-adaptor extras (agentkit.tools.adapters) ───────────────────────
+# The graph + http adaptors use httpx only (a base dep). The KQL / Gremlin /
+# Search adaptors each need their backend SDK, gated here.
+kusto = ["azure-kusto-data==6.0.2"]
+gremlin = ["gremlinpython==3.8.1"]
+search = ["azure-search-documents>=11.6.0"]
+adapters = [
+    "azure-kusto-data==6.0.2",
+    "gremlinpython==3.8.1",
+    "azure-search-documents>=11.6.0",
+]
+
+# ── Observability extras (agentkit.observability) ─────────────────────────────
+# Base agentkit.observability runs noop without OTel (NoopTracer/NoopMeter) and
+# degrades structured logging to a plain formatter without python-json-logger.
+otel = [
+    "opentelemetry-api==1.39.1",
+    "opentelemetry-sdk==1.39.1",
+    "opentelemetry-instrumentation-fastapi>=0.48b0",
+    "opentelemetry-instrumentation-httpx>=0.48b0",
+    "opentelemetry-instrumentation-logging>=0.48b0",
+    "python-json-logger>=2.0.7",
+]
+azure-monitor = ["azure-monitor-opentelemetry-exporter>=1.0.0b31"]
+otlp = ["opentelemetry-exporter-otlp-proto-grpc>=1.39.1"]
+llmops = []
+
+# ── Dev / test tooling ────────────────────────────────────────────────────────
+dev = [
+    "ruff>=0.6.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=5.0.0",
+    "pytest-timeout>=2.3.0",
+    "httpx>=0.27.0",
+]
+
+# ── Aggregate: everything except dev ──────────────────────────────────────────
+all = [
+    "azure-identity==1.26.0b2",
+    "tiktoken>=0.7.0",
+    "azure-cosmos==4.9.0",
+    "fastapi==0.131.0",
+    "uvicorn[standard]==0.41.0",
+    "sse-starlette==3.2.0",
+    "agent-framework==1.0.0rc4",
+    "agent-framework-core==1.0.0rc4",
+    "azure-kusto-data==6.0.2",
+    "gremlinpython==3.8.1",
+    "azure-search-documents>=11.6.0",
+    "opentelemetry-api==1.39.1",
+    "opentelemetry-sdk==1.39.1",
+    "opentelemetry-instrumentation-fastapi>=0.48b0",
+    "opentelemetry-instrumentation-httpx>=0.48b0",
+    "opentelemetry-instrumentation-logging>=0.48b0",
+    "python-json-logger>=2.0.7",
+    "azure-monitor-opentelemetry-exporter>=1.0.0b31",
+    "opentelemetry-exporter-otlp-proto-grpc>=1.39.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# This manifest lives INSIDE the agentkit/ package dir, so the importable
+# subpackages (contracts/, config/, core/, ...) are siblings of this file, not
+# under an `agentkit/` subdir. force-include remaps each into the `agentkit`
+# package namespace so the built wheel installs an importable top-level
+# `agentkit` package.
+[tool.hatch.build.targets.wheel]
+force-include = { "__init__.py" = "agentkit/__init__.py", "README.md" = "agentkit/README.md", "app" = "agentkit/app", "cloud" = "agentkit/cloud", "config" = "agentkit/config", "contracts" = "agentkit/contracts", "core" = "agentkit/core", "dev_tools" = "agentkit/dev_tools", "examples" = "agentkit/examples", "guardrails" = "agentkit/guardrails", "hosting" = "agentkit/hosting", "observability" = "agentkit/observability", "persistence" = "agentkit/persistence", "resilience" = "agentkit/resilience", "sdk" = "agentkit/sdk", "tokens" = "agentkit/tokens", "tools" = "agentkit/tools", "validation" = "agentkit/validation" }
+
+[tool.hatch.build]
+exclude = ["**/__pycache__", "**/*.pyc", "pyproject.toml"]

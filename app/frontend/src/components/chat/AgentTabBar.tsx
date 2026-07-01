@@ -81,9 +81,9 @@ function getProductSummary(agent: AgentInfo, t: (key: string) => string): string
     nocorchestrator:
       "Uses Microsoft Foundry to orchestrate agent tooling and help build robust multi-agent systems end-to-end.",
     networkinvestigator:
-      "Uses Fabric IQ for graph traversal (GQL) to trace topology dependencies, and Fabric Eventhouse (KQL) for real-time telemetry and per-sensor fault localization.",
+      "Uses Fabric IQ to read the live network graph and trace which services depend on the failed link, then correlates real-time optical telemetry to pinpoint the fault.",
     fieldcoordinator:
-      "Uses Fabric IQ to build and traverse the operational graph, running GQL queries to find assets, relationships, and field context quickly.",
+      "Uses Fabric IQ to traverse the operational network graph, finding the physical sites, depots, and on-duty engineers for the fault — fast.",
     knowledgeanalyst:
       "Uses Foundry IQ for advanced vector search to retrieve relevant information from large unstructured sources such as procedures and policy documents.",
     communicationsspecialist:

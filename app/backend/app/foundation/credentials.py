@@ -80,8 +80,19 @@ def get_azure_credential(*, require_fabric_sp: bool = False):
             credential = ClientSecretCredential(tenant_id, client_id, client_secret)
 
     # Tier 2: Managed identity in Azure (App Service / AKS / Container Apps)
+    # Container Apps does NOT set WEBSITE_INSTANCE_ID/KUBERNETES_SERVICE_HOST;
+    # it exposes CONTAINER_APP_NAME / CONTAINER_APP_ENV_DNS_SUFFIX instead.
     if credential is None:
-        if os.environ.get("WEBSITE_INSTANCE_ID") or os.environ.get("KUBERNETES_SERVICE_HOST"):
+        in_azure = any(
+            os.environ.get(v)
+            for v in (
+                "WEBSITE_INSTANCE_ID",
+                "KUBERNETES_SERVICE_HOST",
+                "CONTAINER_APP_NAME",
+                "CONTAINER_APP_ENV_DNS_SUFFIX",
+            )
+        )
+        if in_azure:
             logger.info("credentials: DefaultAzureCredential (managed identity)")
             credential = DefaultAzureCredential()
         else:

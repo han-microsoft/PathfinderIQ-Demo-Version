@@ -12,7 +12,8 @@
         "FirmwareVersion": "IOS-XR-7.9.2",
         "Latitude": "-33.8688",
         "Longitude": "151.2093",
-        "_size": 9
+        "_size": 9,
+        "_incident": "true"
       }
     },
     {
@@ -27,7 +28,8 @@
         "FirmwareVersion": "IOS-XR-7.9.2",
         "Latitude": "-37.8136",
         "Longitude": "144.9631",
-        "_size": 9
+        "_size": 9,
+        "_incident": "true"
       }
     },
     {
@@ -125,7 +127,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-SYD-NORTH-01",
         "City": "Sydney",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -136,7 +139,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-SYD-NORTH-01",
         "City": "Sydney",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -158,7 +162,8 @@
         "StationType": "5G_NR",
         "AggSwitchId": "AGG-MEL-EAST-01",
         "City": "Melbourne",
-        "_size": 6
+        "_size": 6,
+        "_discounted": "true"
       }
     },
     {
@@ -214,7 +219,8 @@
         "CapacityGbps": "100",
         "SourceRouterId": "CORE-SYD-01",
         "TargetRouterId": "CORE-MEL-01",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -226,7 +232,8 @@
         "CapacityGbps": "100",
         "SourceRouterId": "CORE-SYD-01",
         "TargetRouterId": "CORE-MEL-01",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -331,7 +338,8 @@
       "properties": {
         "PathId": "MPLS-PATH-SYD-MEL-PRIMARY",
         "PathType": "PRIMARY",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -340,7 +348,8 @@
       "properties": {
         "PathId": "MPLS-PATH-SYD-MEL-SECONDARY",
         "PathType": "SECONDARY",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -367,7 +376,8 @@
       "properties": {
         "PathId": "MPLS-PATH-SYD-MEL-VIA-BNE",
         "PathType": "TERTIARY",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -379,7 +389,8 @@
         "CustomerName": "ACME Corporation",
         "CustomerCount": "1",
         "ActiveUsers": "450",
-        "_size": 7
+        "_size": 7,
+        "_incident": "true"
       }
     },
     {
@@ -391,7 +402,8 @@
         "CustomerName": "BigBank Financial",
         "CustomerCount": "1",
         "ActiveUsers": "1200",
-        "_size": 7
+        "_size": 7,
+        "_incident": "true"
       }
     },
     {
@@ -451,7 +463,8 @@
         "CustomerName": "Mobile Subscribers - SYD 2041",
         "CustomerCount": "4200",
         "ActiveUsers": "4200",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {
@@ -463,7 +476,8 @@
         "CustomerName": "Mobile Subscribers - SYD 2042",
         "CustomerCount": "4300",
         "ActiveUsers": "4300",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {
@@ -475,7 +489,8 @@
         "CustomerName": "Mobile Subscribers - MEL 3011",
         "CustomerCount": "3800",
         "ActiveUsers": "3800",
-        "_size": 7
+        "_size": 7,
+        "_discounted": "true"
       }
     },
     {
@@ -500,7 +515,8 @@
         "MaxLatencyMs": "15",
         "PenaltyPerHourUSD": "50000",
         "Tier": "GOLD",
-        "_size": 4
+        "_size": 4,
+        "_incident": "true"
       }
     },
     {
@@ -513,7 +529,8 @@
         "MaxLatencyMs": "20",
         "PenaltyPerHourUSD": "25000",
         "Tier": "SILVER",
-        "_size": 4
+        "_size": 4,
+        "_incident": "true"
       }
     },
     {
@@ -596,10 +613,11 @@
       "label": "PhysicalConduit",
       "properties": {
         "ConduitId": "CONDUIT-SYD-MEL-INLAND",
-        "RouteDescription": "Sydney to Melbourne via Hume Highway / Goulburn \u2014 inland route through Southern Highlands",
+        "RouteDescription": "Sydney to Melbourne via Hume Highway / Goulburn — inland route through Southern Highlands",
         "MaterialType": "Underground Duct",
         "InstalledYear": "2018",
-        "_size": 6
+        "_size": 6,
+        "_incident": "true"
       }
     },
     {
@@ -607,7 +625,7 @@
       "label": "PhysicalConduit",
       "properties": {
         "ConduitId": "CONDUIT-SYD-MEL-COASTAL",
-        "RouteDescription": "Sydney to Melbourne via Princes Highway \u2014 coastal route through Wollongong and Bairnsdale",
+        "RouteDescription": "Sydney to Melbourne via Princes Highway — coastal route through Wollongong and Bairnsdale",
         "MaterialType": "Underground Duct",
         "InstalledYear": "2020",
         "_size": 6
@@ -618,7 +636,7 @@
       "label": "PhysicalConduit",
       "properties": {
         "ConduitId": "CONDUIT-SYD-BNE-PACIFIC",
-        "RouteDescription": "Sydney to Brisbane via Pacific Highway \u2014 coastal route through Newcastle and Coffs Harbour",
+        "RouteDescription": "Sydney to Brisbane via Pacific Highway — coastal route through Newcastle and Coffs Harbour",
         "MaterialType": "Underground Duct",
         "InstalledYear": "2019",
         "_size": 6
@@ -629,12 +647,13 @@
       "label": "AmplifierSite",
       "properties": {
         "SiteId": "AMP-SYD-MEL-GOULBURN",
-        "Location": "Goulburn NSW \u2014 195km from Sydney",
+        "Location": "Goulburn NSW — 195km from Sydney",
         "InstalledYear": "2018",
         "LastCalibration": "2025-09-15",
         "Latitude": "-34.7546",
         "Longitude": "149.7186",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -642,7 +661,7 @@
       "label": "AmplifierSite",
       "properties": {
         "SiteId": "AMP-SYD-MEL-ALBURY",
-        "Location": "Albury NSW \u2014 460km from Sydney",
+        "Location": "Albury NSW — 460km from Sydney",
         "InstalledYear": "2018",
         "LastCalibration": "2025-06-20",
         "Latitude": "-36.0737",
@@ -655,7 +674,7 @@
       "label": "AmplifierSite",
       "properties": {
         "SiteId": "AMP-SYD-BNE-COFFS",
-        "Location": "Coffs Harbour NSW \u2014 540km from Sydney",
+        "Location": "Coffs Harbour NSW — 540km from Sydney",
         "InstalledYear": "2019",
         "LastCalibration": "2025-11-01",
         "Latitude": "-30.2963",
@@ -668,7 +687,7 @@
       "label": "AmplifierSite",
       "properties": {
         "SiteId": "AMP-MEL-BNE-GRAFTON",
-        "Location": "Grafton NSW \u2014 340km from Melbourne via coastal route",
+        "Location": "Grafton NSW — 340km from Melbourne via coastal route",
         "InstalledYear": "2020",
         "LastCalibration": "2025-03-10",
         "Latitude": "-29.6900",
@@ -684,7 +703,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 45km south of Sydney CBD near Campbelltown",
+        "MountLocation": "Splice point — 45km south of Sydney CBD near Campbelltown",
         "Latitude": "-34.0650",
         "Longitude": "150.8140",
         "InstalledDate": "2018-06-15",
@@ -700,7 +719,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 Goulburn interchange (near AMP-SYD-MEL-GOULBURN)",
+        "MountLocation": "Splice point — Goulburn interchange (near AMP-SYD-MEL-GOULBURN)",
         "Latitude": "-34.7546",
         "Longitude": "149.7186",
         "InstalledDate": "2018-06-15",
@@ -716,7 +735,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 15km north of Albury (near AMP-SYD-MEL-ALBURY)",
+        "MountLocation": "Splice point — 15km north of Albury (near AMP-SYD-MEL-ALBURY)",
         "Latitude": "-36.0237",
         "Longitude": "146.9120",
         "InstalledDate": "2018-06-15",
@@ -732,7 +751,7 @@
         "SensorType": "BitErrorRate",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Head-end transceiver bay \u2014 CORE-SYD-01 rack B3",
+        "MountLocation": "Head-end transceiver bay — CORE-SYD-01 rack B3",
         "Latitude": "-33.8688",
         "Longitude": "151.2093",
         "InstalledDate": "2018-06-15",
@@ -748,7 +767,7 @@
         "SensorType": "BitErrorRate",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Tail-end transceiver bay \u2014 CORE-MEL-01 rack A7",
+        "MountLocation": "Tail-end transceiver bay — CORE-MEL-01 rack A7",
         "Latitude": "-37.8136",
         "Longitude": "144.9631",
         "InstalledDate": "2018-06-15",
@@ -764,7 +783,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-02",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 45km south of Sydney CBD near Campbelltown",
+        "MountLocation": "Splice point — 45km south of Sydney CBD near Campbelltown",
         "Latitude": "-34.0650",
         "Longitude": "150.8140",
         "InstalledDate": "2020-03-10",
@@ -780,7 +799,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-MEL-FIBRE-02",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 Goulburn interchange (shared conduit with FIBRE-01)",
+        "MountLocation": "Splice point — Goulburn interchange (shared conduit with FIBRE-01)",
         "Latitude": "-34.7546",
         "Longitude": "149.7186",
         "InstalledDate": "2020-03-10",
@@ -796,7 +815,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-BNE-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 80km north of Sydney near Gosford",
+        "MountLocation": "Splice point — 80km north of Sydney near Gosford",
         "Latitude": "-33.4250",
         "Longitude": "151.3420",
         "InstalledDate": "2019-04-20",
@@ -812,7 +831,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-SYD-BNE-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 near AMP-SYD-BNE-COFFS (Coffs Harbour)",
+        "MountLocation": "Splice point — near AMP-SYD-BNE-COFFS (Coffs Harbour)",
         "Latitude": "-30.2963",
         "Longitude": "153.1157",
         "InstalledDate": "2019-04-20",
@@ -828,7 +847,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-MEL-BNE-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 120km east of Melbourne near Sale",
+        "MountLocation": "Splice point — 120km east of Melbourne near Sale",
         "Latitude": "-38.1000",
         "Longitude": "147.0680",
         "InstalledDate": "2020-03-10",
@@ -844,7 +863,7 @@
         "SensorType": "OpticalPower",
         "MonitoredEntityId": "LINK-MEL-BNE-FIBRE-01",
         "MonitoredEntityType": "TransportLink",
-        "MountLocation": "Splice point \u2014 near AMP-MEL-BNE-GRAFTON (Grafton)",
+        "MountLocation": "Splice point — near AMP-MEL-BNE-GRAFTON (Grafton)",
         "Latitude": "-29.6900",
         "Longitude": "152.9330",
         "InstalledDate": "2020-03-10",
@@ -860,7 +879,7 @@
         "SensorType": "Temperature",
         "MonitoredEntityId": "CORE-SYD-01",
         "MonitoredEntityType": "CoreRouter",
-        "MountLocation": "Main chassis \u2014 exhaust vent sensor",
+        "MountLocation": "Main chassis — exhaust vent sensor",
         "Latitude": "-33.8688",
         "Longitude": "151.2093",
         "InstalledDate": "2019-01-10",
@@ -892,7 +911,7 @@
         "SensorType": "Temperature",
         "MonitoredEntityId": "CORE-MEL-01",
         "MonitoredEntityType": "CoreRouter",
-        "MountLocation": "Main chassis \u2014 exhaust vent sensor",
+        "MountLocation": "Main chassis — exhaust vent sensor",
         "Latitude": "-37.8136",
         "Longitude": "144.9631",
         "InstalledDate": "2019-01-10",
@@ -924,7 +943,7 @@
         "SensorType": "Temperature",
         "MonitoredEntityId": "CORE-BNE-01",
         "MonitoredEntityType": "CoreRouter",
-        "MountLocation": "Main chassis \u2014 exhaust vent sensor",
+        "MountLocation": "Main chassis — exhaust vent sensor",
         "Latitude": "-27.4698",
         "Longitude": "153.0251",
         "InstalledDate": "2019-01-10",
@@ -993,7 +1012,8 @@
         "Longitude": "149.7186",
         "ServicedEntityId": "AMP-SYD-MEL-GOULBURN",
         "ServicedEntityType": "AmplifierSite",
-        "_size": 5
+        "_size": 5,
+        "_incident": "true"
       }
     },
     {
@@ -1225,7 +1245,7 @@
   ],
   "topology_edges": [
     {
-      "id": "connects_to:LINK-SYD-MEL-FIBRE-01\u2192CORE-SYD-01",
+      "id": "connects_to:LINK-SYD-MEL-FIBRE-01→CORE-SYD-01",
       "source": "LINK-SYD-MEL-FIBRE-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1234,7 +1254,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-MEL-FIBRE-02\u2192CORE-SYD-01",
+      "id": "connects_to:LINK-SYD-MEL-FIBRE-02→CORE-SYD-01",
       "source": "LINK-SYD-MEL-FIBRE-02",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1243,7 +1263,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-BNE-FIBRE-01\u2192CORE-SYD-01",
+      "id": "connects_to:LINK-SYD-BNE-FIBRE-01→CORE-SYD-01",
       "source": "LINK-SYD-BNE-FIBRE-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1252,7 +1272,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-BNE-FIBRE-01\u2192CORE-MEL-01",
+      "id": "connects_to:LINK-MEL-BNE-FIBRE-01→CORE-MEL-01",
       "source": "LINK-MEL-BNE-FIBRE-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1261,7 +1281,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-AGG-NORTH-01\u2192CORE-SYD-01",
+      "id": "connects_to:LINK-SYD-AGG-NORTH-01→CORE-SYD-01",
       "source": "LINK-SYD-AGG-NORTH-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1270,7 +1290,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-AGG-SOUTH-01\u2192CORE-SYD-01",
+      "id": "connects_to:LINK-SYD-AGG-SOUTH-01→CORE-SYD-01",
       "source": "LINK-SYD-AGG-SOUTH-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1279,7 +1299,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-AGG-EAST-01\u2192CORE-MEL-01",
+      "id": "connects_to:LINK-MEL-AGG-EAST-01→CORE-MEL-01",
       "source": "LINK-MEL-AGG-EAST-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1288,7 +1308,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-AGG-WEST-01\u2192CORE-MEL-01",
+      "id": "connects_to:LINK-MEL-AGG-WEST-01→CORE-MEL-01",
       "source": "LINK-MEL-AGG-WEST-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1297,7 +1317,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-BNE-AGG-CENTRAL-01\u2192CORE-BNE-01",
+      "id": "connects_to:LINK-BNE-AGG-CENTRAL-01→CORE-BNE-01",
       "source": "LINK-BNE-AGG-CENTRAL-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1306,7 +1326,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-BNE-AGG-SOUTH-01\u2192CORE-BNE-01",
+      "id": "connects_to:LINK-BNE-AGG-SOUTH-01→CORE-BNE-01",
       "source": "LINK-BNE-AGG-SOUTH-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1315,7 +1335,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-MEL-FIBRE-01\u2192CORE-MEL-01",
+      "id": "connects_to:LINK-SYD-MEL-FIBRE-01→CORE-MEL-01",
       "source": "LINK-SYD-MEL-FIBRE-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1324,7 +1344,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-MEL-FIBRE-02\u2192CORE-MEL-01",
+      "id": "connects_to:LINK-SYD-MEL-FIBRE-02→CORE-MEL-01",
       "source": "LINK-SYD-MEL-FIBRE-02",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1333,7 +1353,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-BNE-FIBRE-01\u2192CORE-BNE-01",
+      "id": "connects_to:LINK-SYD-BNE-FIBRE-01→CORE-BNE-01",
       "source": "LINK-SYD-BNE-FIBRE-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1342,7 +1362,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-BNE-FIBRE-01\u2192CORE-BNE-01",
+      "id": "connects_to:LINK-MEL-BNE-FIBRE-01→CORE-BNE-01",
       "source": "LINK-MEL-BNE-FIBRE-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1351,7 +1371,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-AGG-NORTH-01\u2192CORE-SYD-01#1",
+      "id": "connects_to:LINK-SYD-AGG-NORTH-01→CORE-SYD-01#1",
       "source": "LINK-SYD-AGG-NORTH-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1360,7 +1380,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-SYD-AGG-SOUTH-01\u2192CORE-SYD-01#1",
+      "id": "connects_to:LINK-SYD-AGG-SOUTH-01→CORE-SYD-01#1",
       "source": "LINK-SYD-AGG-SOUTH-01",
       "target": "CORE-SYD-01",
       "label": "connects_to",
@@ -1369,7 +1389,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-AGG-EAST-01\u2192CORE-MEL-01#1",
+      "id": "connects_to:LINK-MEL-AGG-EAST-01→CORE-MEL-01#1",
       "source": "LINK-MEL-AGG-EAST-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1378,7 +1398,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-MEL-AGG-WEST-01\u2192CORE-MEL-01#1",
+      "id": "connects_to:LINK-MEL-AGG-WEST-01→CORE-MEL-01#1",
       "source": "LINK-MEL-AGG-WEST-01",
       "target": "CORE-MEL-01",
       "label": "connects_to",
@@ -1387,7 +1407,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-BNE-AGG-CENTRAL-01\u2192CORE-BNE-01#1",
+      "id": "connects_to:LINK-BNE-AGG-CENTRAL-01→CORE-BNE-01#1",
       "source": "LINK-BNE-AGG-CENTRAL-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1396,7 +1416,7 @@
       }
     },
     {
-      "id": "connects_to:LINK-BNE-AGG-SOUTH-01\u2192CORE-BNE-01#1",
+      "id": "connects_to:LINK-BNE-AGG-SOUTH-01→CORE-BNE-01#1",
       "source": "LINK-BNE-AGG-SOUTH-01",
       "target": "CORE-BNE-01",
       "label": "connects_to",
@@ -1405,105 +1425,105 @@
       }
     },
     {
-      "id": "aggregates_to:AGG-SYD-NORTH-01\u2192CORE-SYD-01",
+      "id": "aggregates_to:AGG-SYD-NORTH-01→CORE-SYD-01",
       "source": "AGG-SYD-NORTH-01",
       "target": "CORE-SYD-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "aggregates_to:AGG-SYD-SOUTH-01\u2192CORE-SYD-01",
+      "id": "aggregates_to:AGG-SYD-SOUTH-01→CORE-SYD-01",
       "source": "AGG-SYD-SOUTH-01",
       "target": "CORE-SYD-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "aggregates_to:AGG-MEL-EAST-01\u2192CORE-MEL-01",
+      "id": "aggregates_to:AGG-MEL-EAST-01→CORE-MEL-01",
       "source": "AGG-MEL-EAST-01",
       "target": "CORE-MEL-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "aggregates_to:AGG-MEL-WEST-01\u2192CORE-MEL-01",
+      "id": "aggregates_to:AGG-MEL-WEST-01→CORE-MEL-01",
       "source": "AGG-MEL-WEST-01",
       "target": "CORE-MEL-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "aggregates_to:AGG-BNE-CENTRAL-01\u2192CORE-BNE-01",
+      "id": "aggregates_to:AGG-BNE-CENTRAL-01→CORE-BNE-01",
       "source": "AGG-BNE-CENTRAL-01",
       "target": "CORE-BNE-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "aggregates_to:AGG-BNE-SOUTH-01\u2192CORE-BNE-01",
+      "id": "aggregates_to:AGG-BNE-SOUTH-01→CORE-BNE-01",
       "source": "AGG-BNE-SOUTH-01",
       "target": "CORE-BNE-01",
       "label": "aggregates_to",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-SYD-2041\u2192AGG-SYD-NORTH-01",
+      "id": "backhauls_via:GNB-SYD-2041→AGG-SYD-NORTH-01",
       "source": "GNB-SYD-2041",
       "target": "AGG-SYD-NORTH-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-SYD-2042\u2192AGG-SYD-NORTH-01",
+      "id": "backhauls_via:GNB-SYD-2042→AGG-SYD-NORTH-01",
       "source": "GNB-SYD-2042",
       "target": "AGG-SYD-NORTH-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-SYD-2043\u2192AGG-SYD-SOUTH-01",
+      "id": "backhauls_via:GNB-SYD-2043→AGG-SYD-SOUTH-01",
       "source": "GNB-SYD-2043",
       "target": "AGG-SYD-SOUTH-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-MEL-3011\u2192AGG-MEL-EAST-01",
+      "id": "backhauls_via:GNB-MEL-3011→AGG-MEL-EAST-01",
       "source": "GNB-MEL-3011",
       "target": "AGG-MEL-EAST-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-MEL-3012\u2192AGG-MEL-EAST-01",
+      "id": "backhauls_via:GNB-MEL-3012→AGG-MEL-EAST-01",
       "source": "GNB-MEL-3012",
       "target": "AGG-MEL-EAST-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-MEL-3021\u2192AGG-MEL-WEST-01",
+      "id": "backhauls_via:GNB-MEL-3021→AGG-MEL-WEST-01",
       "source": "GNB-MEL-3021",
       "target": "AGG-MEL-WEST-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-BNE-4011\u2192AGG-BNE-CENTRAL-01",
+      "id": "backhauls_via:GNB-BNE-4011→AGG-BNE-CENTRAL-01",
       "source": "GNB-BNE-4011",
       "target": "AGG-BNE-CENTRAL-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "backhauls_via:GNB-BNE-4012\u2192AGG-BNE-SOUTH-01",
+      "id": "backhauls_via:GNB-BNE-4012→AGG-BNE-SOUTH-01",
       "source": "GNB-BNE-4012",
       "target": "AGG-BNE-SOUTH-01",
       "label": "backhauls_via",
       "properties": {}
     },
     {
-      "id": "routes_via:MPLS-PATH-SYD-MEL-PRIMARY\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "routes_via:MPLS-PATH-SYD-MEL-PRIMARY→LINK-SYD-MEL-FIBRE-01",
       "source": "MPLS-PATH-SYD-MEL-PRIMARY",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "routes_via",
@@ -1512,7 +1532,7 @@
       }
     },
     {
-      "id": "routes_via:MPLS-PATH-SYD-MEL-SECONDARY\u2192LINK-SYD-MEL-FIBRE-02",
+      "id": "routes_via:MPLS-PATH-SYD-MEL-SECONDARY→LINK-SYD-MEL-FIBRE-02",
       "source": "MPLS-PATH-SYD-MEL-SECONDARY",
       "target": "LINK-SYD-MEL-FIBRE-02",
       "label": "routes_via",
@@ -1521,7 +1541,7 @@
       }
     },
     {
-      "id": "routes_via:MPLS-PATH-SYD-BNE-PRIMARY\u2192LINK-SYD-BNE-FIBRE-01",
+      "id": "routes_via:MPLS-PATH-SYD-BNE-PRIMARY→LINK-SYD-BNE-FIBRE-01",
       "source": "MPLS-PATH-SYD-BNE-PRIMARY",
       "target": "LINK-SYD-BNE-FIBRE-01",
       "label": "routes_via",
@@ -1530,7 +1550,7 @@
       }
     },
     {
-      "id": "routes_via:MPLS-PATH-MEL-BNE-PRIMARY\u2192LINK-MEL-BNE-FIBRE-01",
+      "id": "routes_via:MPLS-PATH-MEL-BNE-PRIMARY→LINK-MEL-BNE-FIBRE-01",
       "source": "MPLS-PATH-MEL-BNE-PRIMARY",
       "target": "LINK-MEL-BNE-FIBRE-01",
       "label": "routes_via",
@@ -1539,7 +1559,7 @@
       }
     },
     {
-      "id": "routes_via:MPLS-PATH-SYD-MEL-VIA-BNE\u2192LINK-SYD-BNE-FIBRE-01",
+      "id": "routes_via:MPLS-PATH-SYD-MEL-VIA-BNE→LINK-SYD-BNE-FIBRE-01",
       "source": "MPLS-PATH-SYD-MEL-VIA-BNE",
       "target": "LINK-SYD-BNE-FIBRE-01",
       "label": "routes_via",
@@ -1548,7 +1568,7 @@
       }
     },
     {
-      "id": "routes_via:MPLS-PATH-SYD-MEL-VIA-BNE\u2192LINK-MEL-BNE-FIBRE-01",
+      "id": "routes_via:MPLS-PATH-SYD-MEL-VIA-BNE→LINK-MEL-BNE-FIBRE-01",
       "source": "MPLS-PATH-SYD-MEL-VIA-BNE",
       "target": "LINK-MEL-BNE-FIBRE-01",
       "label": "routes_via",
@@ -1557,7 +1577,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-ACME-CORP\u2192MPLS-PATH-SYD-MEL-PRIMARY",
+      "id": "depends_on_mplspath:VPN-ACME-CORP→MPLS-PATH-SYD-MEL-PRIMARY",
       "source": "VPN-ACME-CORP",
       "target": "MPLS-PATH-SYD-MEL-PRIMARY",
       "label": "depends_on_mplspath",
@@ -1566,7 +1586,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-ACME-CORP\u2192MPLS-PATH-SYD-MEL-SECONDARY",
+      "id": "depends_on_mplspath:VPN-ACME-CORP→MPLS-PATH-SYD-MEL-SECONDARY",
       "source": "VPN-ACME-CORP",
       "target": "MPLS-PATH-SYD-MEL-SECONDARY",
       "label": "depends_on_mplspath",
@@ -1575,7 +1595,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-ACME-CORP\u2192MPLS-PATH-SYD-MEL-VIA-BNE",
+      "id": "depends_on_mplspath:VPN-ACME-CORP→MPLS-PATH-SYD-MEL-VIA-BNE",
       "source": "VPN-ACME-CORP",
       "target": "MPLS-PATH-SYD-MEL-VIA-BNE",
       "label": "depends_on_mplspath",
@@ -1584,7 +1604,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-BIGBANK\u2192MPLS-PATH-SYD-MEL-PRIMARY",
+      "id": "depends_on_mplspath:VPN-BIGBANK→MPLS-PATH-SYD-MEL-PRIMARY",
       "source": "VPN-BIGBANK",
       "target": "MPLS-PATH-SYD-MEL-PRIMARY",
       "label": "depends_on_mplspath",
@@ -1593,7 +1613,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-BIGBANK\u2192MPLS-PATH-SYD-MEL-SECONDARY",
+      "id": "depends_on_mplspath:VPN-BIGBANK→MPLS-PATH-SYD-MEL-SECONDARY",
       "source": "VPN-BIGBANK",
       "target": "MPLS-PATH-SYD-MEL-SECONDARY",
       "label": "depends_on_mplspath",
@@ -1602,7 +1622,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-BIGBANK\u2192MPLS-PATH-SYD-MEL-VIA-BNE",
+      "id": "depends_on_mplspath:VPN-BIGBANK→MPLS-PATH-SYD-MEL-VIA-BNE",
       "source": "VPN-BIGBANK",
       "target": "MPLS-PATH-SYD-MEL-VIA-BNE",
       "label": "depends_on_mplspath",
@@ -1611,7 +1631,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-OZMINE\u2192MPLS-PATH-SYD-BNE-PRIMARY",
+      "id": "depends_on_mplspath:VPN-OZMINE→MPLS-PATH-SYD-BNE-PRIMARY",
       "source": "VPN-OZMINE",
       "target": "MPLS-PATH-SYD-BNE-PRIMARY",
       "label": "depends_on_mplspath",
@@ -1620,7 +1640,7 @@
       }
     },
     {
-      "id": "depends_on_mplspath:VPN-OZMINE\u2192MPLS-PATH-SYD-MEL-VIA-BNE",
+      "id": "depends_on_mplspath:VPN-OZMINE→MPLS-PATH-SYD-MEL-VIA-BNE",
       "source": "VPN-OZMINE",
       "target": "MPLS-PATH-SYD-MEL-VIA-BNE",
       "label": "depends_on_mplspath",
@@ -1629,7 +1649,7 @@
       }
     },
     {
-      "id": "depends_on_aggswitch:BB-BUNDLE-SYD-NORTH\u2192AGG-SYD-NORTH-01",
+      "id": "depends_on_aggswitch:BB-BUNDLE-SYD-NORTH→AGG-SYD-NORTH-01",
       "source": "BB-BUNDLE-SYD-NORTH",
       "target": "AGG-SYD-NORTH-01",
       "label": "depends_on_aggswitch",
@@ -1638,7 +1658,7 @@
       }
     },
     {
-      "id": "depends_on_aggswitch:BB-BUNDLE-MEL-EAST\u2192AGG-MEL-EAST-01",
+      "id": "depends_on_aggswitch:BB-BUNDLE-MEL-EAST→AGG-MEL-EAST-01",
       "source": "BB-BUNDLE-MEL-EAST",
       "target": "AGG-MEL-EAST-01",
       "label": "depends_on_aggswitch",
@@ -1647,7 +1667,7 @@
       }
     },
     {
-      "id": "depends_on_aggswitch:BB-BUNDLE-BNE-CENTRAL\u2192AGG-BNE-CENTRAL-01",
+      "id": "depends_on_aggswitch:BB-BUNDLE-BNE-CENTRAL→AGG-BNE-CENTRAL-01",
       "source": "BB-BUNDLE-BNE-CENTRAL",
       "target": "AGG-BNE-CENTRAL-01",
       "label": "depends_on_aggswitch",
@@ -1656,7 +1676,7 @@
       }
     },
     {
-      "id": "depends_on_basestation:MOB-5G-SYD-2041\u2192GNB-SYD-2041",
+      "id": "depends_on_basestation:MOB-5G-SYD-2041→GNB-SYD-2041",
       "source": "MOB-5G-SYD-2041",
       "target": "GNB-SYD-2041",
       "label": "depends_on_basestation",
@@ -1665,7 +1685,7 @@
       }
     },
     {
-      "id": "depends_on_basestation:MOB-5G-SYD-2042\u2192GNB-SYD-2042",
+      "id": "depends_on_basestation:MOB-5G-SYD-2042→GNB-SYD-2042",
       "source": "MOB-5G-SYD-2042",
       "target": "GNB-SYD-2042",
       "label": "depends_on_basestation",
@@ -1674,7 +1694,7 @@
       }
     },
     {
-      "id": "depends_on_basestation:MOB-5G-MEL-3011\u2192GNB-MEL-3011",
+      "id": "depends_on_basestation:MOB-5G-MEL-3011→GNB-MEL-3011",
       "source": "MOB-5G-MEL-3011",
       "target": "GNB-MEL-3011",
       "label": "depends_on_basestation",
@@ -1683,7 +1703,7 @@
       }
     },
     {
-      "id": "depends_on_basestation:MOB-5G-BNE-4011\u2192GNB-BNE-4011",
+      "id": "depends_on_basestation:MOB-5G-BNE-4011→GNB-BNE-4011",
       "source": "MOB-5G-BNE-4011",
       "target": "GNB-BNE-4011",
       "label": "depends_on_basestation",
@@ -1692,42 +1712,42 @@
       }
     },
     {
-      "id": "governed_by:SLA-ACME-GOLD\u2192VPN-ACME-CORP",
+      "id": "governed_by:SLA-ACME-GOLD→VPN-ACME-CORP",
       "source": "SLA-ACME-GOLD",
       "target": "VPN-ACME-CORP",
       "label": "governed_by",
       "properties": {}
     },
     {
-      "id": "governed_by:SLA-BIGBANK-SILVER\u2192VPN-BIGBANK",
+      "id": "governed_by:SLA-BIGBANK-SILVER→VPN-BIGBANK",
       "source": "SLA-BIGBANK-SILVER",
       "target": "VPN-BIGBANK",
       "label": "governed_by",
       "properties": {}
     },
     {
-      "id": "governed_by:SLA-OZMINE-GOLD\u2192VPN-OZMINE",
+      "id": "governed_by:SLA-OZMINE-GOLD→VPN-OZMINE",
       "source": "SLA-OZMINE-GOLD",
       "target": "VPN-OZMINE",
       "label": "governed_by",
       "properties": {}
     },
     {
-      "id": "governed_by:SLA-BB-SYD-STANDARD\u2192BB-BUNDLE-SYD-NORTH",
+      "id": "governed_by:SLA-BB-SYD-STANDARD→BB-BUNDLE-SYD-NORTH",
       "source": "SLA-BB-SYD-STANDARD",
       "target": "BB-BUNDLE-SYD-NORTH",
       "label": "governed_by",
       "properties": {}
     },
     {
-      "id": "governed_by:SLA-BB-BNE-STANDARD\u2192BB-BUNDLE-BNE-CENTRAL",
+      "id": "governed_by:SLA-BB-BNE-STANDARD→BB-BUNDLE-BNE-CENTRAL",
       "source": "SLA-BB-BNE-STANDARD",
       "target": "BB-BUNDLE-BNE-CENTRAL",
       "label": "governed_by",
       "properties": {}
     },
     {
-      "id": "peers_over:BGP-SYD-MEL-01\u2192CORE-SYD-01",
+      "id": "peers_over:BGP-SYD-MEL-01→CORE-SYD-01",
       "source": "BGP-SYD-MEL-01",
       "target": "CORE-SYD-01",
       "label": "peers_over",
@@ -1736,7 +1756,7 @@
       }
     },
     {
-      "id": "peers_over:BGP-SYD-BNE-01\u2192CORE-SYD-01",
+      "id": "peers_over:BGP-SYD-BNE-01→CORE-SYD-01",
       "source": "BGP-SYD-BNE-01",
       "target": "CORE-SYD-01",
       "label": "peers_over",
@@ -1745,7 +1765,7 @@
       }
     },
     {
-      "id": "peers_over:BGP-MEL-BNE-01\u2192CORE-MEL-01",
+      "id": "peers_over:BGP-MEL-BNE-01→CORE-MEL-01",
       "source": "BGP-MEL-BNE-01",
       "target": "CORE-MEL-01",
       "label": "peers_over",
@@ -1754,7 +1774,7 @@
       }
     },
     {
-      "id": "peers_over:BGP-SYD-MEL-01\u2192CORE-MEL-01",
+      "id": "peers_over:BGP-SYD-MEL-01→CORE-MEL-01",
       "source": "BGP-SYD-MEL-01",
       "target": "CORE-MEL-01",
       "label": "peers_over",
@@ -1763,7 +1783,7 @@
       }
     },
     {
-      "id": "peers_over:BGP-SYD-BNE-01\u2192CORE-BNE-01",
+      "id": "peers_over:BGP-SYD-BNE-01→CORE-BNE-01",
       "source": "BGP-SYD-BNE-01",
       "target": "CORE-BNE-01",
       "label": "peers_over",
@@ -1772,7 +1792,7 @@
       }
     },
     {
-      "id": "peers_over:BGP-MEL-BNE-01\u2192CORE-BNE-01",
+      "id": "peers_over:BGP-MEL-BNE-01→CORE-BNE-01",
       "source": "BGP-MEL-BNE-01",
       "target": "CORE-BNE-01",
       "label": "peers_over",
@@ -1781,7 +1801,7 @@
       }
     },
     {
-      "id": "routed_through:LINK-SYD-MEL-FIBRE-01\u2192CONDUIT-SYD-MEL-INLAND",
+      "id": "routed_through:LINK-SYD-MEL-FIBRE-01→CONDUIT-SYD-MEL-INLAND",
       "source": "LINK-SYD-MEL-FIBRE-01",
       "target": "CONDUIT-SYD-MEL-INLAND",
       "label": "routed_through",
@@ -1790,16 +1810,16 @@
       }
     },
     {
-      "id": "routed_through:LINK-SYD-MEL-FIBRE-02\u2192CONDUIT-SYD-MEL-INLAND",
+      "id": "routed_through:LINK-SYD-MEL-FIBRE-02→CONDUIT-SYD-MEL-INLAND",
       "source": "LINK-SYD-MEL-FIBRE-02",
       "target": "CONDUIT-SYD-MEL-INLAND",
       "label": "routed_through",
       "properties": {
-        "SegmentDescription": "Backup SYD-MEL fibre routed through SAME inland conduit \u2014 shared risk"
+        "SegmentDescription": "Backup SYD-MEL fibre routed through SAME inland conduit — shared risk"
       }
     },
     {
-      "id": "routed_through:LINK-SYD-BNE-FIBRE-01\u2192CONDUIT-SYD-BNE-PACIFIC",
+      "id": "routed_through:LINK-SYD-BNE-FIBRE-01→CONDUIT-SYD-BNE-PACIFIC",
       "source": "LINK-SYD-BNE-FIBRE-01",
       "target": "CONDUIT-SYD-BNE-PACIFIC",
       "label": "routed_through",
@@ -1808,7 +1828,7 @@
       }
     },
     {
-      "id": "routed_through:LINK-MEL-BNE-FIBRE-01\u2192CONDUIT-SYD-MEL-COASTAL",
+      "id": "routed_through:LINK-MEL-BNE-FIBRE-01→CONDUIT-SYD-MEL-COASTAL",
       "source": "LINK-MEL-BNE-FIBRE-01",
       "target": "CONDUIT-SYD-MEL-COASTAL",
       "label": "routed_through",
@@ -1817,7 +1837,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-SYD-MEL-GOULBURN\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "amplifies:AMP-SYD-MEL-GOULBURN→LINK-SYD-MEL-FIBRE-01",
       "source": "AMP-SYD-MEL-GOULBURN",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "amplifies",
@@ -1826,7 +1846,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-SYD-MEL-ALBURY\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "amplifies:AMP-SYD-MEL-ALBURY→LINK-SYD-MEL-FIBRE-01",
       "source": "AMP-SYD-MEL-ALBURY",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "amplifies",
@@ -1835,7 +1855,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-SYD-MEL-GOULBURN\u2192LINK-SYD-MEL-FIBRE-02",
+      "id": "amplifies:AMP-SYD-MEL-GOULBURN→LINK-SYD-MEL-FIBRE-02",
       "source": "AMP-SYD-MEL-GOULBURN",
       "target": "LINK-SYD-MEL-FIBRE-02",
       "label": "amplifies",
@@ -1844,7 +1864,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-SYD-MEL-ALBURY\u2192LINK-SYD-MEL-FIBRE-02",
+      "id": "amplifies:AMP-SYD-MEL-ALBURY→LINK-SYD-MEL-FIBRE-02",
       "source": "AMP-SYD-MEL-ALBURY",
       "target": "LINK-SYD-MEL-FIBRE-02",
       "label": "amplifies",
@@ -1853,7 +1873,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-SYD-BNE-COFFS\u2192LINK-SYD-BNE-FIBRE-01",
+      "id": "amplifies:AMP-SYD-BNE-COFFS→LINK-SYD-BNE-FIBRE-01",
       "source": "AMP-SYD-BNE-COFFS",
       "target": "LINK-SYD-BNE-FIBRE-01",
       "label": "amplifies",
@@ -1862,7 +1882,7 @@
       }
     },
     {
-      "id": "amplifies:AMP-MEL-BNE-GRAFTON\u2192LINK-MEL-BNE-FIBRE-01",
+      "id": "amplifies:AMP-MEL-BNE-GRAFTON→LINK-MEL-BNE-FIBRE-01",
       "source": "AMP-MEL-BNE-GRAFTON",
       "target": "LINK-MEL-BNE-FIBRE-01",
       "label": "amplifies",
@@ -1871,7 +1891,7 @@
       }
     },
     {
-      "id": "affects_version:ADV-CISCO-2025-001\u2192CORE-SYD-01",
+      "id": "affects_version:ADV-CISCO-2025-001→CORE-SYD-01",
       "source": "ADV-CISCO-2025-001",
       "target": "CORE-SYD-01",
       "label": "affects_version",
@@ -1880,7 +1900,7 @@
       }
     },
     {
-      "id": "affects_version:ADV-CISCO-2025-001\u2192CORE-MEL-01",
+      "id": "affects_version:ADV-CISCO-2025-001→CORE-MEL-01",
       "source": "ADV-CISCO-2025-001",
       "target": "CORE-MEL-01",
       "label": "affects_version",
@@ -1889,7 +1909,7 @@
       }
     },
     {
-      "id": "affects_version:ADV-CISCO-2025-002\u2192CORE-SYD-01",
+      "id": "affects_version:ADV-CISCO-2025-002→CORE-SYD-01",
       "source": "ADV-CISCO-2025-002",
       "target": "CORE-SYD-01",
       "label": "affects_version",
@@ -1898,7 +1918,7 @@
       }
     },
     {
-      "id": "affects_version:ADV-CISCO-2025-002\u2192CORE-MEL-01",
+      "id": "affects_version:ADV-CISCO-2025-002→CORE-MEL-01",
       "source": "ADV-CISCO-2025-002",
       "target": "CORE-MEL-01",
       "label": "affects_version",
@@ -1907,7 +1927,7 @@
       }
     },
     {
-      "id": "affects_version:ADV-JUNIPER-2025-001\u2192CORE-BNE-01",
+      "id": "affects_version:ADV-JUNIPER-2025-001→CORE-BNE-01",
       "source": "ADV-JUNIPER-2025-001",
       "target": "CORE-BNE-01",
       "label": "affects_version",
@@ -1916,210 +1936,210 @@
       }
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F1-OPT-001\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "monitors:SENS-SYD-MEL-F1-OPT-001→LINK-SYD-MEL-FIBRE-01",
       "source": "SENS-SYD-MEL-F1-OPT-001",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F1-OPT-002\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "monitors:SENS-SYD-MEL-F1-OPT-002→LINK-SYD-MEL-FIBRE-01",
       "source": "SENS-SYD-MEL-F1-OPT-002",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F1-OPT-003\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "monitors:SENS-SYD-MEL-F1-OPT-003→LINK-SYD-MEL-FIBRE-01",
       "source": "SENS-SYD-MEL-F1-OPT-003",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F1-BER-001\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "monitors:SENS-SYD-MEL-F1-BER-001→LINK-SYD-MEL-FIBRE-01",
       "source": "SENS-SYD-MEL-F1-BER-001",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F1-BER-002\u2192LINK-SYD-MEL-FIBRE-01",
+      "id": "monitors:SENS-SYD-MEL-F1-BER-002→LINK-SYD-MEL-FIBRE-01",
       "source": "SENS-SYD-MEL-F1-BER-002",
       "target": "LINK-SYD-MEL-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F2-OPT-001\u2192LINK-SYD-MEL-FIBRE-02",
+      "id": "monitors:SENS-SYD-MEL-F2-OPT-001→LINK-SYD-MEL-FIBRE-02",
       "source": "SENS-SYD-MEL-F2-OPT-001",
       "target": "LINK-SYD-MEL-FIBRE-02",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-MEL-F2-OPT-002\u2192LINK-SYD-MEL-FIBRE-02",
+      "id": "monitors:SENS-SYD-MEL-F2-OPT-002→LINK-SYD-MEL-FIBRE-02",
       "source": "SENS-SYD-MEL-F2-OPT-002",
       "target": "LINK-SYD-MEL-FIBRE-02",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-BNE-F1-OPT-001\u2192LINK-SYD-BNE-FIBRE-01",
+      "id": "monitors:SENS-SYD-BNE-F1-OPT-001→LINK-SYD-BNE-FIBRE-01",
       "source": "SENS-SYD-BNE-F1-OPT-001",
       "target": "LINK-SYD-BNE-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-SYD-BNE-F1-OPT-002\u2192LINK-SYD-BNE-FIBRE-01",
+      "id": "monitors:SENS-SYD-BNE-F1-OPT-002→LINK-SYD-BNE-FIBRE-01",
       "source": "SENS-SYD-BNE-F1-OPT-002",
       "target": "LINK-SYD-BNE-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-MEL-BNE-F1-OPT-001\u2192LINK-MEL-BNE-FIBRE-01",
+      "id": "monitors:SENS-MEL-BNE-F1-OPT-001→LINK-MEL-BNE-FIBRE-01",
       "source": "SENS-MEL-BNE-F1-OPT-001",
       "target": "LINK-MEL-BNE-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-MEL-BNE-F1-OPT-002\u2192LINK-MEL-BNE-FIBRE-01",
+      "id": "monitors:SENS-MEL-BNE-F1-OPT-002→LINK-MEL-BNE-FIBRE-01",
       "source": "SENS-MEL-BNE-F1-OPT-002",
       "target": "LINK-MEL-BNE-FIBRE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-CORE-SYD-01-TEMP-001\u2192CORE-SYD-01",
+      "id": "monitors:SENS-CORE-SYD-01-TEMP-001→CORE-SYD-01",
       "source": "SENS-CORE-SYD-01-TEMP-001",
       "target": "CORE-SYD-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-CORE-SYD-01-CPU-001\u2192CORE-SYD-01",
+      "id": "monitors:SENS-CORE-SYD-01-CPU-001→CORE-SYD-01",
       "source": "SENS-CORE-SYD-01-CPU-001",
       "target": "CORE-SYD-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-CORE-MEL-01-TEMP-001\u2192CORE-MEL-01",
+      "id": "monitors:SENS-CORE-MEL-01-TEMP-001→CORE-MEL-01",
       "source": "SENS-CORE-MEL-01-TEMP-001",
       "target": "CORE-MEL-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-CORE-MEL-01-CPU-001\u2192CORE-MEL-01",
+      "id": "monitors:SENS-CORE-MEL-01-CPU-001→CORE-MEL-01",
       "source": "SENS-CORE-MEL-01-CPU-001",
       "target": "CORE-MEL-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "monitors:SENS-CORE-BNE-01-TEMP-001\u2192CORE-BNE-01",
+      "id": "monitors:SENS-CORE-BNE-01-TEMP-001→CORE-BNE-01",
       "source": "SENS-CORE-BNE-01-TEMP-001",
       "target": "CORE-BNE-01",
       "label": "monitors",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-SYD-2026-02-20-DAY\u2192DEPOT-SYD-CAMPBELLTOWN",
+      "id": "stationed_at:DUTY-SYD-2026-02-20-DAY→DEPOT-SYD-CAMPBELLTOWN",
       "source": "DUTY-SYD-2026-02-20-DAY",
       "target": "DEPOT-SYD-CAMPBELLTOWN",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-SYD-2026-02-20-NIGHT\u2192DEPOT-SYD-CAMPBELLTOWN",
+      "id": "stationed_at:DUTY-SYD-2026-02-20-NIGHT→DEPOT-SYD-CAMPBELLTOWN",
       "source": "DUTY-SYD-2026-02-20-NIGHT",
       "target": "DEPOT-SYD-CAMPBELLTOWN",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-MEL-2026-02-20-DAY\u2192DEPOT-MEL-CLAYTON",
+      "id": "stationed_at:DUTY-MEL-2026-02-20-DAY→DEPOT-MEL-CLAYTON",
       "source": "DUTY-MEL-2026-02-20-DAY",
       "target": "DEPOT-MEL-CLAYTON",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-MEL-2026-02-20-NIGHT\u2192DEPOT-MEL-CLAYTON",
+      "id": "stationed_at:DUTY-MEL-2026-02-20-NIGHT→DEPOT-MEL-CLAYTON",
       "source": "DUTY-MEL-2026-02-20-NIGHT",
       "target": "DEPOT-MEL-CLAYTON",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-BNE-2026-02-20-DAY\u2192DEPOT-BNE-EAGLEFARM",
+      "id": "stationed_at:DUTY-BNE-2026-02-20-DAY→DEPOT-BNE-EAGLEFARM",
       "source": "DUTY-BNE-2026-02-20-DAY",
       "target": "DEPOT-BNE-EAGLEFARM",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-REGIONAL-SYD-MEL-2026-02-20\u2192DEPOT-GOULBURN",
+      "id": "stationed_at:DUTY-REGIONAL-SYD-MEL-2026-02-20→DEPOT-GOULBURN",
       "source": "DUTY-REGIONAL-SYD-MEL-2026-02-20",
       "target": "DEPOT-GOULBURN",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-REGIONAL-SYD-MEL-2026-02-20-SOUTH\u2192DEPOT-ALBURY",
+      "id": "stationed_at:DUTY-REGIONAL-SYD-MEL-2026-02-20-SOUTH→DEPOT-ALBURY",
       "source": "DUTY-REGIONAL-SYD-MEL-2026-02-20-SOUTH",
       "target": "DEPOT-ALBURY",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "stationed_at:DUTY-REGIONAL-SYD-BNE-2026-02-20\u2192DEPOT-COFFS",
+      "id": "stationed_at:DUTY-REGIONAL-SYD-BNE-2026-02-20→DEPOT-COFFS",
       "source": "DUTY-REGIONAL-SYD-BNE-2026-02-20",
       "target": "DEPOT-COFFS",
       "label": "stationed_at",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-SYD-CAMPBELLTOWN\u2192CORE-SYD-01",
+      "id": "services:DEPOT-SYD-CAMPBELLTOWN→CORE-SYD-01",
       "source": "DEPOT-SYD-CAMPBELLTOWN",
       "target": "CORE-SYD-01",
       "label": "services",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-MEL-CLAYTON\u2192CORE-MEL-01",
+      "id": "services:DEPOT-MEL-CLAYTON→CORE-MEL-01",
       "source": "DEPOT-MEL-CLAYTON",
       "target": "CORE-MEL-01",
       "label": "services",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-BNE-EAGLEFARM\u2192CORE-BNE-01",
+      "id": "services:DEPOT-BNE-EAGLEFARM→CORE-BNE-01",
       "source": "DEPOT-BNE-EAGLEFARM",
       "target": "CORE-BNE-01",
       "label": "services",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-GOULBURN\u2192AMP-SYD-MEL-GOULBURN",
+      "id": "services:DEPOT-GOULBURN→AMP-SYD-MEL-GOULBURN",
       "source": "DEPOT-GOULBURN",
       "target": "AMP-SYD-MEL-GOULBURN",
       "label": "services",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-ALBURY\u2192AMP-SYD-MEL-ALBURY",
+      "id": "services:DEPOT-ALBURY→AMP-SYD-MEL-ALBURY",
       "source": "DEPOT-ALBURY",
       "target": "AMP-SYD-MEL-ALBURY",
       "label": "services",
       "properties": {}
     },
     {
-      "id": "services:DEPOT-COFFS\u2192AMP-SYD-BNE-COFFS",
+      "id": "services:DEPOT-COFFS→AMP-SYD-BNE-COFFS",
       "source": "DEPOT-COFFS",
       "target": "AMP-SYD-BNE-COFFS",
       "label": "services",

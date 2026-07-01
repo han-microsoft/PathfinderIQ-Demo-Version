@@ -124,7 +124,7 @@ def _compute_overall_status(services: dict[str, dict]) -> str:
     UNHEALTHY:  Any critical service is DOWN.
 
     Critical services: ai_foundry, session_store.
-    Non-critical: fabric, ai_search, cosmos_sessions.
+    Non-critical: ai_search, cosmos_sessions.
 
     Args:
         services: Dict of {service_name: {status: str, ...}}.
@@ -215,77 +215,6 @@ async def _check_ai_foundry() -> dict[str, Any]:
         return {"status": "disconnected", "endpoint": base, "models": [], "error": str(e)[:200]}
 
 
-async def _check_fabric() -> dict[str, Any]:
-    """Ping Fabric data plane — detects paused capacity by attempting a query.
-
-    Reads workspace_id and graph_model_id from the active scenario's
-    ``services.fabric`` block (scenario.yaml). Uses cross-tenant SP
-    credentials when FABRIC_TENANT_ID is set, otherwise DefaultAzureCredential.
-    """
-    # Read Fabric IDs from scenario.yaml (per-scenario, switches with dropdown)
-    workspace_id = ""
-    graph_model_id = ""
-    kql_db_name = ""
-    try:
-        from app.scenario import load_scenario_yaml
-        cfg = load_scenario_yaml()
-        svc = cfg.get("services", {}).get("fabric", {})
-        workspace_id = svc.get("workspace_id", "")
-        graph_model_id = svc.get("graph_model_id", "")
-        kql_db_name = svc.get("kql_db_name", "")
-    except Exception:
-        pass
-    # Fallback to env vars / settings
-    if not workspace_id:
-        workspace_id = settings.fabric_workspace_id or os.getenv("FABRIC_WORKSPACE_ID", "")
-    if not graph_model_id:
-        graph_model_id = settings.fabric_graph_model_id or os.getenv("FABRIC_GRAPH_MODEL_ID", "")
-    if not kql_db_name:
-        kql_db_name = settings.fabric_kql_db_name or os.getenv("FABRIC_KQL_DB_NAME", "")
-
-    if not workspace_id:
-        return {"status": "not_configured", "workspace": None, "resources": []}
-    try:
-        import httpx
-        from app.foundation.credentials import get_azure_credential
-
-        resources = []
-        if graph_model_id:
-            resources.append(f"Ontology ({graph_model_id[:8]}…)")
-        if kql_db_name:
-            resources.append(f"Eventhouse ({kql_db_name})")
-
-        # Use centralized credential factory (tier 1 for Fabric SP)
-        cred = get_azure_credential(require_fabric_sp=True)
-
-        api_url = settings.fabric_api_url or "https://api.fabric.microsoft.com/v1"
-
-        # Ping the data plane: try the graph model endpoint (needs active capacity)
-        if graph_model_id:
-            token = cred.get_token("https://api.fabric.microsoft.com/.default")
-            async with httpx.AsyncClient(timeout=10) as client:
-                resp = await client.get(
-                    f"{api_url}/workspaces/{workspace_id}/GraphModels/{graph_model_id}",
-                    headers={"Authorization": f"Bearer {token.token}"},
-                )
-                if resp.status_code == 200:
-                    return {"status": "connected", "workspace": workspace_id, "resources": resources}
-                return {"status": "disconnected", "workspace": workspace_id, "resources": resources, "error": f"HTTP {resp.status_code}"}
-
-        # Fallback: ping workspace (less reliable for capacity state)
-        token = cred.get_token("https://api.fabric.microsoft.com/.default")
-        async with httpx.AsyncClient(timeout=10) as client:
-            resp = await client.get(
-                f"{api_url}/workspaces/{workspace_id}",
-                headers={"Authorization": f"Bearer {token.token}"},
-            )
-            if resp.status_code == 200:
-                return {"status": "connected", "workspace": workspace_id, "resources": resources}
-            return {"status": "disconnected", "workspace": workspace_id, "resources": resources, "error": f"HTTP {resp.status_code}"}
-    except Exception as e:
-        return {"status": "disconnected", "workspace": workspace_id, "resources": [], "error": str(e)[:200]}
-
-
 async def _check_cosmos() -> dict[str, Any]:
     """Check Cosmos DB by using the actual session store's health check."""
     endpoint = settings.cosmos_session_endpoint
@@ -322,7 +251,6 @@ async def get_service_health(user: User = Depends(get_current_user)):
     results = await asyncio.gather(
         _cached_check("ai_search", _check_ai_search),
         _cached_check("ai_foundry", _check_ai_foundry),
-        _cached_check("fabric", _check_fabric),
         _cached_check("cosmos", _check_cosmos),
         return_exceptions=True,
     )
@@ -352,8 +280,7 @@ async def get_service_health(user: User = Depends(get_current_user)):
     services = {
         "ai_search": {**safe(results[0]), "status": _breaker_to_status("ai_search", safe(results[0]).get("status", "disconnected"))},
         "ai_foundry": {**safe(results[1]), "status": _breaker_to_status("ai_foundry", safe(results[1]).get("status", "disconnected"))},
-        "fabric": {**safe(results[2]), "status": _breaker_to_status("fabric", safe(results[2]).get("status", "disconnected"))},
-        "cosmos_sessions": {**safe(results[3]), "status": _breaker_to_status("cosmos_sessions", safe(results[3]).get("status", "disconnected"))},
+        "cosmos_sessions": {**safe(results[2]), "status": _breaker_to_status("cosmos_sessions", safe(results[2]).get("status", "disconnected"))},
         "session_store": {
             "status": DependencyStatus.UP.value,
             "type": session_store_type,

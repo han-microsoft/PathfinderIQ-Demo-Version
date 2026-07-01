@@ -1,0 +1,30 @@
+# Recipe: Full Incident Investigation
+#
+# A declarative multi-step workflow the orchestrator can follow end to end.
+# Recipes are discoverable via the capability catalog (find_capabilities /
+# /api/catalog?kind=recipe) and name the agents + tools each step uses.
+
+id: full_incident_investigation
+name: Full Incident Investigation
+summary: >
+  Triage an incident, assess blast radius, retrieve remediation guidance,
+  and prepare a dispatch + comms plan.
+tags: [incident, end-to-end, triage, blast-radius, dispatch, comms]
+steps:
+  - step: triage
+    agent: networkInvestigator
+    skill: fault_triage
+    tools: [query_alerts, query_telemetry]
+  - step: blast_radius
+    agent: networkInvestigator
+    skill: blast_radius
+    tools: [query_graph]
+  - step: remediation
+    agent: knowledgeAnalyst
+    tools: [search_runbooks, search_tickets]
+  - step: dispatch
+    agent: fieldCoordinator
+    tools: [query_graph, search_equipment]
+  - step: comms
+    agent: communicationsSpecialist
+    tools: [create_ticket, update_advisory, send_email]

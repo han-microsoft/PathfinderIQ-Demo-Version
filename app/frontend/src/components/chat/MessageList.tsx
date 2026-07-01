@@ -58,37 +58,39 @@ export function MessageList() {
   // Empty state
   if (messages.length === 0 && status === "idle") {
     return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 text-text-muted">
-        <MessageSquare className="h-12 w-12 opacity-30" />
-        <div className="text-center">
-          <p className="text-lg font-medium">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 border border-brand/20">
+          <MessageSquare className="h-8 w-8 text-brand" />
+        </div>
+        <div className="text-center max-w-md">
+          <p className="text-xl font-semibold text-text-primary">
             {activeSessionId ? t('chat.startConversation') : t('chat.noSessionLoaded')}
           </p>
-          <p className="text-sm mt-1">
+          <p className="text-sm mt-2 text-text-muted leading-relaxed">
             {activeSessionId
               ? t('chat.typeBelow')
-              : t('chat.createSession')}
+              : 'Watch autonomous agents investigate a live network incident — tracing the blast radius, quantifying SLA exposure, and surfacing the non-obvious root cause.'}
           </p>
         </div>
-        {/* New Chat button — only shown when no session is active */}
+        {/* Primary actions — only shown when no session is active */}
         {!activeSessionId && (
-          <div className="flex flex-col items-center gap-2 mt-2">
-            <button
-              onClick={() => createSession()}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand/10 border border-brand/30 text-brand text-sm font-medium hover:bg-brand/20 transition-colors"
-            >
-              <PlusCircle className="h-4 w-4" />
-              {t('chat.newChat')}
-            </button>
+          <div className="flex flex-col items-center gap-2.5 mt-1 w-full max-w-xs">
             <button
               onClick={() => {
                 useReplayStore.getState().startReplay();
                 runReplay();
               }}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand text-white text-sm font-medium hover:bg-brand-hover transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-brand text-white text-sm font-semibold shadow-sm hover:bg-brand-hover transition-colors"
             >
               <Play className="h-4 w-4 fill-current" />
               {t('chat.watchDemo')}
+            </button>
+            <button
+              onClick={() => createSession()}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-transparent border border-border text-text-secondary text-sm font-medium hover:bg-neutral-bg3 hover:text-text-primary transition-colors"
+            >
+              <PlusCircle className="h-4 w-4" />
+              {t('chat.newChat')}
             </button>
           </div>
         )}
@@ -138,7 +140,7 @@ export function MessageList() {
       {showScrollButton && (
         <button
           onClick={scrollToBottom}
-          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-neutral-bg3 px-3 py-1.5 text-xs text-text-secondary shadow-lg border border-border hover:bg-neutral-bg4 transition-colors"
+          className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-neutral-bg3 px-3 py-1.5 text-xs text-text-secondary shadow-lg border border-border hover:bg-neutral-bg4 transition-colors animate-fade-in"
           aria-label={t('chat.scrollToBottom')}
         >
           <ArrowDown className="h-3.5 w-3.5" />

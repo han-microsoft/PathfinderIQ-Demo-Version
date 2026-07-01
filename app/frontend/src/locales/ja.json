@@ -122,6 +122,8 @@
   "sidebar.language": "言語",
   "sidebar.seeDemo": "PathfinderIQのデモを見る！",
   "sidebar.fastReplay": "高速リプレイ (4倍速)",
+  "sidebar.skipToEnd": "最後までスキップ",
+  "sidebar.welcome": "ウェルカムとリソース",
   "sidebar.uiTheme": "UIテーマ",
   "sidebar.switch": "切替",
   "sidebar.signOut": "サインアウト",

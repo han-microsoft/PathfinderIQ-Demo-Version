@@ -458,6 +458,26 @@ class TestJWTValidation:
                 claims = await _validate_token(token)
                 assert claims["oid"] == TEST_OID
 
+    async def test_single_tenant_accepts_v1_issuer(
+        self, make_token, jwks_response
+    ):
+        """AUTH_TENANT_ID=<guid> → accepts a v1 (sts.windows.net) issuer for the
+        configured tenant. Regression: a v1-accepted-version API issues access
+        tokens with `https://sts.windows.net/{tenant}/` (not the v2 format)."""
+        from app.auth import _validate_token
+
+        token = make_token({
+            "iss": f"https://sts.windows.net/{TEST_TENANT_ID}/",
+            "tid": TEST_TENANT_ID,
+            "ver": "1.0",
+        })
+        with patch("app.auth._fetch_jwks_keys", new_callable=AsyncMock, return_value=jwks_response):
+            with patch("app.auth.settings") as mock_settings:
+                mock_settings.auth_client_id = TEST_CLIENT_ID
+                mock_settings.auth_tenant_id = TEST_TENANT_ID
+                claims = await _validate_token(token)
+                assert claims["oid"] == TEST_OID
+
     async def test_unknown_kid_raises_401(self, make_token, jwks_response):
         """JWT signed with unknown kid → HTTPException 401."""
         from app.auth import _validate_token

@@ -96,17 +96,16 @@ def get_scenario_dir(scenario_name: str | None = None) -> Path | None:
     return None
 
 
-@functools.lru_cache(maxsize=4)
-def load_scenario_yaml(scenario_name: str | None = None) -> dict[str, Any]:
-    """Parse scenario.yaml for the active (or specified) scenario.
+@functools.lru_cache(maxsize=8)
+def _load_scenario_yaml_cached(scenario_name: str) -> dict[str, Any]:
+    """Parse + cache scenario.yaml keyed by the RESOLVED scenario name.
 
-    Args:
-        scenario_name: Explicit name. If None, uses per-request context
-            with settings.scenario_name fallback.
-
-    Returns:
-        Parsed YAML dict, or empty dict if not found or unparseable.
+    Keying by resolved name (never the raw ``None`` argument) prevents a
+    no-scope startup call from poisoning the cache with an empty dict that
+    would then be returned for every scenario — a latent swap bug.
     """
+    if not scenario_name:
+        return {}
     scenario_dir = get_scenario_dir(scenario_name)
     if not scenario_dir:
         return {}
@@ -119,6 +118,21 @@ def load_scenario_yaml(scenario_name: str | None = None) -> dict[str, Any]:
     except Exception as e:
         logger.warning("Failed to parse scenario.yaml: %s", e)
         return {}
+
+
+def load_scenario_yaml(scenario_name: str | None = None) -> dict[str, Any]:
+    """Parse scenario.yaml for the active (or specified) scenario.
+
+    Args:
+        scenario_name: Explicit name. If None, uses per-request context
+            with settings.scenario_name fallback.
+
+    Returns:
+        Parsed YAML dict, or empty dict if not found or unparseable.
+    """
+    if scenario_name is None:
+        scenario_name = _get_scenario_name_from_scope() or settings.scenario_name
+    return _load_scenario_yaml_cached(scenario_name or "")
 
 
 def get_scenario_file(

@@ -1,16 +1,25 @@
 # PathfinderIQ — Azure AI Multi-Agent Graph Explorer
 
-A multi-agent system for investigating network incidents using **Microsoft Fabric** graph topology, **Eventhouse** telemetry, and **Azure AI Search** document retrieval. Built on the **Azure AI Agent Framework SDK** with a React frontend and declarative scenario configuration.
+A multi-agent system for investigating network incidents using **Azure Cosmos DB**
+for graph topology (Gremlin API) and telemetry (NoSQL API), plus **Azure AI Search**
+document retrieval. Built on the **Azure AI Agent Framework SDK** consuming the
+reusable **agentkit** kernel (datasource adapters + tool envelope), with a React
+frontend and declarative scenario configuration.
 
 **NOTE:** This is the demo version, with all sorts of cool features for presentation - For the streamlined, production-ready version, please contact the authors.
+
+> **2026-06-19 — Cosmos migration.** The data backend was migrated off Microsoft
+> Fabric to **Azure Cosmos DB** (Gremlin for graph, NoSQL for telemetry) via the
+> agentkit datasource adapters. See [AUTODEV.md](AUTODEV.md) and
+> [build_spec/CURRENT_STATE.md](build_spec/CURRENT_STATE.md).
 
 ![PathfinderIQ UI](.github/thumbnail.png)
 
 ## Key Capabilities
 
 - **Multi-agent orchestration** — An orchestrator agent decomposes incidents and delegates to specialist agents (network investigator, knowledge analyst, field coordinator, communications specialist)
-- **Graph-powered reasoning** — Queries network topology in Fabric Graph Models using GQL
-- **Telemetry correlation** — Queries alerts, link metrics, and sensor readings from Fabric Eventhouse using KQL
+- **Graph-powered reasoning** — Queries network topology in Azure Cosmos DB (Gremlin API) using Apache TinkerPop traversals
+- **Telemetry correlation** — Queries alerts, link metrics, and sensor readings from Azure Cosmos DB (NoSQL API) using Cosmos SQL
 - **Knowledge retrieval** — Searches runbooks, historical tickets, equipment specs, and infrastructure docs via Azure AI Search
 - **Real-time streaming** — SSE-based streaming with live visibility into sub-agent reasoning
 - **Declarative scenarios** — Agents, tools, prompts, and data bindings defined in YAML — no code changes required
@@ -56,7 +65,7 @@ The orchestrator agent decomposes incidents into investigation steps and delegat
 | Agent | Role | Tools |
 |-------|------|-------|
 | **NOCOrchestrator** | Decomposes, delegates, synthesizes | delegation, network actions, dispatch |
-| **NetworkInvestigator** | Graph + telemetry analysis | query_graph (GQL), query_alerts/telemetry (KQL) |
+| **NetworkInvestigator** | Graph + telemetry analysis | query_graph (Gremlin), query_alerts/telemetry (Cosmos SQL) |
 | **KnowledgeAnalyst** | Document retrieval | search_runbooks, search_tickets |
 | **FieldCoordinator** | Field ops + logistics | query_graph, search_equipment/infra_specs |
 | **CommunicationsSpecialist** | Customer comms | create_ticket, update_advisory, send_email |
@@ -67,8 +76,8 @@ Agents are defined declaratively in `scenario.yaml` — no code changes to add/m
 
 | Source | Technology | Purpose |
 |--------|-----------|---------|
-| Graph topology | Fabric Graph Model (GQL) | Network structure: nodes, links, sensors, services |
-| Telemetry | Fabric Eventhouse (KQL) | Alerts, link metrics, sensor readings |
+| Graph topology | Azure Cosmos DB (Gremlin API) | Network structure: nodes, links, sensors, services — queried with Gremlin traversals |
+| Telemetry | Azure Cosmos DB (NoSQL API) | Alerts, link metrics, sensor readings — queried with Cosmos SQL |
 | Documents | Azure AI Search | Runbooks, tickets, equipment specs, infra specs |
 | Sessions | Cosmos DB NoSQL | Conversation persistence (RBAC-only, no keys) |
 
@@ -297,14 +306,65 @@ A fibre cut on the Sydney–Melbourne corridor triggers a cascading alert storm 
 
 ### Adding a New Scenario
 
-1. Create a new directory under `graph_data/data/scenarios/<your-scenario>/`
-2. Write `scenario.yaml` with agents, tools, and resource bindings (use the telecom scenario as a template)
-3. Add agent prompt markdown files referenced by agent instructions
-4. Populate graph entity CSVs, telemetry CSVs, and knowledge documents
-5. Deploy graph data to Fabric Lakehouse → create ontology/graph model
-6. Deploy telemetry data to Fabric Eventhouse KQL database
-7. Deploy knowledge documents to Azure AI Search indexes
-8. Set `SCENARIO_NAME=<your-scenario>` in `control/.env`
+A scenario is a self-contained **pack** that swaps over a constant backend core.
+The agents, prompts, tools, datasource bindings, and UI assets all live in the
+pack — no code changes.
+
+1. Create a directory under `graph_data/data/scenarios/<your-scenario>/`.
+2. Write `scenario.yaml` — agents, per-agent `tools` (as `module:function` specs),
+   `instructions` (markdown files), `data_sources` (graph/telemetry/search
+   bindings), and `ui`. Use `telecom-playground-v2` as the template.
+3. Add the agent prompt markdown files referenced by each agent's `instructions`.
+4. Populate graph entity CSVs, telemetry CSVs, and knowledge documents.
+5. **Validate the pack contract** before provisioning:
+   ```bash
+   python3 graph_data/scripts/validate_scenario.py --scenario <your-scenario>
+   ```
+6. **Provision every data surface with one command** (graph + telemetry → Cosmos,
+   knowledge → Azure AI Search, topology → frontend):
+   ```bash
+   python3 graph_data/scripts/provision_scenario.py --scenario <your-scenario> \
+     --gremlin-endpoint wss://... --nosql-endpoint https://... --upload-files
+   ```
+   Per the pack's `data_sources.graph`/`telemetry` block, the scenario seeds into
+   its **own Cosmos database** (default falls back to the operator default for
+   backward compatibility).
+7. The pack is picked up automatically — it appears in the in-app **Use case**
+   switcher (no env change, no redeploy needed once the image contains the pack).
+
+### Runtime Scenario Swap
+
+PathfinderIQ swaps an **entire use-case** — agents, prompts, tools, datasource
+bindings, and graph topology — at runtime while the backend core stays constant.
+
+**How it works (3-tier resolution):**
+
+1. The frontend **Use case** selector (sidebar) sends an `X-Scenario-Name` header
+   on every API call.
+2. On a page load with no header, the backend restores the user's last choice
+   from their per-user preference (`GET /api/preferences`).
+3. Otherwise the operator default `SCENARIO_NAME` applies.
+
+Each request resolves its scenario into a frozen `RequestScope`, so agents,
+prompts, tools, search indexes, and Cosmos db/graph/container bindings all rebind
+to the selected pack per request — with no global state and full per-user
+isolation. Switching is a single header; the selector persists the choice and is
+validated against the on-disk pack catalogue.
+
+**Endpoints:**
+
+| Endpoint | Purpose |
+|----------|---------|
+| `GET /api/scenarios` | List available packs + the active one |
+| `POST /api/scenarios/select` | Persist the current user's scenario choice |
+| `GET /api/preferences` | The current user's scenario-only preferences |
+
+**Verify a live swap** (signed dev-sign probe — works against `AUTH_ENABLED=true`):
+
+```bash
+PYTHONPATH=app/backend python3 scripts/scenario_swap_probe.py --base-url https://<fqdn>
+# → SWAP_PROBE_OK
+```
 
 ---
 
@@ -593,8 +653,8 @@ pathfinderiq_azure_native_agentic_graphs/
 │   │   │   └── main.py            # L5: App composition, lifespan
 │   │   ├── agents/                # L3: Agent registry, builder, prompts, tools
 │   │   ├── tools/                 # L3: Tool implementations
-│   │   │   ├── graph_explorer/    #     Fabric GQL graph queries
-│   │   │   ├── telemetry/         #     Fabric Eventhouse KQL queries
+│   │   │   ├── graph_explorer/    #     Cosmos DB Gremlin graph queries
+│   │   │   ├── telemetry/         #     Cosmos DB NoSQL telemetry queries
 │   │   │   ├── search/            #     Azure AI Search tools
 │   │   │   ├── delegation/        #     Inter-agent delegation
 │   │   │   ├── dispatch/          #     Field engineer dispatch

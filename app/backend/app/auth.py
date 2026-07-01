@@ -62,14 +62,25 @@ logger = logging.getLogger(__name__)
 tracer = get_tracer(__name__)
 
 # ── Multi-tenant issuer pattern ──────────────────────────────────────────────
-# Entra ID v2.0 issuers follow this format. For multi-tenant (AUTH_TENANT_ID=common),
-# we validate the format rather than the exact tenant GUID. For single-tenant, we
-# exact-match the configured tenant.
+# Entra ID issues BOTH v1 and v2 issuer formats depending on the API app
+# registration's `accessTokenAcceptedVersion`:
+#   v2: https://login.microsoftonline.com/{tenant}/v2.0
+#   v1: https://sts.windows.net/{tenant}/      (trailing slash, no version)
+# We accept both. For multi-tenant (AUTH_TENANT_ID=common) we validate the
+# format only; for single-tenant we exact-match the configured tenant GUID.
 
+_GUID = r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
 _ISSUER_RE = re.compile(
-    r"^https://login\.microsoftonline\.com/"
-    r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/v2\.0$"
+    r"^(?:https://login\.microsoftonline\.com/" + _GUID + r"/v2\.0"
+    r"|https://sts\.windows\.net/" + _GUID + r"/)$"
 )
+_GUID_RE = re.compile(_GUID)
+
+
+def _tenant_from_issuer(iss: str) -> str:
+    """Extract the tenant GUID from an issuer URL (v1 or v2 format)."""
+    m = _GUID_RE.search(iss or "")
+    return m.group(0) if m else ""
 
 
 # ── User dataclass ───────────────────────────────────────────────────────────
@@ -256,9 +267,14 @@ def _validate_issuer(issuer: str, tid: str) -> None:
                 reason="bad_issuer",
             )
     else:
-        # Single-tenant: exact match the configured tenant
-        expected = f"https://login.microsoftonline.com/{settings.auth_tenant_id}/v2.0"
-        if issuer != expected:
+        # Single-tenant: accept either the v2 or the v1 issuer for the
+        # configured tenant (a v1-accepted-version API issues `sts.windows.net`).
+        tenant = settings.auth_tenant_id
+        accepted = {
+            f"https://login.microsoftonline.com/{tenant}/v2.0",
+            f"https://sts.windows.net/{tenant}/",
+        }
+        if issuer not in accepted:
             raise AuthError(
                 f"Issuer {issuer} does not match configured tenant {settings.auth_tenant_id}",
                 reason="bad_issuer",
@@ -357,8 +373,10 @@ async def _validate_token(token: str) -> dict:
 
             # Step 5b: Validate signing key issuer matches token issuer
             # Per Microsoft docs: keys with a specific tenant GUID issuer must
-            # only be used for tokens from that exact tenant.
-            if _expected_key_issuer and issuer != _expected_key_issuer:
+            # only be used for tokens from that exact tenant. Compare by tenant
+            # GUID (not the full string) so v1 `sts.windows.net` and v2
+            # `login.microsoftonline.com/.../v2.0` issuers both validate.
+            if _expected_key_issuer and _tenant_from_issuer(issuer) != _tenant_from_issuer(_expected_key_issuer):
                 raise AuthError(
                     f"Token issuer {issuer} does not match signing key issuer {_expected_key_issuer}",
                     reason="key_issuer_mismatch",
@@ -462,6 +480,14 @@ async def get_current_user(request: Request) -> User:
         Structured log: auth.anonymous (debug) or auth.token.validated (info)
                         or auth.token.rejected (warning).
     """
+    # Ed25519 dev-sign side-channel: if the signed-request middleware verified
+    # this request it attached a principal to the ASGI scope. Honour it before
+    # the JWT path so headless probes work against an auth-gated deployment.
+    devsign_principal = request.scope.get("devauth_user")
+    if isinstance(devsign_principal, User):
+        logger.info("auth.devsign.accepted", extra={"oid": devsign_principal.oid})
+        return devsign_principal
+
     # Dev mode bypass — no token validation, no header inspection
     if not settings.auth_enabled:
         logger.debug("auth.anonymous", extra={"reason": "auth_disabled"})

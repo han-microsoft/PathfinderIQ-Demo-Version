@@ -1,0 +1,51 @@
+{
+  "case_id": "pci-collision-rrc",
+  "run": 0,
+  "split": "held_out",
+  "event_class": "pci_collision",
+  "severity": "major",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 2,
+      "total": 2,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 3,
+      "total": 3,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_graph",
+    "query_graph",
+    "query_telemetry",
+    "thinking",
+    "query_graph",
+    "thinking",
+    "query_graph",
+    "query_alerts",
+    "query_telemetry"
+  ],
+  "elapsed": 46.7,
+  "event_counts": {
+    "tool_call_start": 12,
+    "tool_call_end": 12,
+    "tool_result": 12,
+    "token": 844,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**RANInvestigator verdict**\n\n**Root cause:** radio-layer/config fault on **CELL-SYD-01-1-1** under **DU-SYD-01-1**, specifically **PCI collision after neighbour list change**.  \n**Transport health:** **healthy**; no fronthaul or midhaul fault evidence.\n\n### Evidence summary\n\n| Domain | Evidence | Interpretation |\n|---|---|---|\n| Alarm correlation | `CELL-SYD-01-1-1` raised repeated **RRC_SETUP_FAILURE** alarms at 08:20/08:25/08:30 and a concurrent **PCI_COLLISION** at 08:20 | RRC failures co-occur with radio identity conflict, not transport impairment |\n| Alarm text | RRC alarm description explicitly says **\u201cno transport fault\u201d** | Strong direct evidence against fronthaul/midhaul root cause |\n| Scope | No RRC failure alarms on `GNB-SYD-01`, `DU-SYD-01-1`, `DU-SYD-01-2`, or other `CELL-SYD-01-*` in returned set | Fault is cell-local, not site-wide |\n| Topology | `GNB-SYD-01` hosts `DU-SYD-01-1`; affected cell is `CELL-SYD-01-1-1` on that DU | Localises failure domain to DU-1 / cell 1 |\n| Cell peers | Other cells on `DU-SYD-01-1` are `CELL-SYD-01-1-2` and `CELL-SYD-01-1-3` | Useful control group for DU-wide impairment check |\n| KPM comparison | Latest cell KPMs normal across all three DU-1 cells; `CELL-SYD-01-1-1` shows **PRB 56.1%, RRC success 98.55%**, peers also ~98.6\u201398.8% | No ongoing congestion or broad DU degradation |\n| Transport mapping | `LINK-FH-CELL-SYD-01-1-1` = **FRONTHAUL_eCPRI**, 25 Gbps dark fibre; `LINK-MH-DU-SYD-01-1` = **MIDHAUL_F1**, 10 Gbps fibre | Identified exact transport entities serving affected path |\n| Transport alarms | No alarms returned for `LINK-FH-CELL-SYD-01-1-1` or `LINK-MH-DU-SYD-01-1` | Fronthaul and midhaul are clean in alarm stream |\n\n### Localisation\n\n| Layer | Entity | Status |\n|---|---|---|\n| gNB | `GNB-SYD-01` | Not primary fault source |\n| DU | `DU-SYD-01-1` | Hosts affected cell; no DU overload / transport alarms seen |\n| Cell | `CELL-SYD-01-1-1` | **Impacted** |\n| Peer cells | `CELL-SYD-01-1-2`, `CELL-SYD-01-1-3` | Healthy control cells |\n| Fronthaul | `LINK-FH-CELL-SYD-01-1-1` | Healthy |\n| Midhaul | `LINK-MH-DU-SYD-01-1` | Healthy |\n\n### Conclusion\n\n- **Root cause:** **PCI collision on CELL-SYD-01-1-1**, likely introduced by neighbour list/config change.\n- **Transport:** **fronthaul healthy, midhaul healthy**.\n- **Incident state:** appears **transient or already recovered** by latest KPMs; current RRC success on the affected cell is back above threshold.\n\n### Action priority\n\n1. Roll back or correct the recent neighbour/PCI plan affecting `CELL-SYD-01-1-1`.\n2. Audit adjacent-cell PCI/mod-3 reuse around `GNB-SYD-01`.\n3. Monitor `CELL-SYD-01-1-1` RRC success for recurrence; transport monitoring can remain at normal watch, not incident focus."
+}

@@ -15,7 +15,7 @@ Resolution happens once per request in ``build_request_scope()``:
 Downstream usage (tools, agents, routers):
     from app.foundation.request_scope import get_request_scope
     scope = get_request_scope()
-    workspace_id = scope.fabric_config.workspace_id   # typed, no dict diving
+    cosmos_db = scope.cosmos_graph_config.database   # typed, no dict diving
 
 Key collaborators:
     - app/_middleware.py         — calls build_request_scope() once per request
@@ -42,18 +42,26 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
-class FabricServiceConfig:
-    """Pre-extracted Fabric service configuration from scenario.yaml.
+class CosmosGraphConfig:
+    """Per-scenario Cosmos Gremlin (graph) binding from scenario.yaml.
 
-    Eliminates the repeated pattern of:
-        cfg.get("services", {}).get("fabric", {}).get("workspace_id")
-    with a single attribute read.
+    The endpoint + credentials stay account-global (env / settings); only the
+    database + graph names are scenario-owned so packs can target separate
+    Cosmos namespaces without an env change. Empty fields fall back to
+    ``settings.*`` at the resolver seam (backward compatible).
     """
 
-    workspace_id: str = ""
-    graph_model_id: str = ""
-    eventhouse_query_uri: str = ""
-    kql_db_name: str = ""
+    database: str = ""
+    graph: str = ""
+
+
+@dataclass(frozen=True)
+class CosmosTelemetryConfig:
+    """Per-scenario Cosmos NoSQL (telemetry/alerts) binding from scenario.yaml."""
+
+    database: str = ""
+    telemetry_container: str = ""
+    alerts_container: str = ""
 
 
 # ── RequestScope ─────────────────────────────────────────────────────────────
@@ -94,13 +102,14 @@ class RequestScope:
     scenario_yaml: dict = field(default_factory=dict)
     prompts_dir: Path = field(default_factory=lambda: Path("."))
 
-    # Pre-extracted service configs
-    fabric_config: FabricServiceConfig = field(default_factory=FabricServiceConfig)
-
     # Search indexes: key → index_name
     search_indexes: dict[str, str] = field(default_factory=dict)
     # Search semantic configs: key → semantic_config_name
     search_semantic_configs: dict[str, str] = field(default_factory=dict)
+
+    # Per-scenario Cosmos bindings (db/graph/container names; endpoint stays env)
+    cosmos_graph_config: CosmosGraphConfig = field(default_factory=CosmosGraphConfig)
+    cosmos_telemetry_config: CosmosTelemetryConfig = field(default_factory=CosmosTelemetryConfig)
 
     # Infrastructure (singletons)
     settings: Any = None
@@ -195,8 +204,8 @@ def build_request_scope(
     from app.scenario._deployment_registry import get_scenario_deployment
     deployment_record = get_scenario_deployment(scenario_name)
 
-    # Extract Fabric service config from scenario.yaml
-    fabric_config = _extract_fabric_config(scenario_yaml)
+    # Extract per-scenario Cosmos bindings (db/graph/container) from scenario.yaml
+    cosmos_graph_config, cosmos_telemetry_config = _extract_cosmos_config(scenario_yaml)
 
     # Extract search index names from deployment registry / scenario.yaml
     search_indexes, search_semantic_configs = _extract_search_indexes(scenario_yaml, deployment_record)
@@ -206,18 +215,24 @@ def build_request_scope(
         llm_model=llm_model,
         scenario_yaml=scenario_yaml,
         prompts_dir=prompts_dir,
-        fabric_config=fabric_config,
         search_indexes=search_indexes,
         search_semantic_configs=search_semantic_configs,
+        cosmos_graph_config=cosmos_graph_config,
+        cosmos_telemetry_config=cosmos_telemetry_config,
         settings=settings,
     )
 
 
 def _build_fallback_scope() -> RequestScope:
-    """Build a scope from env vars — used outside request context."""
-    scenario_name = os.environ.get("SCENARIO_NAME", "")
+    """Build a scope for use outside request context (startup, background tasks).
+
+    The operator-default scenario comes from ``settings.scenario_name`` (the
+    single source of truth — pydantic binds SCENARIO_NAME at startup), not a
+    direct os.environ read.
+    """
+    from app.foundation.config import settings
     return build_request_scope(
-        scenario_name=scenario_name,
+        scenario_name=settings.scenario_name or "",
         llm_model=os.environ.get("LLM_MODEL", ""),
     )
 
@@ -225,38 +240,27 @@ def _build_fallback_scope() -> RequestScope:
 # ── Extractors ───────────────────────────────────────────────────────────────
 
 
-def _extract_fabric_config(cfg: dict) -> FabricServiceConfig:
-    """Extract FabricServiceConfig from scenario.yaml.
+def _extract_cosmos_config(cfg: dict) -> tuple[CosmosGraphConfig, CosmosTelemetryConfig]:
+    """Extract per-scenario Cosmos bindings from ``data_sources``.
 
-    Priority: services.fabric > backends.graph_config.fabric > env vars.
+    Reads ``data_sources.graph`` / ``data_sources.telemetry`` when present.
+    Missing fields stay empty and fall back to ``settings.*`` at the resolver
+    seam (``tools/_cosmos.py``), so packs without the block keep the operator
+    default namespace (backward compatible with telecom-playground-v2).
     """
-    # Priority 1: services.fabric (canonical location)
-    svc = cfg.get("services", {}).get("fabric", {})
-    if svc.get("workspace_id") and svc.get("graph_model_id"):
-        return FabricServiceConfig(
-            workspace_id=svc["workspace_id"],
-            graph_model_id=svc["graph_model_id"],
-            eventhouse_query_uri=svc.get("eventhouse_query_uri", ""),
-            kql_db_name=svc.get("kql_db_name", ""),
-        )
-
-    # Priority 2: backends.graph_config.fabric (backward compat)
-    fabric_cfg = cfg.get("backends", {}).get("graph_config", {}).get("fabric", {})
-    if fabric_cfg.get("workspace_id") and fabric_cfg.get("graph_model_id"):
-        return FabricServiceConfig(
-            workspace_id=fabric_cfg["workspace_id"],
-            graph_model_id=fabric_cfg["graph_model_id"],
-            eventhouse_query_uri=fabric_cfg.get("eventhouse_query_uri", ""),
-            kql_db_name=fabric_cfg.get("kql_db_name", ""),
-        )
-
-    # Fallback: env vars
-    return FabricServiceConfig(
-        workspace_id=os.environ.get("FABRIC_WORKSPACE_ID", ""),
-        graph_model_id=os.environ.get("FABRIC_GRAPH_MODEL_ID", ""),
-        eventhouse_query_uri=os.environ.get("EVENTHOUSE_QUERY_URI", ""),
-        kql_db_name=os.environ.get("FABRIC_KQL_DB_NAME", ""),
+    ds = cfg.get("data_sources", {}) if isinstance(cfg.get("data_sources"), dict) else {}
+    graph = ds.get("graph", {}) if isinstance(ds.get("graph"), dict) else {}
+    telem = ds.get("telemetry", {}) if isinstance(ds.get("telemetry"), dict) else {}
+    graph_cfg = CosmosGraphConfig(
+        database=str(graph.get("database", "") or ""),
+        graph=str(graph.get("graph", "") or ""),
     )
+    telem_cfg = CosmosTelemetryConfig(
+        database=str(telem.get("database", "") or ""),
+        telemetry_container=str(telem.get("telemetry_container", "") or ""),
+        alerts_container=str(telem.get("alerts_container", "") or ""),
+    )
+    return graph_cfg, telem_cfg
 
 
 def _extract_search_indexes(

@@ -122,6 +122,8 @@
   "sidebar.language": "Language",
   "sidebar.seeDemo": "See PathfinderIQ in Action!",
   "sidebar.fastReplay": "Fast Replay (4x)",
+  "sidebar.skipToEnd": "Skip to End",
+  "sidebar.welcome": "Welcome & Resources",
   "sidebar.uiTheme": "UI Theme",
   "sidebar.switch": "Switch",
   "sidebar.signOut": "Sign out",

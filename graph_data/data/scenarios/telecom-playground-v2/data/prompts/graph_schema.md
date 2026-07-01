@@ -177,48 +177,36 @@ On-call field engineer assignments. Searchable by city/region and shift time.
 
 ---
 
-## Relationships
+## Relationships (Gremlin edge labels)
+
+Backend is Cosmos DB Gremlin. Edges are directed **source → target**; traverse
+with `.out('<edge>')` (outgoing), `.in('<edge>')` (incoming), `.both('<edge>')`.
 
 | Edge | Source → Target | Notes |
 |---|---|---|
-| `connects_to` | TransportLink → CoreRouter | Link terminates at router |
-| `aggregates_to` | AggSwitch → CoreRouter | Switch uplinks to router |
+| `connects_source` | TransportLink → CoreRouter | Link's source router |
+| `connects_target` | TransportLink → CoreRouter | Link's target router |
+| `uplinks_to` | AggSwitch → CoreRouter | Switch uplinks to router |
 | `backhauls_via` | BaseStation → AggSwitch | Base station backhauls via switch |
-| `routes_via` | MPLSPath → TransportLink | MPLS path traverses link |
-| `depends_on_mplspath` | Service → MPLSPath | EnterpriseVPN depends on path |
-| `depends_on_aggswitch` | Service → AggSwitch | Broadband depends on switch |
-| `depends_on_basestation` | Service → BaseStation | Mobile5G depends on base station |
-| `governed_by` | SLAPolicy → Service | SLA governs service |
-| `peers_over` | BGPSession → CoreRouter | BGP session between routers |
-| `routed_through` | TransportLink → PhysicalConduit | Link runs through conduit (shared-risk detection) |
-| `amplifies` | AmplifierSite → TransportLink | Amplifier boosts signal on link |
-| `affects_version` | Advisory → CoreRouter | Advisory affects router firmware |
-| `monitors_transportlink` | Sensor → TransportLink | Sensor observes link. **GQL: use suffixed name** |
-| `monitors_corerouter` | Sensor → CoreRouter | Sensor observes router. **GQL: use suffixed name** |
-| `monitors_amplifiersite` | Sensor → AmplifierSite | Sensor observes amplifier. **GQL: use suffixed name** |
-| `services_corerouter` | Depot → CoreRouter | Depot maintains router. **GQL: use suffixed name** |
-| `services_amplifiersite` | Depot → AmplifierSite | Depot maintains amplifier. **GQL: use suffixed name** |
+| `monitors` | Sensor → TransportLink/CoreRouter/AmplifierSite | Sensor observes entity |
+| `peers` | BGPSession → CoreRouter | BGP session to each peer router |
+| `governs` | SLAPolicy → Service | SLA governs service |
+| `services` | Depot → CoreRouter/AmplifierSite | Depot maintains entity |
 | `stationed_at` | DutyRoster → Depot | Engineer stationed at depot |
-
-### CRITICAL — disambiguated edge names in GQL
-
-`monitors` and `services` edges are **suffixed by target type** in Fabric GQL.
-Using the bare name returns **zero results**.
-
-| Bare (WRONG) | Suffixed (CORRECT) |
-|---|---|
-| `monitors` | `monitors_transportlink`, `monitors_corerouter`, `monitors_amplifiersite` |
-| `services` | `services_corerouter`, `services_amplifiersite` |
-
-All other edges use their plain name unchanged.
+| `depends_on` | Service → MPLSPath/AggSwitch/BaseStation | Service dependency |
+| `traverses` | MPLSPath → CoreRouter/TransportLink | Path hop |
+| `amplifies` | AmplifierSite → TransportLink | Amplifier boosts signal on link |
+| `routed_through` | TransportLink → PhysicalConduit | Shared-risk detection |
+| `affects` | Advisory → CoreRouter | Advisory affects router firmware |
 
 ### No direct Depot ↔ TransportLink edge
 
 To find which depot(s) cover a transport link, traverse via intermediate nodes:
-- **Via CoreRouter:** TransportLink →[connects_to]→ CoreRouter ←[services_corerouter]← Depot
-- **Via AmplifierSite:** AmplifierSite →[amplifies]→ TransportLink, Depot →[services_amplifiersite]→ AmplifierSite
+- **Via CoreRouter:** `g.V('<LinkId>').out('connects_source','connects_target').in('services').hasLabel('Depot')`
+- **Via AmplifierSite:** `g.V('<LinkId>').in('amplifies').in('services').hasLabel('Depot')`
 
 ### Key traversal: fault → dispatch
 
-To find the right engineer for a fault on infrastructure:
-`(Infrastructure) ←[services]← (Depot) ←[stationed_at]← (DutyRoster)`
+To find the on-call engineer for a fault on infrastructure:
+`g.V('<entityId>').in('services').in('stationed_at').hasLabel('DutyRoster').valueMap(true)`
+(Infrastructure ← `services` ← Depot ← `stationed_at` ← DutyRoster.)

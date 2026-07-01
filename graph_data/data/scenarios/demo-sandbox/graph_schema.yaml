@@ -1,0 +1,18 @@
+# Minimal ontology for the demo-sandbox scenario, in the canonical list format
+# consumed by the seeder and the scenario-metadata summary.
+data_dir: data/entities
+
+vertices:
+  - label: SandboxNode
+    csv_file: DimSandboxNode.csv
+    id_column: id
+    partition_key: sandbox
+    properties: [id, label]
+
+edges:
+  - label: hosts
+    csv_file: FactHosts.csv
+    source: SandboxNode
+    target: SandboxNode
+    source_column: source_id
+    target_column: target_id

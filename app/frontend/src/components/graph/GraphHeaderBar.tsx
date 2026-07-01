@@ -28,6 +28,10 @@ interface GraphHeaderBarProps {
   onToggleViewMode?: () => void;
   /** Fill corners — zoom map to fill entire panel with no padding */
   onFillCorners?: () => void;
+  /** Incident Focus — emphasise blast-radius nodes; shown only when topology has `_incident` nodes */
+  hasIncident?: boolean;
+  incidentFocus?: boolean;
+  onToggleIncidentFocus?: () => void;
   visibleNodeCount: number;
   totalNodeCount: number;
   visibleEdgeCount: number;
@@ -73,12 +77,15 @@ export function GraphHeaderBar({
   nodeLabels, edgeLabels,
   getNodeColor, getEdgeColor, onSetNodeColor, onSetEdgeColor,
   viewMode, onToggleViewMode, onFillCorners,
+  hasIncident, incidentFocus, onToggleIncidentFocus,
 }: GraphHeaderBarProps) {
   const [searchText, setSearchText] = useState('');
   const [showLabelPopover, setShowLabelPopover] = useState(false);
   const [showColorEditor, setShowColorEditor] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const aaBtnRef = useRef<HTMLButtonElement>(null);
   const colorBtnRef = useRef<HTMLButtonElement>(null);
+  const moreBtnRef = useRef<HTMLButtonElement>(null);
   const [aaAnchor, setAaAnchor] = useState<DOMRect | null>(null);
   const [colorAnchor, setColorAnchor] = useState<DOMRect | null>(null);
   const { t } = useTranslation();
@@ -101,7 +108,7 @@ export function GraphHeaderBar({
   };
 
   return (
-    <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border bg-header-bg shrink-0">
+    <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border bg-header-bg shrink-0 overflow-x-auto">
       <span className="text-base font-bold text-header-text whitespace-nowrap flex items-center gap-1.5"><img src="/images/graph-icon.png" alt="" className="h-5 w-5" /> {viewMode === 'map' ? t('graph.map') : t('graph.graph')}</span>
 
       {onToggleViewMode && (
@@ -109,12 +116,26 @@ export function GraphHeaderBar({
           onClick={onToggleViewMode}
           className={`text-xs px-2 py-1 rounded border transition-colors inline-flex items-center gap-1 ${
             viewMode === 'map'
-              ? 'border-emerald-500/40 text-emerald-600 bg-emerald-500/10 hover:bg-emerald-500/15'
+              ? 'border-brand/40 text-brand bg-brand/10 hover:bg-brand/15'
               : 'border-border text-text-muted hover:bg-neutral-bg3'
           }`}
           title={viewMode === 'map' ? t('graph.switchToGraph') : t('graph.switchToMap')}
         >
-          {viewMode === 'map' ? t('graph.switchMap') : t('graph.switchGraph')}
+          {viewMode === 'map' ? t('graph.switchGraph') : t('graph.switchMap')}
+        </button>
+      )}
+
+      {hasIncident && onToggleIncidentFocus && (
+        <button
+          onClick={onToggleIncidentFocus}
+          className={`text-xs px-2 py-1 rounded border transition-colors inline-flex items-center gap-1 ${
+            incidentFocus
+              ? 'border-amber-500/50 text-amber-600 bg-amber-500/15 hover:bg-amber-500/20'
+              : 'border-border text-text-muted hover:bg-neutral-bg3'
+          }`}
+          title="Highlight the incident blast radius on the graph"
+        >
+          ◎ Incident Focus
         </button>
       )}
 
@@ -155,6 +176,23 @@ export function GraphHeaderBar({
 
       <div className="flex-1" />
 
+      {/* Overflow menu — power-user / styling controls tucked away to keep the
+          bar clean for the demo. */}
+      <button
+        ref={moreBtnRef}
+        onClick={() => setShowMore((v) => !v)}
+        className={`text-sm px-2 py-1 rounded border transition-colors ${
+          showMore
+            ? 'border-brand/30 text-brand bg-brand/5'
+            : 'border-border text-text-muted hover:bg-neutral-bg3'
+        }`}
+        title="More controls"
+        aria-label="More controls"
+      >⋯</button>
+
+      <div
+        className={`items-center gap-1.5 ${showMore ? 'flex' : 'hidden'}`}
+      >
       {/* Aa — consolidated label style */}
       {onNodeLabelFontSizeChange && (
         <button
@@ -325,6 +363,7 @@ export function GraphHeaderBar({
                    ${loading ? 'animate-spin' : ''}`}
         title={t('graph.refresh')}
       >⟳</button>
+      </div>
     </div>
   );
 }

@@ -18,8 +18,10 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@agentkit-ui": ["packages/agentkit-ui/src/index.ts"],
+      "@agentkit-ui/*": ["packages/agentkit-ui/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "packages/agentkit-ui/src"]
 }

@@ -24,7 +24,7 @@
 import { create } from "zustand";
 
 export type ReplayMode = "off" | "playing" | "done";
-export type ReplayVariant = "detailed" | "fast";
+export type ReplayVariant = "detailed" | "fast" | "skip";
 
 /** Data for an in-context highlight callout during replay. */
 export interface ReplayHighlightData {
@@ -78,6 +78,8 @@ interface ReplayStore {
   showDemoHint: boolean;
   /** Skip tour overlays and highlight callouts (fast replay mode). */
   skipAnnotations: boolean;
+  /** Skip every guided-tour pause too (Skip-to-End fast-forward). */
+  skipTourPauses: boolean;
   /** Dismiss the demo button hint. */
   dismissDemoHint: () => void;
 }
@@ -94,6 +96,7 @@ export const useReplayStore = create<ReplayStore>((set, get) => ({
   _highlightResolver: null,
   showDemoHint: false,
   skipAnnotations: false,
+  skipTourPauses: false,
 
   startReplay: (variant = "detailed") => {
     // Cancel any existing replay
@@ -103,8 +106,9 @@ export const useReplayStore = create<ReplayStore>((set, get) => ({
     set({
       mode: "playing",
       replayVariant: variant,
-      speedMultiplier: variant === "fast" ? 4 : 1,
-      skipAnnotations: variant === "fast",
+      speedMultiplier: variant === "skip" ? 500 : variant === "fast" ? 4 : 1,
+      skipAnnotations: variant === "fast" || variant === "skip",
+      skipTourPauses: variant === "skip",
       _abortController: controller,
       isPaused: false,
       tourStepIndex: -1,
@@ -126,6 +130,7 @@ export const useReplayStore = create<ReplayStore>((set, get) => ({
       _highlightResolver: null,
       speedMultiplier: 1,
       skipAnnotations: false,
+      skipTourPauses: false,
     });
   },
 
@@ -145,6 +150,7 @@ export const useReplayStore = create<ReplayStore>((set, get) => ({
       _highlightResolver: null,
       speedMultiplier: 1,
       skipAnnotations: false,
+      skipTourPauses: false,
     });
   },
 
@@ -154,6 +160,11 @@ export const useReplayStore = create<ReplayStore>((set, get) => ({
 
   pauseForTour: (stepIndex: number) =>
     new Promise<void>((resolve) => {
+      /* Skip-to-End fast-forwards through every tour stop automatically. */
+      if (get().skipTourPauses) {
+        resolve();
+        return;
+      }
       set({
         isPaused: true,
         tourStepIndex: stepIndex,

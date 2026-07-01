@@ -1,0 +1,50 @@
+{
+  "case_id": "backhaul-n3-flap",
+  "run": 0,
+  "split": "held_out",
+  "event_class": "backhaul_flap",
+  "severity": "serious",
+  "agent": "networkInvestigator",
+  "verdict": "pass",
+  "score": {
+    "gate1": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "gate2": {
+      "hit": 3,
+      "total": 3,
+      "miss": []
+    },
+    "gate3": {
+      "hit": 1,
+      "total": 1,
+      "miss": []
+    },
+    "forbidden_hits": []
+  },
+  "tools": [
+    "thinking",
+    "query_alerts",
+    "thinking",
+    "query_graph",
+    "thinking",
+    "query_graph",
+    "query_graph",
+    "thinking",
+    "query_graph",
+    "query_telemetry",
+    "query_telemetry"
+  ],
+  "elapsed": 48.6,
+  "event_counts": {
+    "tool_call_start": 11,
+    "tool_call_end": 11,
+    "tool_result": 11,
+    "token": 1041,
+    "metadata": 1,
+    "done": 1
+  },
+  "final_text": "**RANInvestigator \u2014 verdict**\n\n**Root cause is transport, not local RAN.**  \nEvidence chain: repeated **MAJOR BACKHAUL_FLAP** on **LINK-BH-GNB-SYD-02**, link terminates on **GNB-SYD-02 \u2194 CORE-AU-5GC**, and cell KPIs show **synchronous throughput collapses without PRB congestion**.\n\n### Evidence summary\n\n| Domain | Evidence | Read |\n|---|---|---|\n| Alarms | `query_alerts`: repeated `BACKHAUL_FLAP` on `LINK-BH-GNB-SYD-02` at 08:30, 08:45, 09:00, 09:15, 09:30 | Intermittent, transport-scoped, matches symptom periodicity |\n| Topology | `query_graph`: `LINK-BH-GNB-SYD-02` connects `GNB-SYD-02` to `CORE-AU-5GC` | Fault sits on N3/backhaul path upstream of all cells |\n| Blast radius | `query_graph`: `GNB-SYD-02` hosts **2 DUs / 6 cells** across both DUs | Single shared dependency explains all-cell impact |\n| Cell KPIs | `query_telemetry`: all recent cells healthy at 09:45\u201309:55 with PRB ~40\u201357%, RRC ~99%, throughput normal | No persistent radio saturation or DU collapse |\n| Intermittency pattern | `query_telemetry` on `CELL-SYD-02-1-1`: low throughput at 09:00/09:10/09:20/09:30/09:40 while PRB stays ~51\u201360% | Throughput falls without load spike; points away from air-interface congestion |\n\n### Key KPI pattern\n\n| Time | Cell | PRBUtil% | RRCSuccess% | DL Throughput Mbps | Read |\n|---|---|---:|---:|---:|---|\n| 09:00 | CELL-SYD-02-1-1 | 51.1 | 94.23 | 77.3 | Throughput collapse, PRB normal |\n| 09:10 | CELL-SYD-02-1-1 | 50.8 | 94.03 | 69.3 | Repeats at flap window |\n| 09:20 | CELL-SYD-02-1-1 | 59.9 | 94.23 | 55.8 | Not congestion-driven |\n| 09:30 | CELL-SYD-02-1-1 | 52.6 | 94.37 | 69.5 | Aligns with alarm at 09:30 |\n| 09:40 | CELL-SYD-02-1-1 | 51.0 | 94.47 | 89.9 | Continued intermittent degradation |\n| 09:45\u201309:55 | Multiple cells | 40\u201357 | 98.5\u201399.9 | 185\u2013357 | Recovery across all cells |\n\n### Why this is **not** a RAN-origin fault\n\n- No evidence of **PRB congestion**: PRB remains moderate, not >85/90%.\n- No DU/cell-specific alarm cluster: alarm stream is dominated by the **backhaul link**, not RRC/PRB/DU overload alarms on SYD-02.\n- Cross-cell, cross-DU impact is simultaneous: classic signature of **shared transport impairment**.\n- KPI recovery is broad and fast once flap clears: consistent with path instability, not radio tuning/hardware degradation.\n\n### Localization\n\n| Layer | Status |\n|---|---|\n| Radio cells | Secondary impact only |\n| DUs / CU | No direct fault evidence |\n| Shared transport | **Primary fault domain** |\n| Fault object | **LINK-BH-GNB-SYD-02 (N3 backhaul)** |\n\n### Operational assessment\n\n- **Impact scope:** all 6 cells under `GNB-SYD-02`, both DUs.\n- **User effect:** intermittent throughput loss; some transient session/RRC instability likely when backhaul flaps.\n- **Most probable mechanism:** N3 backhaul path flap causing temporary packet loss/reconvergence and throughput collapse at gNB egress.\n\n### Immediate actions\n\n1. Treat as **transport incident**; assign to backhaul/IP/MPLS team.\n2. Check carrier/optics and upstream path for `LINK-BH-GNB-SYD-02`: interface errors, LOS/LOF, flap counters, routing reconvergence.\n3. Correlate with core-facing port and any LAG/member instability on the N3 path.\n4. Keep RAN on watch only; no radio retune or capacity action indicated from current evidence.\n\n**Bottom line:** `GNB-SYD-02` throughput loss is **transport-rooted on backhaul LINK-BH-GNB-SYD-02**, not a RAN congestion or DU/cell fault."
+}

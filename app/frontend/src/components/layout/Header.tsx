@@ -24,7 +24,8 @@
  *   Rendered by the root App layout at the top of the viewport.
  */
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { Search, Bug, ChevronDown, ChevronUp, Settings, Play } from 'lucide-react';
+import { Search, Bug, ChevronDown, ChevronUp, Settings, Play, SkipForward, Info, Boxes, FlaskConical } from 'lucide-react';
+import { useWorkshopStore } from '@/stores/workshopStore';
 import { useChatStore } from '@/stores/chatStore';
 import { useSessionStore } from '@/stores/sessionStore';
 import { useAgentStore } from '@/stores/agentStore';
@@ -33,6 +34,7 @@ import { useScenario } from '@/hooks/useScenario';
 import { useObservabilityStore } from '@/stores/observabilityStore';
 import { useChatSettingsStore, MIN_CHAT_TEXT, MAX_CHAT_TEXT } from '@/stores/chatSettingsStore';
 import { ScenarioOverlay } from './ScenarioOverlay';
+import { ScenarioSwitcher } from './ScenarioSwitcher';
 import { DeveloperNotesOverlay } from './DeveloperNotesOverlay';
 import { SelectorDropdown } from './SelectorDropdown';
 import { useAuth } from '../../auth';
@@ -140,22 +142,25 @@ export function Header({ style }: HeaderProps) {
 
       {/* Top: app branding — logo swaps with active theme */}
       <div className="flex flex-col shrink-0 px-4 py-3 border-b border-border">
-        <span className="text-2xl font-bold text-text-primary leading-tight">
+        <span className="text-xl font-bold text-text-primary leading-tight tracking-tight">
           {t("app.brand")}
         </span>
         {theme === "default" ? (
-          <div className="flex items-center gap-1 mt-1">
-            <img src="/images/foundryiq-logo.png" alt="" className="h-9 w-9 shrink-0" />
-            <img src="/images/fabric-logo.png" alt="" className="h-9 w-9 shrink-0" />
-            <img src="/images/copilot-logo.png" alt="" className="h-9 w-9 shrink-0" />
+          <div className="flex items-center gap-1.5 mt-1.5">
+            <img src="/images/foundryiq-logo.png" alt="" className="h-7 w-7 shrink-0" />
+            <img src="/images/fabric-logo.png" alt="" className="h-7 w-7 shrink-0" />
+            <img src="/images/copilot-logo.png" alt="" className="h-7 w-7 shrink-0" />
           </div>
         ) : (
-          <img src={currentMeta.logo} alt="" className="h-9 w-9 shrink-0 mt-1" />
+          <img src={currentMeta.logo} alt="" className="h-7 w-7 shrink-0 mt-1.5" />
         )}
       </div>
 
       {/* ── Info section ──────────────────────────────────────────────── */}
       <SidebarSection label={t("sidebar.scenario")}>
+        {/* Runtime use-case swap selector (hidden when only one pack exists) */}
+        <ScenarioSwitcher />
+
         {/* Scenario name display */}
         <div className="text-xs text-text-secondary truncate px-1">
           {scenario?.display_name ?? t("common.loading")}
@@ -171,6 +176,46 @@ export function Header({ style }: HeaderProps) {
         </button>
       </SidebarSection>
 
+      {/* ── Welcome / about ───────────────────────── */}
+      <div className="px-3 pt-2">
+        <button
+          id="ontology-studio-button"
+          onClick={() => useWorkshopStore.getState().openStudio()}
+          className="mb-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+          title="Ontology Studio — from documents to knowledge graph"
+        >
+          <Boxes className="h-3.5 w-3.5" />
+          Ontology Studio
+        </button>
+        <button
+          id="agent-lab-button"
+          onClick={() => useWorkshopStore.getState().openLab()}
+          className="mb-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+          title="Agent Lab — evidence-gated agent-team optimization"
+        >
+          <FlaskConical className="h-3.5 w-3.5" />
+          Agent Lab
+        </button>
+        <button
+          id="welcome-button"
+          onClick={() => window.dispatchEvent(new Event("pfiq:open-welcome"))}
+          className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-neutral-bg3 hover:bg-neutral-bg4
+                     text-text-secondary text-xs font-medium border border-border/40
+                     transition-colors cursor-pointer"
+          title="Open the welcome screen"
+        >
+          <Info className="h-3.5 w-3.5" />
+          {t("sidebar.welcome")}
+        </button>
+      </div>
+
       {/* ── Demo replay button ───────────────────────────────────────── */}
       <div className="px-3 py-2">
         <button
@@ -180,7 +225,7 @@ export function Header({ style }: HeaderProps) {
             runReplay();
           }}
           className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg
-                     bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700
+                     bg-brand hover:bg-brand/90 active:bg-brand/80
                      text-white text-sm font-semibold shadow-sm
                      transition-colors cursor-pointer"
         >
@@ -194,12 +239,26 @@ export function Header({ style }: HeaderProps) {
             runReplay();
           }}
           className="w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
-                     bg-emerald-600/20 hover:bg-emerald-600/30 active:bg-emerald-600/40
-                     text-emerald-400 text-xs font-medium border border-emerald-600/30
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
                      transition-colors cursor-pointer"
         >
           <Play className="h-3 w-3 fill-current" />
           {t("sidebar.fastReplay")}
+        </button>
+        <button
+          id="skip-to-end-button"
+          onClick={() => {
+            useReplayStore.getState().startReplay("skip");
+            runReplay();
+          }}
+          className="mt-1.5 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg
+                     bg-brand/15 hover:bg-brand/25 active:bg-brand/30
+                     text-brand text-xs font-medium border border-brand/30
+                     transition-colors cursor-pointer"
+        >
+          <SkipForward className="h-3 w-3 fill-current" />
+          {t("sidebar.skipToEnd")}
         </button>
       </div>
 
@@ -274,8 +333,8 @@ export function Header({ style }: HeaderProps) {
         <LanguageSelector />
       </SidebarSection>
 
-      {/* ── Development section ──────────────────────────────────────── */}
-      <SidebarSection label={t("sidebar.development")} collapsible defaultCollapsed>
+      {/* ── Advanced section (dev tools + service health, demo-hidden) ── */}
+      <SidebarSection label="Advanced" collapsible defaultCollapsed>
         {/* Console toggle */}
         <button
           onClick={toggleObs}
@@ -389,6 +448,12 @@ export function Header({ style }: HeaderProps) {
             </div>
           </div>
         )}
+
+        {/* Service Health nested under Advanced */}
+        <div className="pt-2 mt-1 border-t border-border">
+          <div className="text-[10px] uppercase tracking-widest font-semibold text-text-muted px-1 pb-1.5">{t("health.serviceHealth")}</div>
+          <ServiceHealth showHeader={false} />
+        </div>
       </SidebarSection>
 
       {showDevNotes && (
@@ -425,11 +490,6 @@ export function Header({ style }: HeaderProps) {
         </div>
       )}
 
-      {/* ── Service Health section ───────────────────────────────────── */}
-      <SidebarSection label={t("health.serviceHealth")} collapsible defaultCollapsed>
-        <ServiceHealth showHeader={false} />
-      </SidebarSection>
-
       {/* ── Conversations section ────────────────────────────────────── */}
       <SidebarSection label={t("sidebar.conversations")} collapsible defaultCollapsed>
         <div className="max-h-[22vh] overflow-y-auto -mx-3 -mb-3">
@@ -439,9 +499,9 @@ export function Header({ style }: HeaderProps) {
 
       {/* ── Fabric capacity note ─────────────────────────────────────── */}
       <div className="px-3 py-2 border-b border-border">
-        <div className="p-2 rounded-lg bg-neutral-bg3 border border-border text-sm leading-snug text-text-primary">
-          <span className="font-semibold">{t("sidebar.fabricNoteLabel")}</span> {t("sidebar.fabricNote")}
-        </div>
+        <p className="text-[11px] leading-snug text-text-muted">
+          <span className="font-semibold text-text-secondary">ⓘ {t("sidebar.fabricNoteLabel")}</span> {t("sidebar.fabricNote")}
+        </p>
       </div>
 
       </div>{/* end scrollable content area */}

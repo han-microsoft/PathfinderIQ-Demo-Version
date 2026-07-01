@@ -51,7 +51,6 @@ const SERVICE_META: Record<
 > = {
   ai_search: { label: "Azure AI Search", icon: "/images/azure-logo.png", subKey: "indexes" },
   ai_foundry: { label: "AI Foundry", icon: "/images/foundry-logo.png", subKey: "models" },
-  fabric: { label: "Microsoft Fabric", icon: "/images/fabric-logo.png", subKey: "resources" },
   cosmos_sessions: { label: "Cosmos DB", icon: "/images/cosmosdb-logo.png", subKey: "database" },
   session_store: { label: "Session Store", icon: "/images/memory-icon.png", subKey: "database" },
 };

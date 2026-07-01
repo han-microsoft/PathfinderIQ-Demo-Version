@@ -4,7 +4,7 @@ For every incident, delegate to **all four specialists** before synthesizing. No
 
 ## Steps
 
-1. **NetworkInvestigator** → topology + telemetry. Include: incident description, alarm IDs, node names, specific questions (fault location, affected nodes, traffic status).
+1. **NetworkInvestigator** → topology + telemetry. Include: incident description, alarm IDs, node names, specific questions (fault location, affected nodes, traffic status). **Require back, explicitly:** (a) the affected services, **each with its SLA penalty in $/hour** (from the `SLAPolicy` `PenaltyPerHourUSD` property via the graph) and the **total $/hour**; (b) any **high-value service that is NOT affected** (bounded blast radius); (c) a **physical-diversity check** — does the backup path share a conduit with the primary, and what is the *truly* diverse path?
 2. **KnowledgeAnalyst** → with diagnosis from Step 1. Include: fault type, equipment involved, severity. Need: SOPs, escalation paths, precedent cases.
 3. **FieldCoordinator** → with context from Steps 1+2. Include: fault location (GPS/span), fault type, urgency. Need: nearest engineer, equipment, dispatch recommendation.
 4. **Synthesize + remediate** → execute `reroute_traffic`, `set_link_status`, `dispatch_field_engineer` as needed. Brief operator summary.

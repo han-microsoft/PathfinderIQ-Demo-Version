@@ -1,0 +1,62 @@
+/*
+ * agentkit-ui / theme / animations.css — domain-blind motion primitives.
+ *
+ * The keyframes + utility classes the kit's components reference by name
+ * (Toaster, StreamingIndicator, CountdownPill, and any consumer "fresh"/
+ * "pulse"/"fly-in" affordance). Import this once in the consumer's global
+ * CSS so the components are self-contained:
+ *
+ *   @import "@agentkit/ui/theme/animations.css";
+ *
+ * Colour anchors resolve to CSS tokens the theme preset documents
+ * (`--color-brand`, `--motion-ease`). `--highlight-color` /
+ * `--fly-distance` are call-site overrides with neutral fallbacks.
+ */
+
+:root {
+  /* Standard easing curve used by transitions + the Toaster enter anim. */
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* "Just arrived" hairline — a 1px brand-coloured inset top border that
+   fades to transparent over 60s. `forwards` persists the final state. */
+@keyframes fresh-hairline-fade {
+  from { box-shadow: inset 0 1px 0 0 var(--color-brand); }
+  to   { box-shadow: inset 0 1px 0 0 transparent; }
+}
+.animate-fresh-hairline {
+  animation: fresh-hairline-fade 60s linear forwards;
+}
+
+/* Card "fly from origin" entrance. `--fly-distance` is a call-site override. */
+@keyframes fly-from-origin {
+  from { opacity: 0.7; transform: translateY(var(--fly-distance, 400px)) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Attention pulse. `--highlight-color` is set at the call site; the
+   fallback is `currentColor` so the primitive is domain-token-free. */
+@keyframes highlight-pulse {
+  0%   { box-shadow: 0 0 0 0 var(--highlight-color, currentColor); }
+  50%  { box-shadow: 0 0 0 8px var(--highlight-color, currentColor); }
+  100% { box-shadow: 0 0 0 0 var(--highlight-color, currentColor); }
+}
+.animate-highlight-pulse {
+  animation: highlight-pulse 0.8s ease-out 0.55s 3;
+}
