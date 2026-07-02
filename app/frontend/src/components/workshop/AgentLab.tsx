@@ -76,6 +76,36 @@ function Meter({ value, color }: { value: number; color: string }) {
   );
 }
 
+/** Numbered story-beat column header (① ② ③) so the left→right flow reads. */
+function Beat({ n, title, sub }: { n: number; title: string; sub: string }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-sky-400/20 text-[10px] font-bold text-sky-300">
+        {n}
+      </span>
+      <div className="min-w-0">
+        <div className="text-xs font-semibold text-slate-200 leading-tight">{title}</div>
+        <div className="text-[10px] text-slate-500 leading-tight truncate">{sub}</div>
+      </div>
+    </div>
+  );
+}
+
+/** Held-out delta vs the lean baseline — makes "more is not better" visceral. */
+function DeltaChip({ value }: { value: number }) {
+  const up = value >= 0;
+  const c = up ? "#34d399" : "#f87171";
+  return (
+    <span
+      className="inline-flex items-center gap-0.5 rounded px-1.5 py-0.5 text-[9px] font-semibold"
+      style={{ backgroundColor: c + "22", color: c, boxShadow: `inset 0 0 0 1px ${c}55` }}
+    >
+      {up ? "▲" : "▼"} {up ? "+" : ""}
+      {value} held-out
+    </span>
+  );
+}
+
 /* ── main ─────────────────────────────────────────────────────── */
 
 export function AgentLab() {
@@ -106,6 +136,7 @@ export function AgentLab() {
   const team = LAB_TEAMS.find((t) => t.id === teamId) ?? LAB_TEAMS[0];
   const meterOf = (aid: string) => team.meters.find((m) => m.agentId === aid);
   const heldMax = 80; // scale for the held-out bars
+  const baseHeld = LAB_TEAMS[0].gate2Held; // lean-baseline held-out, for delta framing
   const agent = agentId ? LAB_AGENTS[agentId] : null;
   const tool = toolId ? LAB_TOOLS[toolId] : null;
 
@@ -123,6 +154,12 @@ export function AgentLab() {
             <div className="text-xs text-slate-400">
               How the agent team was grown and pruned under one law:{" "}
               <span className="text-sky-300 font-medium">more is not better</span>.
+            </div>
+            <div className="mt-0.5 text-[11px] text-slate-500">
+              Read left → right: gated cases <span className="text-slate-300">score</span> each candidate team; the
+              shape that earns its keep on held-out is{" "}
+              <span className="text-emerald-300">kept</span>, the rest{" "}
+              <span className="text-rose-300">reverted</span>.
             </div>
           </div>
         </div>
@@ -155,10 +192,7 @@ export function AgentLab() {
         {/* ── Left: case battery ── */}
         <div className="min-h-0 min-w-0 flex flex-col border-r border-white/10">
           <div className="px-4 py-2.5 border-b border-white/10">
-            <div className="text-xs font-semibold text-slate-200">Case battery</div>
-            <div className="text-[10px] text-slate-500">
-              authored from the source documents · 3 gates + train / held-out split
-            </div>
+            <Beat n={1} title="Author the cases" sub="gated tests from the source docs · 3 gates + held-out" />
           </div>
           <div className="flex-1 min-h-0 overflow-y-auto p-2 space-y-1.5">
             {EVAL_CASES.map((c) => (
@@ -199,15 +233,17 @@ export function AgentLab() {
 
         {/* ── Center: iteration timeline ── */}
         <div className="min-h-0 min-w-0 flex flex-col border-r border-white/10">
-          <div className="px-4 py-2.5 border-b border-white/10 flex items-center justify-between">
-            <div>
-              <div className="text-xs font-semibold text-slate-200">Iteration timeline</div>
-              <div className="text-[10px] text-slate-500">held-out operator-quality per team shape</div>
-            </div>
+          <div className="px-4 py-2.5 border-b border-white/10 flex items-center justify-between gap-3">
+            <Beat
+              n={2}
+              title="Gate the team shapes"
+              sub="one mutation per step · scored on held-out (never tuned against)"
+            />
             {/* held-out mini bars */}
-            <div className="flex items-end gap-2 h-10">
+            <div className="flex items-end gap-2 h-10 shrink-0">
               {LAB_TEAMS.map((t) => {
                 const c = t.verdict === "accepted" ? "#34d399" : t.verdict === "reverted" ? "#f87171" : "#94a3b8";
+                const d = t.gate2Held - baseHeld;
                 return (
                   <div key={t.id} className="flex flex-col items-center gap-0.5">
                     <div className="flex h-8 items-end">
@@ -217,7 +253,13 @@ export function AgentLab() {
                         title={`${t.label}: ${t.gate2Held}% held-out`}
                       />
                     </div>
-                    <span className="text-[9px] text-slate-500">{t.gate2Held}</span>
+                    <span className="text-[9px] font-semibold text-slate-300">{t.gate2Held}</span>
+                    <span
+                      className="text-[8px] font-semibold"
+                      style={{ color: t.iteration === 0 ? "#64748b" : d >= 0 ? "#34d399" : "#f87171" }}
+                    >
+                      {t.iteration === 0 ? "base" : `${d >= 0 ? "+" : ""}${d}`}
+                    </span>
                   </div>
                 );
               })}
@@ -247,7 +289,10 @@ export function AgentLab() {
                       </span>
                       <span className="text-sm font-semibold text-white">{t.label}</span>
                     </div>
-                    <VerdictBadge verdict={t.verdict} />
+                    <div className="flex items-center gap-1.5">
+                      {t.iteration > 0 && <DeltaChip value={t.gate2Held - baseHeld} />}
+                      <VerdictBadge verdict={t.verdict} />
+                    </div>
                   </div>
 
                   <div className="mt-1.5 text-[11px] text-slate-400 leading-snug">{t.mutation}</div>
@@ -288,12 +333,11 @@ export function AgentLab() {
         {/* ── Right: roster + meters ── */}
         <div className="min-h-0 min-w-0 flex flex-col relative">
           <div className="px-4 py-2.5 border-b border-white/10">
-            <div className="text-xs font-semibold text-slate-200">
-              {team.label} · roster ({team.agentIds.length} agents)
-            </div>
-            <div className="text-[10px] text-slate-500">
-              agent-weight meter · click an agent for its spec sheet
-            </div>
+            <Beat
+              n={3}
+              title="Inspect the roster"
+              sub={`${team.label} · ${team.agentIds.length} agents · click for spec + tool source`}
+            />
           </div>
 
           <div className="flex-1 min-h-0 overflow-y-auto p-3 space-y-2">
