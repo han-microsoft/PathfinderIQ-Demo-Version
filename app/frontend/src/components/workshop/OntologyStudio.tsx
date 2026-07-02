@@ -377,8 +377,11 @@ export function OntologyStudio() {
       <div className="flex-1 min-h-0 grid grid-cols-[240px_1fr_1fr]">
         {/* Left: document shelf */}
         <div className="min-h-0 overflow-y-auto border-r border-white/10 p-3 space-y-2">
-          <div className="text-[10px] uppercase tracking-wide text-slate-500 px-1 pb-1">
-            Source documents
+          <div className="flex items-center gap-1.5 px-1 pb-1">
+            <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-sky-400/20 text-[9px] font-bold text-sky-300">
+              1
+            </span>
+            <span className="text-[10px] uppercase tracking-wide text-slate-500">Source documents</span>
           </div>
           {STUDIO_DOCS.map((doc) => {
             const isSel = doc.id === selectedId;
@@ -420,6 +423,9 @@ export function OntologyStudio() {
         <div className="min-h-0 min-w-0 flex flex-col border-r border-white/10">
           <div className="flex items-center justify-between gap-2 px-4 py-2.5 border-b border-white/10">
             <div className="flex items-center gap-2 min-w-0">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-sky-400/20 text-[9px] font-bold text-sky-300">
+                2
+              </span>
               <FileText className="h-4 w-4 text-slate-400 shrink-0" />
               <span className="text-xs font-medium text-slate-200 truncate">{selectedDoc.title}</span>
             </div>
@@ -458,7 +464,12 @@ export function OntologyStudio() {
         {/* Right: ontology graph */}
         <div className="min-h-0 min-w-0 flex flex-col">
           <div className="flex items-center justify-between gap-2 px-4 py-2.5 border-b border-white/10">
-            <span className="text-xs font-semibold text-slate-200">Knowledge graph (ontology)</span>
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-200">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-sky-400/20 text-[9px] font-bold text-sky-300">
+                3
+              </span>
+              Knowledge graph (ontology)
+            </span>
             <div className="flex items-center gap-3 text-[11px]">
               <span className="text-slate-400">
                 Entities <span className="font-semibold text-white">{nodes.length}</span>
